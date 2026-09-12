@@ -1,0 +1,863 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UNBUNDLE // The Autonomous Medical Billing & EOB Sentinel</title>
+    
+    <!-- Google Fonts: Plus Jakarta Sans + Playfair Display Italic + JetBrains Mono -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Playfair+Display:ital,wght@1,500;1,600;1,700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                        serif: ['"Playfair Display"', 'serif'],
+                        mono: ['"JetBrains Mono"', 'monospace'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#FAF5FF',
+                            100: '#F3E8FF',
+                            200: '#E9D5FF',
+                            300: '#D8B4FE',
+                            400: '#C084FC',
+                            500: '#A855F7',
+                            600: '#9333EA',
+                            700: '#7E22CE',
+                            800: '#6B21A8',
+                            900: '#581C87',
+                            950: '#3B0764',
+                        },
+                        obsidian: '#090314',
+                        surface: '#0E081F',
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        .pulse-slow {
+            animation: pulse-slow 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        @keyframes pulse-slow {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.85; transform: scale(1.02); }
+        }
+        .editorial-italic {
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body class="bg-white text-slate-900 font-sans antialiased selection:bg-brand-500 selection:text-white">
+
+    <!-- ================================================================= -->
+    <!-- HERO SECTION (Obsidian to Radiant Purple Glow) -->
+    <!-- ================================================================= -->
+    <div class="relative bg-gradient-to-b from-obsidian via-[#16072B] to-[#FBF9FE] overflow-hidden">
+        
+        <!-- Ambient Glowing Aura -->
+        <div class="absolute top-12 left-1/2 -translate-x-1/2 w-[850px] h-[450px] bg-gradient-to-tr from-brand-600/40 via-brand-500/30 to-purple-400/20 blur-[130px] rounded-full pointer-events-none"></div>
+
+        <!-- FLOATING PILL NAVBAR -->
+        <nav class="relative z-50 pt-6 px-4">
+            <div class="max-w-5xl mx-auto flex items-center justify-between px-5 py-3 rounded-full bg-white/10 backdrop-blur-xl border border-white/15 shadow-2xl shadow-purple-950/40">
+                
+                <!-- Brand Logo -->
+                <a href="#" class="flex items-center gap-2.5 group">
+                    <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-brand-500 to-purple-400 flex items-center justify-center text-white shadow-md shadow-brand-500/30 font-bold text-sm">
+                        🛡
+                    </div>
+                    <span class="text-white font-extrabold text-lg tracking-tight">UNBUNDLE</span>
+                    <span class="text-[10px] font-mono uppercase px-2 py-0.5 rounded-full bg-brand-950/80 text-brand-300 border border-brand-700/60 font-semibold tracking-wider">v2.1</span>
+                </a>
+
+                <!-- Nav Links -->
+                <div class="hidden md:flex items-center gap-7 text-xs font-medium text-slate-300 tracking-wide">
+                    <a href="#matrix" class="hover:text-white transition">Audit Matrix</a>
+                    <a href="#topology" class="hover:text-white transition">5-Node Topology</a>
+                    <a href="#scenarios" class="hover:text-white transition">Hospital Attacks</a>
+                    <a href="#bug-story" class="hover:text-white transition">The Bug Story</a>
+                    <a href="#cockpit" class="text-brand-300 font-semibold hover:text-white transition flex items-center gap-1.5">
+                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                        Live Cockpit
+                    </a>
+                </div>
+
+                <!-- Right Action -->
+                <div class="flex items-center gap-3">
+                    <a href="#cockpit" class="px-5 py-2.5 rounded-full bg-white text-slate-950 text-xs font-bold hover:bg-brand-50 transition shadow-lg shadow-white/10 flex items-center gap-1.5 tracking-tight group">
+                        <span>Launch Sentinel</span>
+                        <span class="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform duration-200">↗</span>
+                    </a>
+                </div>
+            </div>
+        </nav>
+
+        <!-- HERO CONTENT -->
+        <header class="relative z-10 max-w-5xl mx-auto pt-20 pb-28 px-6 text-center">
+            
+            <!-- Eyebrow Pill -->
+            <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-brand-950/70 border border-brand-700/40 text-brand-300 text-xs font-semibold mb-8 backdrop-blur-md shadow-inner">
+                <span class="w-2 h-2 rounded-full bg-brand-400"></span>
+                <span>AUTONOMOUS MEDICAL BILLING SENTINEL • AWS STRANDS & BEDROCK</span>
+            </div>
+
+            <!-- Big Impact Headline with Playfair Display Italic Accent -->
+            <h1 class="text-5xl sm:text-6xl md:text-7xl font-extrabold text-white tracking-tight leading-[1.08] mb-6">
+                The Sentinel that<br>
+                <span class="editorial-italic text-transparent bg-clip-text bg-gradient-to-r from-brand-300 via-purple-200 to-white font-normal">excises the</span> Unbundled
+            </h1>
+
+            <!-- Subtitle -->
+            <p class="max-w-2xl mx-auto text-base sm:text-lg text-slate-300 font-normal leading-relaxed mb-10">
+                Hospital revenue-cycle software automatically injects billions in duplicate CPT codes. 
+                UNBUNDLE is the autonomous counter-algorithm—auditing EOB claims against federal CMS NCCI rules in 0.3 seconds.
+            </p>
+
+            <!-- CTA Row with Hand-Drawn Style Indicator -->
+            <div class="flex flex-wrap items-center justify-center gap-4 text-xs font-semibold">
+                <div class="relative">
+                    <a href="#cockpit" class="px-7 py-3.5 rounded-full bg-white text-slate-950 font-bold hover:bg-brand-50 shadow-xl shadow-brand-900/30 text-sm flex items-center gap-2 transition active:scale-95">
+                        <span>Run 0.3s Terminal Proof</span>
+                        <span class="text-brand-600 font-extrabold">↗</span>
+                    </a>
+                </div>
+                <a href="#topology" class="px-6 py-3.5 rounded-full bg-white/10 hover:bg-white/15 text-white border border-white/15 backdrop-blur-md transition flex items-center gap-1.5 text-sm">
+                    <span>Inspect 5-Node Circuit</span>
+                    <span class="text-slate-400">▾</span>
+                </a>
+            </div>
+
+            <!-- Floating 3D Graphic Accent -->
+            <div class="mt-14 relative flex justify-center">
+                <div class="relative group">
+                    <img src="/static/images/shield_interceptor.png" alt="UNBUNDLE 3D Shield Interceptor" class="w-64 sm:w-80 mx-auto drop-shadow-[0_35px_35px_rgba(147,51,234,0.35)] hover:scale-105 transition-transform duration-500">
+                    <div class="absolute bottom-2 left-1/2 -translate-x-1/2 whitespace-nowrap px-4 py-1.5 rounded-full bg-slate-950/80 backdrop-blur-md border border-brand-500/40 text-[11px] font-mono text-brand-300 shadow-xl">
+                        🔒 CMS NCCI INDICATOR 0 // $410.00 EXCISED
+                    </div>
+                </div>
+            </div>
+
+            <!-- Institutional Authority Strip (Below Hero) -->
+            <div class="mt-20 pt-10 border-t border-white/10 text-center">
+                <p class="text-[11px] uppercase tracking-widest text-slate-400 font-semibold mb-6">
+                    Built strictly on published federal standards and official CMS regulatory frameworks
+                </p>
+                <div class="flex flex-wrap items-center justify-center gap-6 sm:gap-10 text-xs font-mono font-semibold text-slate-400">
+                    <span class="hover:text-white transition flex items-center gap-1.5">
+                        <span class="text-brand-400">❖</span> CMS NCCI PTP
+                    </span>
+                    <span class="hover:text-white transition flex items-center gap-1.5">
+                        <span class="text-brand-400">❖</span> ERISA § 503 (29 U.S.C. § 1133)
+                    </span>
+                    <span class="hover:text-white transition flex items-center gap-1.5">
+                        <span class="text-brand-400">❖</span> NO SURPRISES ACT (45 CFR § 149)
+                    </span>
+                    <span class="hover:text-white transition flex items-center gap-1.5">
+                        <span class="text-brand-400">❖</span> AWS CEDAR RUST ENGINE
+                    </span>
+                    <span class="hover:text-white transition flex items-center gap-1.5">
+                        <span class="text-brand-400">❖</span> BEDROCK AGENTCORE
+                    </span>
+                </div>
+            </div>
+        </header>
+
+    </div>
+
+    <!-- ================================================================= -->
+    <!-- SECTION 1: THE CORE SENTINEL MATRIX (Bento Grid) -->
+    <!-- ================================================================= -->
+    <section id="matrix" class="py-24 sm:py-32 bg-[#FBF9FE] border-b border-slate-200/80">
+        <div class="max-w-6xl mx-auto px-6">
+            
+            <!-- Split Section Header (from Ref 2 + Ref 3) -->
+            <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-16">
+                <div class="space-y-3">
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-100 text-brand-700 text-xs font-semibold tracking-wider uppercase font-mono">
+                        01 // DETERMINISTIC AUDIT MATRIX
+                    </div>
+                    <h2 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 tracking-tight">
+                        Four Mathematical Truth Gates.<br>
+                        <span class="editorial-italic font-normal text-brand-600">Zero Probabilistic</span> Hallucinations.
+                    </h2>
+                </div>
+                <p class="max-w-md text-sm sm:text-base text-slate-600 font-normal leading-relaxed">
+                    Hospital revenue-cycle software relies on patient exhaustion. UNBUNDLE deploys four deterministic legal and cryptographic gates where LLMs are physically barred from touching claim dollar amounts.
+                </p>
+            </div>
+
+            <!-- Bento Grid -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+                <!-- Bento Card 1 (Large Highlight Span-2) -->
+                <div class="lg:col-span-2 rounded-3xl bg-white border border-slate-200/90 p-8 sm:p-10 shadow-xl shadow-purple-950/5 flex flex-col justify-between relative overflow-hidden group">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-6 mb-8">
+                        <div>
+                            <span class="text-xs font-mono font-bold text-brand-600 uppercase tracking-wider">CMS NCCI ENGINE</span>
+                            <h3 class="text-2xl font-bold text-slate-900 mt-1">Surgical Procedure Code Decoupling</h3>
+                            <p class="text-xs text-slate-500 mt-2 max-w-sm">
+                                SQLite-backed Procedure-to-Procedure (PTP) validator intercepts mutually inclusive unbundled line items in 0.3 seconds.
+                            </p>
+                        </div>
+                        <img src="/static/images/unbundling_scalpel.png" alt="Surgical Scalpel Excision" class="w-36 sm:w-44 drop-shadow-xl group-hover:scale-105 transition-transform duration-300">
+                    </div>
+
+                    <!-- Live Code Collision Table Preview -->
+                    <div class="bg-slate-900 rounded-2xl p-5 border border-slate-800 font-mono text-xs text-slate-300 space-y-2.5">
+                        <div class="flex justify-between items-center pb-2 border-b border-slate-800 text-slate-500 text-[11px]">
+                            <span>CPT COLLISION TELEMETRY</span>
+                            <span class="text-emerald-400 font-semibold">INDICATOR 0 VIOLATION DETECTED</span>
+                        </div>
+                        <div class="flex justify-between items-center text-slate-400">
+                            <span>Primary Service: CPT 80053 (Comprehensive Panel)</span>
+                            <span class="text-white font-bold">$220.00 (Lawful)</span>
+                        </div>
+                        <div class="flex justify-between items-center text-red-400 bg-red-950/40 p-2 rounded border border-red-900/60">
+                            <span>Unbundled Secondary: CPT 80048 (Basic Panel)</span>
+                            <span class="line-through text-red-300">$190.00 (EXCISED TO $0.00)</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bento Card 2 (The Silence Ledger) -->
+                <div class="rounded-3xl bg-white border border-slate-200/90 p-8 shadow-xl shadow-purple-950/5 flex flex-col justify-between group">
+                    <div>
+                        <div class="w-12 h-12 rounded-2xl bg-emerald-50 border border-emerald-200 flex items-center justify-center text-emerald-600 font-bold mb-5 shadow-sm">
+                            ✓
+                        </div>
+                        <span class="text-xs font-mono font-bold text-emerald-600 uppercase tracking-wider">SILENCE LEDGER</span>
+                        <h3 class="text-xl font-bold text-slate-900 mt-1">Silent Background Auditing</h3>
+                        <p class="text-xs text-slate-500 mt-3 leading-relaxed">
+                            Routine wellness exams and clean claims are checked against CMS NCCI tables and archived. No notifications. No alert fatigue.
+                        </p>
+                    </div>
+                    <div class="mt-6 pt-4 border-t border-slate-100 flex items-center justify-between">
+                        <span class="text-xs font-mono text-slate-500">Preventative Exam (99396)</span>
+                        <span class="px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-700 text-[11px] font-mono font-bold border border-emerald-200">
+                            0 PINGS SENT
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Bento Card 3 (AWS Cedar Least-Privilege Gate) -->
+                <div class="rounded-3xl bg-white border border-slate-200/90 p-8 shadow-xl shadow-purple-950/5 flex flex-col justify-between group">
+                    <div>
+                        <div class="flex justify-between items-start mb-4">
+                            <span class="text-xs font-mono font-bold text-brand-600 uppercase tracking-wider">AWS CEDAR GATE</span>
+                            <img src="/static/images/cedar_lock_gate.png" alt="Cedar Padlock" class="w-20 drop-shadow-md group-hover:rotate-6 transition-transform">
+                        </div>
+                        <h3 class="text-xl font-bold text-slate-900">Physical Policy Hard-Lock</h3>
+                        <p class="text-xs text-slate-500 mt-3 leading-relaxed">
+                            The agent is physically forbidden by compiled Cedar policy from dispatching legal appeals or signing documents without the patient's explicit key.
+                        </p>
+                    </div>
+                    <div class="mt-6 p-3 rounded-xl bg-slate-950 text-slate-300 font-mono text-[10px] space-y-1">
+                        <span class="text-amber-400">forbid</span> (principal, action == "dispatch")<br>
+                        <span class="text-brand-300">unless</span> context.human_approval_token;
+                    </div>
+                </div>
+
+                <!-- Bento Card 4 (ERISA § 503 Statutory Clock Span-2) -->
+                <div class="lg:col-span-2 rounded-3xl bg-white border border-slate-200/90 p-8 sm:p-10 shadow-xl shadow-purple-950/5 flex flex-col justify-between relative overflow-hidden group">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-6 mb-6">
+                        <div>
+                            <span class="text-xs font-mono font-bold text-brand-600 uppercase tracking-wider">ERISA § 503 REGULATORY CLOCK</span>
+                            <h3 class="text-2xl font-bold text-slate-900 mt-1">Post-Dispatch Federal Clock</h3>
+                            <p class="text-xs text-slate-500 mt-2 max-w-md">
+                                Under 29 CFR § 2560.503-1, payors have exactly 30 calendar days to adjudicate. If they stall, remedies are deemed exhausted by operation of law.
+                            </p>
+                        </div>
+                        <img src="/static/images/erisa_clock_dossier.png" alt="ERISA Dossier & Clock" class="w-36 sm:w-40 drop-shadow-xl group-hover:scale-105 transition-transform duration-300">
+                    </div>
+
+                    <!-- 30-Day Tracker Status Bar -->
+                    <div class="bg-gradient-to-r from-purple-50 via-brand-50 to-white p-4 rounded-2xl border border-brand-100 flex flex-wrap items-center justify-between gap-4">
+                        <div class="flex items-center gap-3">
+                            <span class="w-3 h-3 rounded-full bg-brand-500 animate-ping"></span>
+                            <span class="text-xs font-mono font-bold text-brand-900">30-DAY STATUTORY DEADLINE ACTIVE</span>
+                        </div>
+                        <div class="flex items-center gap-4 text-xs font-mono">
+                            <span class="text-slate-600">Reversal Rate: 66%</span>
+                            <span class="text-brand-700 font-bold">Auto-Docket to State DOI</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ================================================================= -->
+    <!-- SECTION 2: THE 3D SYSTEM TOPOLOGY CIRCUIT (Ref 3 Radial Topology) -->
+    <!-- ================================================================= -->
+    <section id="topology" class="py-24 sm:py-32 bg-[#090314] text-white relative overflow-hidden">
+        
+        <!-- Ambient Purple Radial Backlight -->
+        <div class="absolute top-1/2 left-1/4 -translate-y-1/2 w-[600px] h-[600px] bg-brand-600/20 blur-[150px] rounded-full pointer-events-none"></div>
+
+        <div class="max-w-6xl mx-auto px-6 relative z-10">
+            
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-950 text-brand-300 text-xs font-semibold tracking-wider uppercase font-mono border border-brand-800/80 mb-4">
+                    02 // ARCHITECTURAL TOPOLOGY
+                </div>
+                <h2 class="text-3xl sm:text-5xl font-extrabold tracking-tight">
+                    From S3 Event to Certified Dispute:<br>
+                    <span class="editorial-italic font-normal text-transparent bg-clip-text bg-gradient-to-r from-brand-400 to-purple-200">The 5-Node Circuit</span>
+                </h2>
+                <p class="text-slate-400 text-sm sm:text-base mt-4">
+                    Every stage in the UNBUNDLE pipeline adheres to the King's Court verb chain. A hard separation between cognitive observation and physical execution authority.
+                </p>
+            </div>
+
+            <!-- Split 2-Column: Circuit Graphic & Stage Explanations -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+                
+                <!-- Left: 3D Isometric Circuit Image Display -->
+                <div class="lg:col-span-7 flex justify-center">
+                    <div class="relative p-2 rounded-3xl bg-gradient-to-b from-brand-500/20 to-transparent border border-brand-500/30 shadow-2xl shadow-brand-950/50">
+                        <img src="/static/images/architecture_circuit.png" alt="UNBUNDLE 3D Circuit Architecture" class="w-full max-w-lg rounded-2xl drop-shadow-2xl">
+                    </div>
+                </div>
+
+                <!-- Right: The 5 Discrete Nodes -->
+                <div class="lg:col-span-5 space-y-4">
+                    
+                    <div class="p-4 rounded-2xl bg-white/5 border border-white/10 hover:border-brand-500/50 transition">
+                        <div class="flex items-center gap-2 text-xs font-mono font-bold text-brand-400">
+                            <span>01</span> &bull; <span>INGEST (EOB)</span>
+                        </div>
+                        <h4 class="text-sm font-bold text-white mt-1">Headless Event Ingestion</h4>
+                        <p class="text-xs text-slate-400 mt-1">Amazon Bedrock AgentCore daemon intercepts incoming EOBs via S3 ObjectCreated events or email wire monitors.</p>
+                    </div>
+
+                    <div class="p-4 rounded-2xl bg-white/5 border border-white/10 hover:border-brand-500/50 transition">
+                        <div class="flex items-center gap-2 text-xs font-mono font-bold text-brand-400">
+                            <span>02</span> &bull; <span>AUDIT (CMS NCCI PTP)</span>
+                        </div>
+                        <h4 class="text-sm font-bold text-white mt-1">Deterministic Database Crosswalk</h4>
+                        <p class="text-xs text-slate-400 mt-1">Local SQLite tables query Column 1/Column 2 edits. Zero LLM hallucinations touching clinical codes.</p>
+                    </div>
+
+                    <div class="p-4 rounded-2xl bg-white/5 border border-white/10 hover:border-brand-500/50 transition">
+                        <div class="flex items-center gap-2 text-xs font-mono font-bold text-brand-400">
+                            <span>03</span> &bull; <span>NET (0-BLOCK DELTA)</span>
+                        </div>
+                        <h4 class="text-sm font-bold text-white mt-1">Continuous Net Settlement</h4>
+                        <p class="text-xs text-slate-400 mt-1">Deduplicates collisions across line items, preventing double-counting and recalculating lawful patient liability.</p>
+                    </div>
+
+                    <div class="p-4 rounded-2xl bg-white/5 border border-white/10 hover:border-brand-500/50 transition">
+                        <div class="flex items-center gap-2 text-xs font-mono font-bold text-brand-400">
+                            <span>04</span> &bull; <span>ATTENUATE (AWS CEDAR)</span>
+                        </div>
+                        <h4 class="text-sm font-bold text-white mt-1">Least-Privilege Policy Guardrail</h4>
+                        <p class="text-xs text-slate-400 mt-1">Cedar asserts that `context.human_approval_token_valid == true` before any external dispute can be dispatched.</p>
+                    </div>
+
+                    <div class="p-4 rounded-2xl bg-white/5 border border-brand-500/40 bg-brand-950/40">
+                        <div class="flex items-center gap-2 text-xs font-mono font-bold text-brand-300">
+                            <span>05</span> &bull; <span>1-TAP APPEAL</span>
+                        </div>
+                        <h4 class="text-sm font-bold text-white mt-1">Certified ERISA Legal Dossier</h4>
+                        <p class="text-xs text-slate-300 mt-1">Patient signs with 1 tap. Cedar unseals. Statutory dispute packet citing 29 U.S.C. § 1133 is emitted.</p>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ================================================================= -->
+    <!-- SECTION 3: VERIFIED HOSPITAL SCENARIOS (Ref 1 Kadisto Cards) -->
+    <!-- ================================================================= -->
+    <section id="scenarios" class="py-24 sm:py-32 bg-white">
+        <div class="max-w-6xl mx-auto px-6">
+            
+            <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-16">
+                <div>
+                    <span class="text-xs font-mono font-bold text-brand-600 uppercase tracking-wider">03 // VERIFIED HOSPITAL SCENARIOS</span>
+                    <h2 class="text-3xl sm:text-5xl font-extrabold text-slate-900 tracking-tight mt-2">
+                        Three Common Hospital Attacks.<br>
+                        <span class="editorial-italic font-normal text-brand-600">Stopped in 0.305</span> Seconds.
+                    </h2>
+                </div>
+                <a href="#cockpit" class="text-xs font-mono font-bold text-brand-600 hover:text-brand-700 transition flex items-center gap-1.5 pb-2">
+                    <span>RUN ALL 7 IN BROWSER COCKPIT</span>
+                    <span>↗</span>
+                </a>
+            </div>
+
+            <!-- 3 Column Cards (from Kadisto Ref) -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                
+                <!-- Card 1 -->
+                <div class="rounded-3xl bg-[#FAF8FD] border border-purple-100 p-8 flex flex-col justify-between hover:shadow-xl hover:shadow-purple-950/5 transition">
+                    <div>
+                        <div class="flex justify-between items-center text-xs font-mono text-slate-400 mb-6">
+                            <span>SCENARIO 01</span>
+                            <span class="px-2.5 py-0.5 rounded-full bg-red-100 text-red-700 font-bold">INDICATOR 0</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-slate-900">Metabolic Panel Unbundling</h3>
+                        <p class="text-xs text-slate-500 mt-3 leading-relaxed">
+                            Memorial Regional Health billed Basic Metabolic Panel (CPT 80048) alongside mutually inclusive Comprehensive Panel (CPT 80053).
+                        </p>
+                    </div>
+                    <div class="mt-8 pt-6 border-t border-purple-100/80">
+                        <div class="text-[11px] text-slate-400 uppercase font-mono">Excised by Sentinel</div>
+                        <div class="text-3xl font-extrabold text-red-500 font-mono mt-1">$410.00</div>
+                        <div class="text-xs text-emerald-600 font-medium mt-1">Lawful Patient Liability: $50.00</div>
+                    </div>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="rounded-3xl bg-[#FAF8FD] border border-purple-100 p-8 flex flex-col justify-between hover:shadow-xl hover:shadow-purple-950/5 transition">
+                    <div>
+                        <div class="flex justify-between items-center text-xs font-mono text-slate-400 mb-6">
+                            <span>SCENARIO 02</span>
+                            <span class="px-2.5 py-0.5 rounded-full bg-red-100 text-red-700 font-bold">MODIFIER 59</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-slate-900">Emergency Room Modifier Creep</h3>
+                        <p class="text-xs text-slate-500 mt-3 leading-relaxed">
+                            Hospital appended Modifier 59 to Head CT Scan (CPT 70450) without distinct anatomical site or separate procedural documentation.
+                        </p>
+                    </div>
+                    <div class="mt-8 pt-6 border-t border-purple-100/80">
+                        <div class="text-[11px] text-slate-400 uppercase font-mono">Excised by Sentinel</div>
+                        <div class="text-3xl font-extrabold text-red-500 font-mono mt-1">$2,180.00</div>
+                        <div class="text-xs text-emerald-600 font-medium mt-1">Patient Copay: $200.00</div>
+                    </div>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="rounded-3xl bg-[#FAF8FD] border border-purple-100 p-8 flex flex-col justify-between hover:shadow-xl hover:shadow-purple-950/5 transition">
+                    <div>
+                        <div class="flex justify-between items-center text-xs font-mono text-slate-400 mb-6">
+                            <span>SCENARIO 03</span>
+                            <span class="px-2.5 py-0.5 rounded-full bg-amber-100 text-amber-800 font-bold">CARC 97 SHIFT</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-slate-900">Predatory Balance Shift</h3>
+                        <p class="text-xs text-slate-500 mt-3 leading-relaxed">
+                            Insurer adjudicated diagnostic endoscopy (CPT 43235) as bundled, but improperly shifted charge from Contractual Obligation (CO) to Patient (PR).
+                        </p>
+                    </div>
+                    <div class="mt-8 pt-6 border-t border-purple-100/80">
+                        <div class="text-[11px] text-slate-400 uppercase font-mono">Excised by Sentinel</div>
+                        <div class="text-3xl font-extrabold text-red-500 font-mono mt-1">$840.00</div>
+                        <div class="text-xs text-emerald-600 font-medium mt-1">Reallocated to Provider Write-Off</div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ================================================================= -->
+    <!-- SECTION 4: THE DELTR BUG STORY (King's Court Exclusive) -->
+    <!-- ================================================================= -->
+    <section id="bug-story" class="py-24 sm:py-32 bg-[#F6F4FA] border-y border-slate-200">
+        <div class="max-w-5xl mx-auto px-6">
+            
+            <div class="text-center max-w-2xl mx-auto mb-16">
+                <span class="text-xs font-mono font-bold text-brand-600 uppercase tracking-wider">04 // RADICAL HONESTY</span>
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight mt-2">
+                    The Bug Story:<br>
+                    <span class="editorial-italic font-normal text-brand-600">What Broke on Real</span> Payor Data.
+                </h2>
+                <p class="text-xs sm:text-sm text-slate-600 mt-3">
+                    Deltr tested against real Binance order books with real latency. UNBUNDLE tested against messy real-world hospital EOB exports. Here is where the LLM failed, and how we bound it.
+                </p>
+            </div>
+
+            <!-- Bug Story Card -->
+            <div class="rounded-3xl bg-white border border-slate-200/90 p-8 sm:p-10 shadow-xl shadow-purple-950/5 space-y-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    
+                    <div class="space-y-3">
+                        <h4 class="text-base font-bold text-slate-900 flex items-center gap-2">
+                            <span class="text-red-500 font-mono">✗</span> What Generic AI Does (The Slop)
+                        </h4>
+                        <p class="text-xs text-slate-600 leading-relaxed">
+                            When an EOB writes <code class="bg-slate-100 px-1 py-0.5 rounded font-mono text-slate-800">MISC SURGICAL SUPPLIES TRAY 3</code> or <code class="bg-slate-100 px-1 py-0.5 rounded font-mono text-slate-800">GLOBAL FACILITY OVERHEAD</code> without a 5-digit CPT code, generic LLMs guess random codes (e.g. CPT 99070) and invent hallucinated dispute arguments.
+                        </p>
+                    </div>
+
+                    <div class="space-y-3">
+                        <h4 class="text-base font-bold text-slate-900 flex items-center gap-2">
+                            <span class="text-emerald-500 font-mono">✓</span> How UNBUNDLE Binds It (The Quarantine)
+                        </h4>
+                        <p class="text-xs text-slate-600 leading-relaxed">
+                            UNBUNDLE implements a mathematical <strong class="text-slate-800">Clinical Confidence Gate</strong>. Descriptions with confidence &lt; 0.90 are automatically quarantined. They are physically barred from the SQLite NCCI tables, preventing false-positive legal claims.
+                        </p>
+                    </div>
+
+                </div>
+
+                <div class="p-4 rounded-2xl bg-slate-950 text-slate-300 font-mono text-xs space-y-2 border border-slate-800">
+                    <div class="text-amber-400 text-[11px] font-bold uppercase tracking-wider">REAL OCR TEST LOG // tests/fixtures/real_unstructured_eob.txt</div>
+                    <div class="text-slate-400">Line 05: 'MISC SURGICAL SUPPLIES TRAY 3' &rarr; Confidence 0.25 &lt; 0.90 &rarr; <span class="text-amber-300 font-bold">QUARANTINED (Refused to Hallucinate CPT)</span></div>
+                    <div class="text-slate-400">Line 06: 'GLOBAL FACILITY OVERHEAD CHG' &rarr; Confidence 0.25 &lt; 0.90 &rarr; <span class="text-amber-300 font-bold">QUARANTINED (Requires Itemized Operating Room Log)</span></div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ================================================================= -->
+    <!-- SECTION 5: THE LIVE ADJUDICATION COCKPIT (THE LIVE CONSOLE) -->
+    <!-- ================================================================= -->
+    <section id="cockpit" class="py-24 sm:py-32 bg-[#0A0F1D] text-slate-100 border-t border-slate-800">
+        <div class="max-w-7xl mx-auto px-6">
+            
+            <div class="flex flex-wrap items-center justify-between gap-4 mb-10 pb-6 border-b border-slate-800">
+                <div>
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-950 text-brand-300 text-xs font-semibold tracking-wider uppercase font-mono border border-brand-800/80 mb-2">
+                        05 // INTERACTIVE TERMINAL
+                    </div>
+                    <h2 class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
+                        Live Cockpit Annunciator
+                    </h2>
+                </div>
+                <div class="flex items-center gap-4 text-xs font-mono">
+                    <span class="text-emerald-400 font-bold flex items-center gap-1.5">
+                        <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping"></span> AGENTCORE ACTIVE
+                    </span>
+                    <button onclick="resetDemo()" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-lg border border-slate-700 transition">
+                        Reset Demo State
+                    </button>
+                </div>
+            </div>
+
+            <!-- GPWS Annunciator Banner -->
+            <div id="annunciator-banner" class="rounded-2xl border-2 border-red-500/80 bg-red-950/40 p-6 sm:p-8 shadow-2xl shadow-red-950/50 mb-8">
+                <div class="flex flex-wrap items-start justify-between gap-6">
+                    <div class="space-y-2">
+                        <div class="flex items-center gap-2">
+                            <span class="px-2.5 py-1 bg-red-600 text-white font-mono font-bold text-xs rounded tracking-wider uppercase pulse-slow">
+                                PULL UP // DISCREPANCY INTERCEPTED
+                            </span>
+                            <span class="text-xs text-red-300 font-mono">CMS NCCI INDICATOR 0 VIOLATION</span>
+                        </div>
+                        <h3 class="text-2xl sm:text-3xl font-extrabold text-white">
+                            $190.00 Unbundled Charge Detected on Claim #CLM-2026-NY-8912
+                        </h3>
+                        <p class="text-xs sm:text-sm text-slate-300">
+                            Memorial Regional Health billed <span class="text-amber-400 font-semibold">Basic Metabolic Panel (CPT 80048)</span> alongside mutually inclusive <span class="text-emerald-400 font-semibold">Comprehensive Metabolic Panel (CPT 80053)</span>.
+                        </p>
+                    </div>
+                    <div class="text-left sm:text-right">
+                        <div class="text-xs text-slate-400 uppercase tracking-wide">Excised by Sentinel</div>
+                        <div class="text-4xl font-extrabold text-red-400 font-mono">$190.00</div>
+                        <div class="text-xs text-emerald-400 mt-1">Revised Lawful Balance: $0.00</div>
+                    </div>
+                </div>
+
+                <!-- Action & Cedar Lock Row -->
+                <div class="mt-8 pt-6 border-t border-red-900/60 flex flex-wrap items-center justify-between gap-4">
+                    <div class="flex items-center gap-3 text-xs">
+                        <div class="p-2 rounded bg-slate-900 border border-slate-800 text-slate-300">
+                            <span class="text-slate-400">Cedar Policy Gate:</span>
+                            <code class="text-amber-300 ml-1 font-mono">forbid dispatch_dispute unless token_valid</code>
+                        </div>
+                        <div id="cedar-gate-indicator" class="font-mono text-red-400 flex items-center gap-1 font-semibold">
+                            🔒 EXPLICIT DENY: Awaiting Patient Key
+                        </div>
+                    </div>
+
+                    <div id="action-container">
+                        <button id="approve-btn" onclick="approveAndDispatch()" class="px-8 py-3.5 bg-red-600 hover:bg-red-500 text-white font-bold rounded-xl shadow-lg shadow-red-900/40 font-mono text-xs sm:text-sm flex items-center gap-2 transition active:scale-95">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                            <span>1-TAP APPROVE & DISPATCH ERISA § 503 APPEAL</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Two Columns: Tables & Tracker / Appeal Preview -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                
+                <!-- Col 1 & 2: Real Claim Lines & Statutory Clock -->
+                <div class="lg:col-span-2 space-y-8">
+                    
+                    <!-- Post-Dispatch Clock Card (Dynamically displayed upon approval) -->
+                    <div id="statutory-clock-card" class="hidden rounded-2xl border border-brand-800 bg-brand-950/30 p-6 sm:p-8 shadow-xl space-y-5">
+                        <div class="flex items-center justify-between border-b border-brand-900/80 pb-4">
+                            <div class="flex items-center gap-2.5">
+                                <span class="w-3 h-3 rounded-full bg-brand-400 animate-ping"></span>
+                                <h4 class="font-bold text-white text-base">ERISA § 503 Statutory Clock Active</h4>
+                            </div>
+                            <span class="text-xs font-mono px-2.5 py-0.5 rounded bg-brand-900 text-brand-200 border border-brand-700">
+                                29 CFR § 2560.503-1
+                            </span>
+                        </div>
+
+                        <div class="grid grid-cols-3 gap-4">
+                            <div class="bg-slate-900/90 p-4 rounded-xl border border-slate-800">
+                                <div class="text-xs text-slate-400">Statutory Window</div>
+                                <div class="text-2xl font-bold font-mono text-white mt-1">30 Days</div>
+                                <div class="text-[10px] text-slate-500">Post-service limit</div>
+                            </div>
+                            <div class="bg-slate-900/90 p-4 rounded-xl border border-slate-800">
+                                <div class="text-xs text-slate-400">Days Remaining</div>
+                                <div class="text-2xl font-bold font-mono text-brand-400 mt-1" id="clock-days-remaining">30</div>
+                                <div class="text-[10px] text-slate-500">Until deemed exhausted</div>
+                            </div>
+                            <div class="bg-slate-900/90 p-4 rounded-xl border border-slate-800">
+                                <div class="text-xs text-slate-400">Current Status</div>
+                                <div class="text-xs font-bold font-mono text-amber-400 mt-2" id="clock-state">PENDING_PAYOR</div>
+                                <div class="text-[10px] text-slate-500 mt-0.5">Awaiting clearinghouse</div>
+                            </div>
+                        </div>
+
+                        <div class="bg-slate-900/95 p-4 rounded-xl border border-slate-800 text-xs space-y-1">
+                            <div class="text-slate-400 font-semibold">Statutory Next Action:</div>
+                            <div class="text-white font-mono" id="clock-next-action">Monitoring payor clearinghouse. 30 calendar days remaining.</div>
+                        </div>
+
+                        <!-- Simulator Sandbox for Hackathon Judges -->
+                        <div class="pt-4 border-t border-brand-900/80">
+                            <div class="text-xs text-slate-400 mb-2.5 font-semibold">Judge Simulator Sandbox:</div>
+                            <div class="flex flex-wrap gap-2 text-xs font-mono">
+                                <button onclick="simulateResponse('OVERTURNED_FULL')" class="px-3 py-2 bg-emerald-950 hover:bg-emerald-900 text-emerald-300 border border-emerald-800 rounded-lg transition">
+                                    ✓ Insurer Concedes ($0 Balance)
+                                </button>
+                                <button onclick="simulateResponse('UPHELD_DENIAL')" class="px-3 py-2 bg-red-950 hover:bg-red-900 text-red-300 border border-red-800 rounded-lg transition">
+                                    ✗ CARC 16 Denial &rarr; Auto DOI Docket
+                                </button>
+                                <button onclick="simulateResponse('NO_RESPONSE')" class="px-3 py-2 bg-amber-950 hover:bg-amber-900 text-amber-300 border border-amber-800 rounded-lg transition">
+                                    ⏱ 30 Days Elapse &rarr; Deemed Exhausted
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Live Claim Table -->
+                    <div class="rounded-2xl border border-slate-800 bg-slate-900/70 p-6 space-y-4">
+                        <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+                            <div>
+                                <h4 class="font-bold text-white text-sm">Adjudicated EOB Line Items</h4>
+                                <div class="text-[11px] text-slate-400">Parsed from unvarnished Memorial Regional Health text export</div>
+                            </div>
+                            <span class="text-xs font-mono text-emerald-400 bg-emerald-950/60 border border-emerald-800 px-2.5 py-0.5 rounded-full">
+                                Verified via SQLite NCCI
+                            </span>
+                        </div>
+
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left text-xs border-collapse font-mono">
+                                <thead>
+                                    <tr class="border-b border-slate-800 text-slate-400">
+                                        <th class="py-2 px-3">LN</th>
+                                        <th class="py-2 px-3">CPT</th>
+                                        <th class="py-2 px-3">Description</th>
+                                        <th class="py-2 px-3 text-right">Billed</th>
+                                        <th class="py-2 px-3 text-right">Patient Resp</th>
+                                        <th class="py-2 px-3">Sentinel Finding</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="claim-lines-tbody" class="divide-y divide-slate-800/60">
+                                    <!-- Populated via JS -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Col 3: Silence Ledger & Appeal Letter Drawer -->
+                <div class="space-y-8">
+                    
+                    <!-- Silence Ledger -->
+                    <div class="rounded-2xl border border-slate-800 bg-slate-900/70 p-6 space-y-4">
+                        <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+                            <div>
+                                <h4 class="font-bold text-white text-sm">Silence Ledger</h4>
+                                <div class="text-[11px] text-slate-400">0 User Notifications on Routine Visits</div>
+                            </div>
+                            <span class="text-xs font-mono px-2 py-0.5 rounded bg-slate-800 text-emerald-400 font-bold">
+                                2 SILENT PASSES
+                            </span>
+                        </div>
+
+                        <div class="space-y-3" id="silence-ledger-container">
+                            <!-- Populated via JS -->
+                        </div>
+                    </div>
+
+                    <!-- Formal ERISA Packet Preview -->
+                    <div class="rounded-2xl border border-slate-800 bg-slate-900/70 p-6 space-y-4">
+                        <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+                            <h4 class="font-bold text-white text-sm">Formal Appeal Dossier</h4>
+                            <span class="text-xs font-mono text-brand-400">29 U.S.C. § 1133</span>
+                        </div>
+                        <div id="packet-status" class="text-xs text-slate-400">
+                            Awaiting 1-tap human authorization to attach cryptographic signature and emit legal dossier.
+                        </div>
+                        <div id="packet-content" class="hidden">
+                            <pre class="text-[10px] font-mono bg-slate-950 p-3 rounded-xl border border-slate-800 text-slate-300 h-64 overflow-y-auto whitespace-pre-wrap" id="packet-text"></pre>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ================================================================= -->
+    <!-- FOOTER -->
+    <!-- ================================================================= -->
+    <footer class="bg-obsidian text-slate-400 py-16 px-6 border-t border-white/10">
+        <div class="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-6 text-xs">
+            <div class="flex items-center gap-3">
+                <div class="w-6 h-6 rounded-full bg-brand-500 text-white flex items-center justify-center font-bold text-xs">
+                    🛡
+                </div>
+                <span class="font-bold text-white tracking-tight text-sm">UNBUNDLE</span>
+                <span class="text-slate-500">&bull; Autonomous Medical Billing Sentinel</span>
+            </div>
+            <div class="flex items-center gap-6 text-slate-400">
+                <a href="#matrix" class="hover:text-white transition">Audit Matrix</a>
+                <a href="#topology" class="hover:text-white transition">Topology</a>
+                <a href="#bug-story" class="hover:text-white transition">The Bug Story</a>
+                <a href="#cockpit" class="hover:text-white transition">Live Terminal</a>
+            </div>
+            <div class="text-slate-500 text-[11px] font-mono">
+                Apache License 2.0 &bull; AWS Agents for Humans 2026
+            </div>
+        </div>
+    </footer>
+
+    <!-- Interactive Cockpit Javascript -->
+    <script>
+        async function loadData() {
+            const res = await fetch('/api/status');
+            const data = await res.json();
+            renderCockpit(data);
+        }
+
+        function renderCockpit(data) {
+            // Render claim lines
+            const tbody = document.getElementById('claim-lines-tbody');
+            tbody.innerHTML = '';
+            
+            data.active_eob.lines.forEach(line => {
+                const tr = document.createElement('tr');
+                const isViolation = data.audit_result.violations.some(v => v.line_number === line.line_number);
+                tr.className = isViolation ? 'bg-red-950/20 text-red-300 font-semibold' : 'text-slate-300';
+                
+                tr.innerHTML = `
+                    <td class="py-2.5 px-3">${String(line.line_number).padStart(2, '0')}</td>
+                    <td class="py-2.5 px-3 font-bold">${line.cpt_code}</td>
+                    <td class="py-2.5 px-3 font-sans">${line.description}</td>
+                    <td class="py-2.5 px-3 text-right">$${line.billed_amount.toFixed(2)}</td>
+                    <td class="py-2.5 px-3 text-right ${isViolation ? 'text-red-400 line-through' : ''}">$${line.patient_responsibility.toFixed(2)}</td>
+                    <td class="py-2.5 px-3">
+                        ${isViolation 
+                            ? '<span class="text-xs px-2 py-0.5 rounded bg-red-950 text-red-300 border border-red-800">UNBUNDLED (NCCI 0)</span>' 
+                            : '<span class="text-slate-500">Lawful</span>'}
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+
+            // Silence Ledger
+            const ledger = document.getElementById('silence-ledger-container');
+            ledger.innerHTML = '';
+            data.silence_ledger.forEach(item => {
+                const div = document.createElement('div');
+                div.className = 'p-3 rounded-xl bg-slate-950 border border-slate-800/80 text-xs space-y-1';
+                div.innerHTML = `
+                    <div class="flex justify-between items-center">
+                        <span class="font-mono text-slate-400">${item.claim_id}</span>
+                        <span class="text-emerald-400 font-mono font-bold text-[10px] px-1.5 py-0.5 rounded bg-emerald-950 border border-emerald-800">0 PINGS SENT</span>
+                    </div>
+                    <div class="text-white font-medium">${item.service}</div>
+                    <div class="text-slate-400 text-[11px]">${item.provider} &bull; Billed $${item.billed.toFixed(2)}</div>
+                `;
+                ledger.appendChild(div);
+            });
+
+            // Cedar Gate & Lifecycle State
+            const cedarIndicator = document.getElementById('cedar-gate-indicator');
+            const actionContainer = document.getElementById('action-container');
+            const clockCard = document.getElementById('statutory-clock-card');
+            const packetStatus = document.getElementById('packet-status');
+            const packetContent = document.getElementById('packet-content');
+            const packetText = document.getElementById('packet-text');
+
+            if (data.cedar_unsealed) {
+                cedarIndicator.className = 'font-mono text-emerald-400 flex items-center gap-1 font-semibold';
+                cedarIndicator.innerHTML = '🔓 PERMIT: Signed by Patient (Token Verified)';
+
+                actionContainer.innerHTML = `
+                    <div class="px-5 py-3 rounded-xl bg-emerald-950 border border-emerald-800 text-emerald-300 font-mono text-xs font-bold flex items-center gap-2">
+                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
+                        DISPUTE SERVED UNDER ERISA § 503
+                    </div>
+                `;
+
+                // Show statutory clock
+                clockCard.classList.remove('hidden');
+                if (data.tracker_status) {
+                    document.getElementById('clock-days-remaining').innerText = data.tracker_status.days_remaining;
+                    document.getElementById('clock-state').innerText = data.tracker_status.state;
+                    document.getElementById('clock-next-action').innerText = data.tracker_status.next_action;
+                }
+
+                // Show appeal letter
+                if (data.appeal_letter) {
+                    packetStatus.classList.add('hidden');
+                    packetContent.classList.remove('hidden');
+                    packetText.innerText = data.appeal_letter;
+                }
+            } else {
+                clockCard.classList.add('hidden');
+                packetStatus.classList.remove('hidden');
+                packetContent.classList.add('hidden');
+            }
+        }
+
+        async function approveAndDispatch() {
+            const btn = document.getElementById('approve-btn');
+            btn.disabled = true;
+            btn.innerText = 'Evaluating Cedar Policy...';
+            
+            const res = await fetch('/api/approve', { method: 'POST' });
+            const data = await res.json();
+            renderCockpit(data);
+        }
+
+        async function simulateResponse(type) {
+            const res = await fetch('/api/simulate-response', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ response_type: type })
+            });
+            const data = await res.json();
+            renderCockpit(data);
+        }
+
+        async function resetDemo() {
+            await fetch('/api/reset', { method: 'POST' });
+            loadData();
+        }
+
+        loadData();
+    </script>
+</body>
+</html>
