@@ -1,0 +1,25 @@
+================================================================================
+EXPLANATION OF BENEFITS (EOB) - THIS IS NOT A BILL
+UNITEDHEALTHCARE SERVICES, INC. | CLAIM ADJUDICATION NOTICE
+================================================================================
+Subscriber: ELEANOR RIGBY           Member ID: UHC-98234109-01
+Patient: ELEANOR RIGBY              Group #: GRP-440912
+Provider: MEMORIAL REGIONAL HEALTH  Claim #: CLM-2026-NY-8912
+Date of Service: 01/14/2026         Adjudication Date: 02/02/2026
+Network Status: IN-NETWORK          Place of Service: 22 - ON-CAMPUS HOSP OUTPATIENT
+--------------------------------------------------------------------------------
+LINE  SVC DATE    DESCRIPTION                      BILLED   ALLOWED   PLAN PD   PATIENT RESP  CARC/REMARK
+01    01/14/2026  COMP METAB PNL                  $220.00   $110.00    $88.00     $22.00      PR-1, PR-2
+02    01/14/2026  BASIC METAB PNL                 $190.00     $0.00     $0.00    $190.00      CO-97, PR-97
+03    01/14/2026  HC EMERG DEPT VISIT HIGH SEV  $1,850.00   $750.00   $600.00    $150.00      PR-3
+04    01/14/2026  HC CT SCAN HEAD/BRAIN W/O DYE $2,200.00   $900.00   $720.00    $180.00      PR-3
+05    01/14/2026  MISC SURGICAL SUPPLIES TRAY 3   $450.00     $0.00     $0.00    $450.00      PR-16
+06    01/14/2026  GLOBAL FACILITY OVERHEAD CHG    $800.00     $0.00     $0.00    $800.00      PR-96
+--------------------------------------------------------------------------------
+TOTALS:                                         $5,710.00 $1,760.00 $1,408.00  $1,792.00
+REMARKS / REASON CODES:
+CO-97: The benefit for this service is included in the payment/allowance for another service/procedure that has already been adjudicated.
+PR-97: Contractual adjustment shifted to member liability pursuant to provider contract appendix C.
+PR-16: Claim/service lacks information or has submission/billing error(s).
+PR-96: Non-covered charge(s).
+================================================================================
