@@ -1,0 +1,26 @@
+{
+  "claim_id": "CLM-2026-CLEAN-01",
+  "patient_name": "Sarah Jenkins",
+  "patient_id": "MBR-984210",
+  "provider_name": "Midwest Primary Care Partners",
+  "service_date": "2026-08-14",
+  "in_network": true,
+  "is_emergency": false,
+  "total_billed": 250.0,
+  "total_allowed": 250.0,
+  "total_patient_responsibility": 0.0,
+  "lines": [
+    {
+      "line_number": 1,
+      "cpt_code": "99396",
+      "description": "Preventative Medicine Examination, Age 40-64",
+      "modifiers": [],
+      "billed_amount": 250.0,
+      "allowed_amount": 250.0,
+      "patient_responsibility": 0.0,
+      "group_code": "CO",
+      "carc_codes": [],
+      "distinct_site_documented": false
+    }
+  ]
+}

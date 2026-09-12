@@ -1,0 +1,38 @@
+{
+  "claim_id": "CLM-2026-NCCI-02",
+  "patient_name": "Robert Chen",
+  "patient_id": "MBR-554109",
+  "provider_name": "Metro Diagnostic Laboratories",
+  "service_date": "2026-08-20",
+  "in_network": true,
+  "is_emergency": false,
+  "total_billed": 1030.0,
+  "total_allowed": 760.0,
+  "total_patient_responsibility": 460.0,
+  "lines": [
+    {
+      "line_number": 1,
+      "cpt_code": "80053",
+      "description": "Comprehensive Metabolic Panel",
+      "modifiers": [],
+      "billed_amount": 620.0,
+      "allowed_amount": 350.0,
+      "patient_responsibility": 50.0,
+      "group_code": "CO",
+      "carc_codes": ["CO-45"],
+      "distinct_site_documented": false
+    },
+    {
+      "line_number": 2,
+      "cpt_code": "80048",
+      "description": "Basic Metabolic Panel (Unbundled Component)",
+      "modifiers": [],
+      "billed_amount": 410.0,
+      "allowed_amount": 0.0,
+      "patient_responsibility": 410.0,
+      "group_code": "PR",
+      "carc_codes": ["PR-97"],
+      "distinct_site_documented": false
+    }
+  ]
+}

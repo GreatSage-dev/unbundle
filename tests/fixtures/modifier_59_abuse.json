@@ -1,0 +1,38 @@
+{
+  "claim_id": "CLM-2026-MOD59-03",
+  "patient_name": "Eleanor Vance",
+  "patient_id": "MBR-332910",
+  "provider_name": "Valley Regional Medical Center",
+  "service_date": "2026-08-28",
+  "in_network": true,
+  "is_emergency": true,
+  "total_billed": 5580.0,
+  "total_allowed": 3200.0,
+  "total_patient_responsibility": 2380.0,
+  "lines": [
+    {
+      "line_number": 1,
+      "cpt_code": "99285",
+      "description": "Emergency Department Visit, High Severity",
+      "modifiers": [],
+      "billed_amount": 3400.0,
+      "allowed_amount": 3000.0,
+      "patient_responsibility": 200.0,
+      "group_code": "CO",
+      "carc_codes": ["CO-45"],
+      "distinct_site_documented": false
+    },
+    {
+      "line_number": 2,
+      "cpt_code": "70450",
+      "description": "CT Scan Head or Brain without Contrast",
+      "modifiers": ["59"],
+      "billed_amount": 2180.0,
+      "allowed_amount": 0.0,
+      "patient_responsibility": 2180.0,
+      "group_code": "PR",
+      "carc_codes": ["PR-97"],
+      "distinct_site_documented": false
+    }
+  ]
+}

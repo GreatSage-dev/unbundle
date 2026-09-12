@@ -1,0 +1,23 @@
+{
+  "CARC_97": {
+    "code": "97",
+    "standard_description": "The benefit for this service is included in the payment/allowance for another service/procedure that has already been adjudicated.",
+    "violation_if_assigned_to": "PR",
+    "remedy": "Reallocate from Patient Responsibility (PR) to Contractual Obligation (CO). Under CMS guidelines and commercial in-network provider contracts, unbundled component services cannot be balance-billed to the patient.",
+    "statutory_citation": "CMS Claims Processing Manual, Pub. 100-04, Chapter 23 § 20.9; ERISA § 503 (29 U.S.C. § 1133)"
+  },
+  "CARC_45": {
+    "code": "45",
+    "standard_description": "Charge exceeds fee schedule/maximum allowable or contracted/legislated fee arrangement.",
+    "violation_if_assigned_to": "PR",
+    "remedy": "In-network provider write-off required under participating provider agreement. Balance billing the member for amounts exceeding contracted fee schedule is prohibited by law.",
+    "statutory_citation": "45 CFR § 149.30 (No Surprises Act); Patient Protection and Affordable Care Act § 2719A"
+  },
+  "CARC_16": {
+    "code": "16",
+    "standard_description": "Claim/service lacks information or has submission/billing error(s).",
+    "violation_if_assigned_to": "PR",
+    "remedy": "Administrative provider deficiency. Patient cannot be billed for provider technical billing omission.",
+    "statutory_citation": "29 CFR § 2560.503-1(g)(1)(ii)"
+  }
+}
