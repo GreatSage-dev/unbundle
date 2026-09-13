@@ -540,13 +540,13 @@
                         <div class="overflow-x-auto">
                             <table class="w-full text-left text-xs border-collapse font-mono">
                                 <thead>
-                                    <tr class="border-b border-white/5 text-slate-400">
-                                        <th class="py-2 px-3">LN</th>
-                                        <th class="py-2 px-3">CPT</th>
-                                        <th class="py-2 px-3">Description</th>
-                                        <th class="py-2 px-3 text-right">Billed</th>
-                                        <th class="py-2 px-3 text-right">Patient Resp</th>
-                                        <th class="py-2 px-3">Sentinel Finding</th>
+                                    <tr class="border-b border-white/10 text-slate-400 text-[10px] uppercase font-mono tracking-wider bg-white/[0.02]">
+                                        <th class="py-3 px-3.5 w-12 text-slate-500 font-bold">#</th>
+                                        <th class="py-3 px-3.5 w-20 text-slate-300 font-bold">CPT</th>
+                                        <th class="py-3 px-3.5 min-w-[200px]">Description</th>
+                                        <th class="py-3 px-3.5 text-right w-24">Billed</th>
+                                        <th class="py-3 px-3.5 text-right w-36 whitespace-nowrap">Patient Resp</th>
+                                        <th class="py-3 px-4 text-center w-48 whitespace-nowrap">Sentinel Finding</th>
                                     </tr>
                                 </thead>
                                 <tbody id="claim-lines-tbody" class="divide-y divide-white/5">
@@ -747,18 +747,24 @@
             data.active_eob.lines.forEach(line => {
                 const tr = document.createElement('tr');
                 const isViolation = data.audit_result.violations.some(v => v.line_number === line.line_number);
-                tr.className = isViolation ? 'bg-brand-950/60 text-white font-semibold' : 'text-slate-300';
+                tr.className = isViolation 
+                    ? 'bg-brand-500/[0.08] border-l-2 border-brand-400 hover:bg-brand-500/[0.14] transition-colors text-white' 
+                    : 'border-l-2 border-transparent hover:bg-white/[0.02] transition-colors text-slate-300';
                 
                 tr.innerHTML = `
-                    <td class="py-2.5 px-3">${String(line.line_number).padStart(2, '0')}</td>
-                    <td class="py-2.5 px-3 font-bold text-white">${line.cpt_code}</td>
-                    <td class="py-2.5 px-3 font-sans">${line.description}</td>
-                    <td class="py-2.5 px-3 text-right">$${line.billed_amount.toFixed(2)}</td>
-                    <td class="py-2.5 px-3 text-right ${isViolation ? 'text-brand-300 line-through' : ''}">$${line.patient_responsibility.toFixed(2)}</td>
-                    <td class="py-2.5 px-3">
+                    <td class="py-3 px-3.5 font-mono text-slate-400 text-xs">${String(line.line_number).padStart(2, '0')}</td>
+                    <td class="py-3 px-3.5"><span class="px-2 py-0.5 rounded font-mono font-bold text-xs ${isViolation ? 'bg-brand-500/20 text-brand-300 border border-brand-500/30' : 'bg-white/5 text-white border border-white/10'}">${line.cpt_code}</span></td>
+                    <td class="py-3 px-3.5 font-sans text-xs ${isViolation ? 'text-white font-medium' : 'text-slate-300'}">${line.description}</td>
+                    <td class="py-3 px-3.5 text-right font-mono text-xs text-slate-300">$${line.billed_amount.toFixed(2)}</td>
+                    <td class="py-3 px-3.5 text-right">
                         ${isViolation 
-                            ? '<span class="text-xs px-2.5 py-0.5 rounded bg-brand-900 text-white border border-brand-700">UNBUNDLED (NCCI 0)</span>' 
-                            : '<span class="text-slate-400">Lawful</span>'}
+                            ? `<div class="flex items-center justify-end gap-2 whitespace-nowrap"><span class="line-through text-slate-500 text-[11px] font-mono">$${line.patient_responsibility.toFixed(2)}</span><span class="text-emerald-400 font-bold font-mono text-xs drop-shadow-[0_0_8px_rgba(52,211,153,0.3)]">$0.00</span></div>` 
+                            : `<span class="text-slate-200 font-mono text-xs font-medium">$${line.patient_responsibility.toFixed(2)}</span>`}
+                    </td>
+                    <td class="py-3 px-4 text-center whitespace-nowrap">
+                        ${isViolation 
+                            ? '<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-mono font-semibold bg-brand-500/15 text-brand-300 border border-brand-500/30 whitespace-nowrap shadow-sm shadow-purple-950/40"><span class="w-1.5 h-1.5 rounded-full bg-brand-400 animate-pulse"></span>UNBUNDLED · NCCI 0</span>' 
+                            : '<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-mono font-medium text-emerald-400/90 bg-emerald-500/10 border border-emerald-500/20 whitespace-nowrap"><span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>Lawful</span>'}
                     </td>
                 `;
                 tbody.appendChild(tr);
