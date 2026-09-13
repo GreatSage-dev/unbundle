@@ -49,6 +49,35 @@
             font-style: italic;
             font-weight: 600;
         }
+        @keyframes radar-sweep {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        @keyframes radar-pulse {
+            0% { transform: scale(0.95); opacity: 0.35; }
+            50% { transform: scale(1.05); opacity: 0.75; }
+            100% { transform: scale(0.95); opacity: 0.35; }
+        }
+        @keyframes float-interceptor {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-8px) rotate(0.8deg); }
+        }
+        @keyframes blip-glow {
+            0%, 100% { opacity: 0.3; transform: scale(0.9); }
+            50% { opacity: 1; transform: scale(1.1); }
+        }
+        .animate-radar-sweep {
+            animation: radar-sweep 7s linear infinite;
+        }
+        .animate-radar-pulse {
+            animation: radar-pulse 3.5s ease-in-out infinite;
+        }
+        .animate-float-interceptor {
+            animation: float-interceptor 5s ease-in-out infinite;
+        }
+        .animate-blip-glow {
+            animation: blip-glow 2.5s ease-in-out infinite;
+        }
     </style>
 </head>
 <body class="bg-white text-slate-950 font-sans antialiased selection:bg-brand-600 selection:text-white">
@@ -558,693 +587,253 @@
     </section>
 
     <!-- ================================================================= -->
-    <!-- SECTION 5: THE LIVE ADJUDICATION COCKPIT (THE DASHFLOW CONSOLE) -->
-    <!-- ================================================================= -->
-    <section id="cockpit" class="py-20 sm:py-28 bg-obsidian text-white border-t border-purple-950/60">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6">
+    <!-- SECTION 5: THE AUTONOMOUS COUNTER-BATTERY RADAR & INTERCEPTOR SHOWCASE -->
+    <section id="cockpit" class="py-24 sm:py-32 bg-obsidian text-white border-t border-purple-950/60 relative overflow-hidden">
+        
+        <!-- Ambient Radial Backglow -->
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[850px] h-[600px] bg-brand-600/15 blur-[160px] rounded-full pointer-events-none"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 relative z-10">
             
-            <!-- Dedicated Tab Banner -->
-            <div class="flex flex-wrap items-center justify-between gap-4 pb-6">
-                <div>
-                    <span class="text-xs font-mono font-bold text-brand-300 uppercase tracking-wider">05 // LIVE AUDIT COCKPIT</span>
-                    <h3 class="text-xl sm:text-2xl font-extrabold text-white mt-1">Autonomous Sentinel Interface</h3>
+            <!-- Section Header -->
+            <div class="text-center max-w-3xl mx-auto mb-16 space-y-4">
+                <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-brand-950 border border-brand-500/40 text-brand-300 text-xs font-mono font-semibold tracking-wider uppercase">
+                    <span class="w-1.5 h-1.5 rounded-full bg-brand-400 animate-pulse"></span>
+                    <span>05 // THE AUTONOMOUS COUNTER-BATTERY</span>
                 </div>
-                <a href="/console" target="_blank" class="px-5 py-2.5 rounded-full bg-brand-300 text-[#090314] font-bold text-xs hover:bg-white transition shadow-lg shadow-brand-400/20 flex items-center gap-2 group">
-                    <span>Open in Dedicated Tab</span>
-                    <svg class="w-3.5 h-3.5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform duration-200" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                        <line x1="7" y1="17" x2="17" y2="7"></line>
-                        <polyline points="7 7 17 7 17 17"></polyline>
-                    </svg>
-                </a>
+                <h2 class="text-3xl sm:text-5xl font-extrabold text-white tracking-tight leading-tight">
+                    Real-Time Interception Matrix:<br>
+                    <span class="editorial-italic font-normal text-transparent bg-clip-text bg-gradient-to-r from-brand-300 via-purple-200 to-white">Targeting Unbundled Codes</span> Before Settlement.
+                </h2>
+                <p class="text-xs sm:text-sm text-slate-300 leading-relaxed max-w-2xl mx-auto">
+                    Hospital revenue-cycle engines generate millions in phantom claims by unbundling panel codes. 
+                    UNBUNDLE operates as an autonomous electronic counter-battery—intercepting illegal CPT splits in 0.3 seconds before patient liability registers.
+                </p>
             </div>
-            
-            <!-- OUTER CONSOLE SHELL (Inspired by DashFlow Chassis) -->
-            <div class="bg-[#0B0D14] border border-white/10 rounded-[2.5rem] shadow-2xl overflow-hidden flex flex-col md:flex-row">
+
+            <!-- THE BESPOKE RADAR ARENA & INTERCEPTOR CHASSIS -->
+            <div class="rounded-[2.5rem] bg-[#0A0C14] border border-white/10 p-6 sm:p-10 lg:p-12 shadow-2xl relative overflow-hidden space-y-10">
                 
-                <!-- COMPONENT 1: LEFT SIDEBAR / NAVIGATION RAIL -->
-                <aside class="w-full md:w-20 bg-[#07080E] border-b md:border-b-0 md:border-r border-white/5 p-4 flex md:flex-col items-center justify-between gap-6 shrink-0">
-                    
-                    <!-- Top Logo Squircle (DashFlow Sparkle Star) -->
-                    <div class="w-11 h-11 rounded-2xl bg-brand-300 text-[#090314] flex items-center justify-center font-bold shadow-lg shadow-brand-400/25">
-                        <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M12 2L14.4 9.6L22 12L14.4 14.4L12 22L9.6 14.4L2 12L9.6 9.6L12 2Z"/>
-                        </svg>
-                    </div>
-
-                    <!-- Middle Icon Stack (DashFlow Vertical Nav) -->
-                    <div class="flex md:flex-col items-center gap-3">
-                        <!-- Home Icon -->
-                        <button class="w-10 h-10 rounded-xl text-slate-400 hover:text-white hover:bg-white/5 flex items-center justify-center transition" title="Home">
-                            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-                                <polyline points="9 22 9 12 15 12 15 22"></polyline>
-                            </svg>
-                        </button>
-                        <!-- Active Sentinel Pill (DashFlow Active Item) -->
-                        <button class="w-10 h-10 rounded-xl bg-white/10 text-white flex items-center justify-center border border-white/10 transition shadow-inner" title="Sentinel Monitor">
-                            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <rect x="3" y="3" width="7" height="7"></rect>
-                                <rect x="14" y="3" width="7" height="7"></rect>
-                                <rect x="14" y="14" width="7" height="7"></rect>
-                                <rect x="3" y="14" width="7" height="7"></rect>
-                            </svg>
-                        </button>
-                        <!-- Topology / Nodes Icon -->
-                        <button class="w-10 h-10 rounded-xl text-slate-400 hover:text-white hover:bg-white/5 flex items-center justify-center transition" title="5-Node Topology">
-                            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <circle cx="18" cy="5" r="3"></circle>
-                                <circle cx="6" cy="12" r="3"></circle>
-                                <circle cx="18" cy="19" r="3"></circle>
-                                <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
-                                <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
-                            </svg>
-                        </button>
-                        <!-- Integration / Link Icon -->
-                        <button class="w-10 h-10 rounded-xl text-slate-400 hover:text-white hover:bg-white/5 flex items-center justify-center transition" title="Integrations & API">
-                            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
-                                <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
-                            </svg>
-                        </button>
-                        <!-- Globe / Jurisdictions Icon -->
-                        <button class="w-10 h-10 rounded-xl text-slate-400 hover:text-white hover:bg-white/5 flex items-center justify-center transition" title="Regulatory Jurisdictions">
-                            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <!-- Radar Top Telemetry Rail -->
+                <div class="flex flex-wrap items-center justify-between gap-4 pb-6 border-b border-white/10">
+                    <div class="flex items-center gap-3">
+                        <div class="w-8 h-8 rounded-xl bg-brand-500/20 text-brand-300 border border-brand-500/40 flex items-center justify-center font-bold">
+                            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                                 <circle cx="12" cy="12" r="10"></circle>
-                                <line x1="2" y1="12" x2="22" y2="12"></line>
-                                <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+                                <path d="m4.93 4.93 4.24 4.24"></path>
+                                <path d="m14.83 9.17 4.24-4.24"></path>
+                                <path d="m14.83 14.83 4.24 4.24"></path>
+                                <path d="m9.17 14.83-4.24 4.24"></path>
                             </svg>
-                        </button>
-                        <!-- Options Icon -->
-                        <button class="w-10 h-10 rounded-xl text-slate-400 hover:text-white hover:bg-white/5 flex items-center justify-center transition" title="More Options">
-                            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <circle cx="12" cy="12" r="1"></circle>
-                                <circle cx="19" cy="12" r="1"></circle>
-                                <circle cx="5" cy="12" r="1"></circle>
-                            </svg>
-                        </button>
-                    </div>
-
-                    <!-- Bottom Stack (DashFlow Utility Stack) -->
-                    <div class="hidden md:flex flex-col items-center gap-3 pt-4 border-t border-white/5">
-                        <button class="w-10 h-10 rounded-xl text-slate-400 hover:text-white hover:bg-white/5 flex items-center justify-center transition" title="Split Layout">
-                            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
-                                <line x1="9" y1="3" x2="9" y2="21"></line>
-                            </svg>
-                        </button>
-                        <button class="w-10 h-10 rounded-xl text-slate-400 hover:text-white hover:bg-white/5 flex items-center justify-center transition" title="Documentation">
-                            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <circle cx="12" cy="12" r="10"></circle>
-                                <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
-                                <line x1="12" y1="17" x2="12.01" y2="17"></line>
-                            </svg>
-                        </button>
-                        <button onclick="resetDemo()" class="w-10 h-10 rounded-xl text-slate-400 hover:text-white hover:bg-white/5 flex items-center justify-center transition" title="Reset Demo Simulation">
-                            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"></path>
-                                <path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"></path>
-                            </svg>
-                        </button>
-                    </div>
-                </aside>
-
-                <!-- MAIN WORKSPACE -->
-                <main class="flex-1 p-6 lg:p-8 space-y-6">
-                    
-                    <!-- COMPONENT 2: TOP BAR (Brand + Search + Notifications + User Profile) -->
-                    <div class="flex flex-wrap items-center justify-between gap-4 pb-6 border-b border-white/5">
-                        
-                        <!-- Left Brand -->
-                        <div class="flex items-center gap-2.5">
-                            <div class="w-7 h-7 rounded-lg bg-brand-500/20 text-brand-300 border border-brand-500/40 flex items-center justify-center">
-                                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-                                </svg>
-                            </div>
-                            <span class="font-extrabold text-white text-base tracking-tight">UNBUNDLE</span>
                         </div>
-
-                        <!-- Right Actions (DashFlow circular search, bell, and profile) -->
-                        <div class="flex items-center gap-3">
-                            <button class="w-9 h-9 rounded-full bg-white/5 border border-white/10 text-slate-300 hover:text-white flex items-center justify-center transition" title="Search Telemetry">
-                                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <circle cx="11" cy="11" r="8"></circle>
-                                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-                                </svg>
-                            </button>
-                            
-                            <button class="w-9 h-9 rounded-full bg-white/5 border border-white/10 text-slate-300 hover:text-white flex items-center justify-center transition relative" title="Notifications">
-                                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
-                                    <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
-                                </svg>
-                                <span class="w-2 h-2 rounded-full bg-brand-400 absolute top-2 right-2 border border-[#0B0D14]"></span>
-                            </button>
-
-                            <!-- Member Profile Card (DashFlow Profile Style) -->
-                            <div class="flex items-center gap-2.5 pl-2 border-l border-white/10">
-                                <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-brand-600 to-brand-400 border border-brand-300/40 flex items-center justify-center text-xs font-bold text-white shadow-sm">
-                                    ER
-                                </div>
-                                <div class="hidden sm:block text-left">
-                                    <div class="text-white font-bold text-xs flex items-center gap-1">
-                                        <span>Eleanor Rigby</span>
-                                        <svg class="w-3 h-3 text-slate-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                            <polyline points="6 9 12 15 18 9"></polyline>
-                                        </svg>
-                                    </div>
-                                    <div class="text-[10px] text-slate-400 font-mono">UHC Insured</div>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-
-                    <!-- COMPONENT 2 (CONT): TITLE & ACTION ROW (With DashFlow Inline Badge & Pale Button) -->
-                    <div class="flex flex-wrap items-center justify-between gap-4 pt-1">
                         <div>
-                            <h2 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight leading-snug flex flex-wrap items-center gap-x-2">
-                                <span>Autonomous</span>
-                                <span class="inline-flex items-center justify-center w-7 h-7 rounded-full bg-brand-500/20 text-brand-300 border border-brand-500/40 shadow-sm">
-                                    <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-                                    </svg>
-                                </span>
-                                <span>Medical Defense</span>
-                                <span class="text-slate-300 font-medium">and Intelligent EOB Workflows</span>
-                            </h2>
-                        </div>
-                        <div class="flex items-center gap-3">
-                            <button onclick="resetDemo()" class="w-11 h-11 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-slate-300 hover:text-white flex items-center justify-center transition" title="Settings">
-                                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <circle cx="12" cy="12" r="3"></circle>
-                                    <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
-                                </svg>
-                            </button>
-                            <a href="#claim-lines-tbody" class="px-5 py-3 rounded-xl bg-brand-300 hover:bg-white text-[#090314] font-bold text-xs uppercase tracking-wider transition shadow-lg shadow-brand-400/20 flex items-center gap-2">
-                                <span>+ Run Statutory Audit</span>
-                            </a>
+                            <div class="text-white font-extrabold text-sm tracking-tight flex items-center gap-2">
+                                <span>SENTINEL FLIGHT SECTOR ALPHA</span>
+                                <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-brand-950 border border-brand-700 text-brand-300 font-bold uppercase">LIVE SCAN</span>
+                            </div>
+                            <div class="text-[11px] text-slate-400 font-mono">Telemetry: CMS NCCI v31.0 • Federal Rule Engine • 0.3s Query Speed</div>
                         </div>
                     </div>
 
-                    <!-- COMPONENT 3: HORIZONTAL SUB-TABS (DashFlow Tab Strip) -->
-                    <div class="flex items-center gap-6 overflow-x-auto text-xs font-medium border-b border-white/5 pb-2 text-slate-400">
-                        <button class="text-white font-bold pb-2.5 border-b-2 border-brand-400 whitespace-nowrap">
-                            Active Adjudication
-                        </button>
-                        <button class="hover:text-white pb-2.5 whitespace-nowrap transition">Silence Ledger</button>
-                        <button class="hover:text-white pb-2.5 whitespace-nowrap transition">CMS NCCI Tables</button>
-                        <button class="hover:text-white pb-2.5 whitespace-nowrap transition">AWS Cedar Gate</button>
-                        <button class="hover:text-white pb-2.5 whitespace-nowrap transition">ERISA § 503 Clock</button>
-                        <button class="hover:text-white pb-2.5 whitespace-nowrap transition">Bug Story Quarantines</button>
-                    </div>
+                    <!-- Direct Launch CTA into Dedicated Tab -->
+                    <a href="/console" target="_blank" class="px-5 py-2.5 rounded-full bg-brand-300 hover:bg-white text-[#090314] font-bold text-xs uppercase tracking-wider transition shadow-lg shadow-brand-400/25 flex items-center gap-2 group cursor-pointer">
+                        <span>Launch Full Console (New Tab)</span>
+                        <svg class="w-3.5 h-3.5 text-[#090314] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform duration-200" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="7" y1="17" x2="17" y2="7"></line>
+                            <polyline points="7 7 17 7 17 17"></polyline>
+                        </svg>
+                    </a>
+                </div>
 
-                    <!-- COMPONENT 4: TIER 1 BENTO METRIC CARDS (3 Cards from DashFlow) -->
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- BATTLEFIELD ILLUSTRATION: THE DYNAMIC RADAR SWEEP & 4 ORBITING INTERCEPT PODS -->
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                    
+                    <!-- Left Satellite Column (2 Pods) -->
+                    <div class="lg:col-span-3 space-y-4 order-2 lg:order-1">
                         
-                        <!-- Card 1: Operations / Excision Metric with 7-Bar Histogram -->
-                        <div class="p-6 rounded-2xl bg-[#0F1118] border border-white/5 space-y-4">
+                        <!-- Intercept Pod 1 -->
+                        <div class="p-5 rounded-2xl bg-[#0F111A] border border-brand-500/30 shadow-lg shadow-purple-950/40 space-y-2.5 transition hover:border-brand-400">
                             <div class="flex items-center justify-between">
-                                <div class="w-9 h-9 rounded-xl bg-brand-500/20 text-brand-300 flex items-center justify-center">
-                                    <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                        <circle cx="12" cy="12" r="3"></circle>
-                                        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
-                                    </svg>
-                                </div>
-                                <span class="text-[10px] font-mono tracking-widest uppercase text-slate-400 font-bold">OPERATIONS</span>
-                            </div>
-                            
-                            <div class="flex items-baseline justify-between">
-                                <div>
-                                    <div class="text-3xl font-extrabold text-white font-mono">$3,620<span class="text-sm text-slate-400 font-normal"> / $4,280</span></div>
-                                </div>
-                                <span class="px-2.5 py-1 rounded-full bg-brand-950 border border-brand-700/60 text-brand-300 text-xs font-mono font-bold">
-                                    +84.5%
+                                <span class="px-2 py-0.5 rounded bg-brand-950 text-brand-300 border border-brand-700/80 text-[10px] font-mono font-bold uppercase">
+                                    INTERCEPT #1
                                 </span>
+                                <span class="text-[10px] font-mono text-slate-400 font-semibold">0.04s</span>
                             </div>
-
-                            <!-- DashFlow Mini Histogram: 7 bars, 1 tall glowing violet bar -->
-                            <div class="flex items-end gap-2 h-8 pt-2">
-                                <div class="flex-1 bg-white/10 rounded-sm h-3"></div>
-                                <div class="flex-1 bg-white/10 rounded-sm h-4"></div>
-                                <div class="flex-1 bg-brand-300 rounded-sm h-8 shadow-md shadow-brand-400/40"></div>
-                                <div class="flex-1 bg-white/10 rounded-sm h-3.5"></div>
-                                <div class="flex-1 bg-white/10 rounded-sm h-2"></div>
-                                <div class="flex-1 bg-white/10 rounded-sm h-4.5"></div>
-                                <div class="flex-1 bg-white/10 rounded-sm h-2.5"></div>
+                            <h4 class="text-xs font-bold text-white tracking-tight">CPT 80048 vs 80053 Unbundling</h4>
+                            <p class="text-[11px] text-slate-300 leading-relaxed">
+                                Mutually exclusive Basic vs Comprehensive metabolic panel stripped. Full $190.00 zeroed before billing.
+                            </p>
+                            <div class="pt-1 text-[11px] font-mono font-bold text-brand-300 flex items-center justify-between border-t border-white/5">
+                                <span>Recovered Liability</span>
+                                <span>+$190.00</span>
                             </div>
                         </div>
 
-                        <!-- Card 2: Data Transfer / Statutory Clock with Horizontal Progress Bar -->
-                        <div class="p-6 rounded-2xl bg-[#0F1118] border border-white/5 space-y-4">
+                        <!-- Intercept Pod 2 -->
+                        <div class="p-5 rounded-2xl bg-[#0F111A] border border-white/10 shadow-lg space-y-2.5 transition hover:border-brand-400">
                             <div class="flex items-center justify-between">
-                                <div class="w-9 h-9 rounded-xl bg-brand-500/20 text-brand-300 flex items-center justify-center">
-                                    <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                        <path d="M8 3 4 7l4 4"></path>
-                                        <path d="M4 7h16"></path>
-                                        <path d="m16 21 4-4-4-4"></path>
-                                        <path d="M20 17H4"></path>
-                                    </svg>
-                                </div>
-                                <span class="text-[10px] font-mono tracking-widest uppercase text-slate-400 font-bold">DATA TRANSFER</span>
-                            </div>
-
-                            <div class="flex items-baseline justify-between">
-                                <div>
-                                    <div class="text-3xl font-extrabold text-white font-mono">30<span class="text-lg text-slate-400 font-normal"> DAYS</span></div>
-                                </div>
-                                <span class="px-2.5 py-0.5 rounded-full bg-white/10 text-xs font-mono font-medium text-slate-300">
-                                    Statutory
+                                <span class="px-2 py-0.5 rounded bg-white/5 text-slate-300 border border-white/10 text-[10px] font-mono font-bold uppercase">
+                                    INTERCEPT #2
                                 </span>
+                                <span class="text-[10px] font-mono text-slate-400 font-semibold">0.08s</span>
                             </div>
-
-                            <!-- DashFlow Progress Track and Used/Total Labels -->
-                            <div class="space-y-2 pt-2">
-                                <div class="w-full bg-white/10 rounded-full h-1.5 overflow-hidden">
-                                    <div class="bg-brand-300 h-full rounded-full w-[45%]"></div>
-                                </div>
-                                <div class="flex justify-between text-[10px] text-slate-400 font-mono">
-                                    <span>Elapsed: Day 0</span>
-                                    <span>Statutory: Day 30</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Card 3: AI Promo Card with Radiant Purple Ambient Wave -->
-                        <div class="p-6 rounded-2xl bg-gradient-to-br from-[#121422] via-[#0E101A] to-purple-900/40 border border-brand-800/40 flex flex-col justify-between relative overflow-hidden group">
-                            <!-- Glowing Aura Corner -->
-                            <div class="absolute -bottom-10 -right-10 w-36 h-36 bg-brand-500/30 blur-2xl rounded-full pointer-events-none"></div>
-
-                            <div>
-                                <span class="px-2.5 py-0.5 rounded-full bg-brand-950/80 border border-brand-700 text-brand-300 text-[10px] font-mono font-bold inline-flex items-center gap-1.5">
-                                    <svg class="w-3 h-3 text-brand-300" viewBox="0 0 24 24" fill="currentColor">
-                                        <path d="M12 2L14.4 9.6L22 12L14.4 14.4L12 22L9.6 14.4L2 12L9.6 9.6L12 2Z"/>
-                                    </svg>
-                                    <span>AI FEATURES</span>
-                                </span>
-                                <h4 class="text-base font-bold text-white mt-3 leading-snug">
-                                    Automate defense with<br>Cedar &amp; NCCI
-                                </h4>
-                            </div>
-                            <div class="pt-4 z-10">
-                                <a href="#annunciator-banner" class="px-4 py-2 rounded-xl bg-brand-300 hover:bg-white text-[#090314] font-bold text-xs transition inline-flex items-center gap-1.5 shadow-md">
-                                    <span>Verify Policy Gate</span>
-                                    <span>&rarr;</span>
-                                </a>
+                            <h4 class="text-xs font-bold text-white tracking-tight">Fictitious Modifier -59 Stripped</h4>
+                            <p class="text-[11px] text-slate-300 leading-relaxed">
+                                Hospital unbundling bot appended distinct-procedural modifier. Sentinel verified shared incision and invalidated surcharge.
+                            </p>
+                            <div class="pt-1 text-[11px] font-mono font-bold text-brand-300 flex items-center justify-between border-t border-white/5">
+                                <span>Recovered Liability</span>
+                                <span>+$410.00</span>
                             </div>
                         </div>
 
                     </div>
 
-                    <!-- COMPONENT 5 & 6: LOWER SECTION SPLIT (Left ~68%, Right ~32%) -->
-                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 pt-2">
+                    <!-- Center Radar Arena & 3D Holographic Interceptor (6 Cols) -->
+                    <div class="lg:col-span-6 flex flex-col items-center justify-center order-1 lg:order-2">
                         
-                        <!-- COMPONENT 5: LOWER-LEFT PERFORMANCE ANALYTICS & FORENSIC COLLISION INSPECTOR (2 Cols) -->
-                        <div class="lg:col-span-2 space-y-6">
+                        <!-- Radar Scanner Circle Container -->
+                        <div class="relative w-[300px] h-[300px] sm:w-[400px] sm:h-[400px] rounded-full bg-[#07080E] border border-brand-500/20 flex items-center justify-center shadow-[inset_0_0_80px_rgba(124,58,237,0.15)]">
                             
-                            <!-- Performance Analytics Panel with 7-Day Dashed Columns -->
-                            <div class="rounded-2xl border border-white/5 bg-[#0F1118] p-6 space-y-6">
-                                
-                                <!-- Header Row: Bar chart icon + Title + Legend + Capsule Toggle -->
-                                <div class="flex flex-wrap items-center justify-between gap-4">
-                                    <div class="flex items-center gap-3">
-                                        <div class="w-8 h-8 rounded-lg bg-brand-500/20 text-brand-300 flex items-center justify-center">
-                                            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                                <line x1="18" y1="20" x2="18" y2="10"></line>
-                                                <line x1="12" y1="20" x2="12" y2="4"></line>
-                                                <line x1="6" y1="20" x2="6" y2="14"></line>
-                                            </svg>
-                                        </div>
-                                        <div>
-                                            <h3 class="font-bold text-white text-base tracking-tight">Performance Analytics</h3>
-                                            <div class="flex items-center gap-4 text-[11px] text-slate-400 mt-0.5">
-                                                <span class="flex items-center gap-1.5">
-                                                    <span class="w-2 h-2 rounded-full bg-brand-400"></span>
-                                                    <span>Operations ($4,280 Billed)</span>
-                                                </span>
-                                                <span class="flex items-center gap-1.5">
-                                                    <span class="w-2 h-2 rounded-full bg-brand-200"></span>
-                                                    <span>Data transfer ($660 Lawful)</span>
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </div>
+                            <!-- Outer Orbit Ring -->
+                            <div class="absolute inset-4 rounded-full border border-dashed border-brand-400/20 animate-spin [animation-duration:80s]"></div>
+                            
+                            <!-- Mid Range Orbit Ring -->
+                            <div class="absolute inset-14 rounded-full border border-brand-400/25 animate-radar-pulse"></div>
+                            
+                            <!-- Inner Core Ring -->
+                            <div class="absolute inset-28 rounded-full border border-brand-300/35"></div>
 
-                                    <!-- DashFlow Weekly / Monthly Capsule Toggle -->
-                                    <div class="bg-white/5 border border-white/10 p-1 rounded-full text-xs flex items-center">
-                                        <button class="bg-white/15 text-white font-semibold px-3 py-1 rounded-full">Weekly</button>
-                                        <button class="text-slate-400 hover:text-white px-3 py-1 transition">Monthly</button>
-                                    </div>
-                                </div>
-
-                                <!-- DashFlow 7-Day Dashed Column Bar Chart -->
-                                <div class="pt-6 pb-2">
-                                    <div class="grid grid-cols-7 gap-3 sm:gap-4 h-48 items-end">
-                                        
-                                        <!-- Mon (Col 1) -->
-                                        <div class="flex flex-col items-center h-full justify-end group">
-                                            <div class="w-full h-40 border border-dashed border-white/15 rounded-2xl flex flex-col justify-end p-1.5 bg-white/[0.02]">
-                                                <div class="w-full bg-white/10 rounded-xl h-[40%] flex flex-col justify-end p-1">
-                                                    <div class="w-full bg-brand-300/60 rounded-lg h-[60%]"></div>
-                                                </div>
-                                            </div>
-                                            <span class="text-[10px] font-mono text-slate-400 uppercase font-semibold mt-2">MON</span>
-                                        </div>
-
-                                        <!-- Tue (Col 2) -->
-                                        <div class="flex flex-col items-center h-full justify-end group">
-                                            <div class="w-full h-40 border border-dashed border-white/15 rounded-2xl flex flex-col justify-end p-1.5 bg-white/[0.02]">
-                                                <div class="w-full bg-white/10 rounded-xl h-[32%] flex flex-col justify-end p-1">
-                                                    <div class="w-full bg-brand-300/60 rounded-lg h-[50%]"></div>
-                                                </div>
-                                            </div>
-                                            <span class="text-[10px] font-mono text-slate-400 uppercase font-semibold mt-2">TUE</span>
-                                        </div>
-
-                                        <!-- Wed (Col 3) -->
-                                        <div class="flex flex-col items-center h-full justify-end group">
-                                            <div class="w-full h-40 border border-dashed border-white/15 rounded-2xl flex flex-col justify-end p-1.5 bg-white/[0.02]">
-                                                <div class="w-full bg-white/10 rounded-xl h-[58%] flex flex-col justify-end p-1">
-                                                    <div class="w-full bg-brand-300/80 rounded-lg h-[65%]"></div>
-                                                </div>
-                                            </div>
-                                            <span class="text-[10px] font-mono text-slate-400 uppercase font-semibold mt-2">WED</span>
-                                        </div>
-
-                                        <!-- Thu (Col 4 - Routine Clean Slot) -->
-                                        <div class="flex flex-col items-center h-full justify-end group">
-                                            <div class="w-full h-40 border border-dashed border-white/15 rounded-2xl flex flex-col justify-end p-1.5 bg-white/[0.02]">
-                                                <!-- Clean empty track -->
-                                            </div>
-                                            <span class="text-[10px] font-mono text-slate-400 uppercase font-semibold mt-2">THU</span>
-                                        </div>
-
-                                        <!-- Fri (Col 5 - Active Encounter with 98% Tooltip from DashFlow) -->
-                                        <div class="flex flex-col items-center h-full justify-end relative">
-                                            <!-- Floating Tooltip Pill -->
-                                            <div class="absolute -top-3.5 px-2 py-0.5 rounded-full bg-brand-500 text-white font-mono text-[9px] font-bold shadow-md shadow-brand-500/50 z-10">
-                                                98%
-                                            </div>
-                                            <div class="w-full h-40 border border-brand-500/40 rounded-2xl flex flex-col justify-end p-1.5 bg-brand-950/20 shadow-lg shadow-purple-950/40">
-                                                <div class="w-full bg-brand-900/40 rounded-xl h-[95%] flex flex-col justify-end p-1">
-                                                    <div class="w-full bg-brand-300 rounded-lg h-[68%] shadow-md shadow-brand-400/50"></div>
-                                                </div>
-                                            </div>
-                                            <span class="text-[10px] font-mono text-white uppercase font-bold mt-2">FRI</span>
-                                        </div>
-
-                                        <!-- Sat (Col 6 - With 67% Tooltip from DashFlow) -->
-                                        <div class="flex flex-col items-center h-full justify-end relative">
-                                            <div class="absolute top-14 px-2 py-0.5 rounded-full bg-brand-500 text-white font-mono text-[9px] font-bold shadow-md shadow-brand-500/50 z-10">
-                                                67%
-                                            </div>
-                                            <div class="w-full h-40 border border-dashed border-white/15 rounded-2xl flex flex-col justify-end p-1.5 bg-white/[0.02]">
-                                                <!-- Empty track with active indicator -->
-                                            </div>
-                                            <span class="text-[10px] font-mono text-slate-400 uppercase font-semibold mt-2">SAT</span>
-                                        </div>
-
-                                        <!-- Sun (Col 7) -->
-                                        <div class="flex flex-col items-center h-full justify-end group">
-                                            <div class="w-full h-40 border border-dashed border-white/15 rounded-2xl flex flex-col justify-end p-1.5 bg-white/[0.02]">
-                                                <!-- Clean empty track -->
-                                            </div>
-                                            <span class="text-[10px] font-mono text-slate-400 uppercase font-semibold mt-2">SUN</span>
-                                        </div>
-
-                                    </div>
-                                </div>
-
+                            <!-- Crosshair Coordinates -->
+                            <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+                                <div class="w-full h-px bg-brand-500/20"></div>
+                                <div class="h-full w-px bg-brand-500/20 absolute"></div>
                             </div>
 
-                            <!-- GPWS Annunciator Banner -->
-                            <div id="annunciator-banner" class="rounded-2xl border-2 border-brand-500/70 bg-brand-950/60 p-6 shadow-2xl shadow-purple-950/60">
-                                <div class="flex flex-wrap items-start justify-between gap-6">
-                                    <div class="space-y-2">
-                                        <div class="flex items-center gap-2">
-                                            <span class="px-3 py-1 bg-brand-600 text-white font-mono font-bold text-xs rounded tracking-wider uppercase">
-                                                PULL UP // DISCREPANCY INTERCEPTED
-                                            </span>
-                                            <span class="text-xs text-brand-300 font-mono">CMS NCCI INDICATOR 0 VIOLATION</span>
-                                        </div>
-                                        <h3 class="text-xl sm:text-2xl font-extrabold text-white">
-                                            $190.00 Unbundled Charge on Claim #CLM-2026-NY-8912
-                                        </h3>
-                                        <p class="text-xs text-slate-300">
-                                            Memorial Regional Health billed <span class="text-brand-300 font-semibold">Basic Metabolic Panel (CPT 80048)</span> alongside mutually inclusive <span class="text-white font-semibold">Comprehensive Metabolic Panel (CPT 80053)</span>.
-                                        </p>
-                                    </div>
-                                    <div class="text-left sm:text-right">
-                                        <div class="text-xs text-slate-400 uppercase tracking-wide">Excised by Sentinel</div>
-                                        <div class="text-3xl font-extrabold text-white font-mono">$190.00</div>
-                                        <div class="text-xs text-brand-300 mt-0.5 font-semibold">Revised Lawful: $0.00</div>
-                                    </div>
-                                </div>
+                            <!-- Rotating Radar Sweep Cone -->
+                            <div class="absolute inset-0 rounded-full animate-radar-sweep pointer-events-none" style="background: conic-gradient(from 0deg, rgba(168, 85, 247, 0.3) 0deg, rgba(124, 58, 237, 0.05) 45deg, transparent 65deg);"></div>
 
-                                <!-- Action & Cedar Lock Row -->
-                                <div class="mt-6 pt-4 border-t border-brand-900/80 flex flex-wrap items-center justify-between gap-4">
-                                    <div class="flex items-center gap-3 text-xs">
-                                        <div class="p-2 rounded bg-obsidian border border-brand-900 text-slate-300">
-                                            <span class="text-slate-400">Cedar Policy:</span>
-                                            <code class="text-brand-300 ml-1 font-mono">forbid dispatch unless token_valid</code>
-                                        </div>
-                                        <div id="cedar-gate-indicator" class="font-mono text-brand-300 flex items-center gap-1.5 font-semibold">
-                                            <svg class="w-3.5 h-3.5 text-brand-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                                                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
-                                                <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
-                                            </svg>
-                                            <span>EXPLICIT DENY: Awaiting Patient Key</span>
-                                        </div>
-                                    </div>
-
-                                    <div id="action-container">
-                                        <button id="approve-btn" onclick="approveAndDispatch()" class="px-6 py-3 bg-gradient-to-r from-brand-600 to-purple-500 hover:from-brand-500 hover:to-purple-400 text-white font-bold rounded-xl shadow-lg shadow-purple-950/60 font-mono text-xs flex items-center gap-2 transition active:scale-95">
-                                            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                                                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
-                                                <polyline points="22 4 12 14.01 9 11.01"></polyline>
-                                            </svg>
-                                            <span>1-TAP APPROVE & DISPATCH ERISA § 503 APPEAL</span>
-                                        </button>
-                                    </div>
-                                </div>
+                            <!-- Target Blip 1 (Active CPT Intercept) -->
+                            <div class="absolute top-16 left-20 flex items-center gap-1.5 animate-blip-glow">
+                                <div class="w-2.5 h-2.5 rounded-full bg-brand-300 shadow-[0_0_12px_#D8B4FE]"></div>
+                                <span class="text-[9px] font-mono text-brand-300 font-bold bg-black/80 px-1.5 py-0.5 rounded border border-brand-500/40">CPT 80048</span>
                             </div>
 
-                            <!-- Post-Dispatch Clock Card (Hidden until dispatch) -->
-                            <div id="statutory-clock-card" class="hidden rounded-2xl border border-brand-700 bg-brand-950/40 p-6 space-y-4">
-                                <div class="flex items-center justify-between border-b border-brand-900 pb-3">
-                                    <div class="flex items-center gap-2.5">
-                                        <span class="w-2.5 h-2.5 rounded-full bg-brand-400 animate-ping"></span>
-                                        <h4 class="font-bold text-white text-sm">ERISA § 503 Statutory Clock Active</h4>
-                                    </div>
-                                    <span class="text-xs font-mono px-2 py-0.5 rounded bg-brand-900 text-brand-200 border border-brand-700">
-                                        29 CFR § 2560.503-1
-                                    </span>
-                                </div>
-
-                                <div class="grid grid-cols-3 gap-4">
-                                    <div class="bg-[#0A0C13] p-3 rounded-xl border border-brand-900/60">
-                                        <div class="text-[11px] text-slate-400">Statutory Window</div>
-                                        <div class="text-xl font-bold font-mono text-white mt-1">30 Days</div>
-                                    </div>
-                                    <div class="bg-[#0A0C13] p-3 rounded-xl border border-brand-900/60">
-                                        <div class="text-[11px] text-slate-400">Days Remaining</div>
-                                        <div class="text-xl font-bold font-mono text-brand-300 mt-1" id="clock-days-remaining">30</div>
-                                    </div>
-                                    <div class="bg-[#0A0C13] p-3 rounded-xl border border-brand-900/60">
-                                        <div class="text-[11px] text-slate-400">Current Status</div>
-                                        <div class="text-xs font-bold font-mono text-white mt-1.5" id="clock-state">PENDING_PAYOR</div>
-                                    </div>
-                                </div>
-
-                                <div class="bg-[#0A0C13] p-3 rounded-xl border border-brand-900/60 text-xs">
-                                    <span class="text-slate-400 font-semibold">Statutory Next Action: </span>
-                                    <span class="text-white font-mono" id="clock-next-action">Monitoring payor clearinghouse. 30 calendar days remaining.</span>
-                                </div>
+                            <!-- Target Blip 2 (Modifier Intercept) -->
+                            <div class="absolute bottom-20 right-16 flex items-center gap-1.5 animate-blip-glow [animation-delay:1.2s]">
+                                <div class="w-2.5 h-2.5 rounded-full bg-brand-300 shadow-[0_0_12px_#D8B4FE]"></div>
+                                <span class="text-[9px] font-mono text-brand-300 font-bold bg-black/80 px-1.5 py-0.5 rounded border border-brand-500/40">MOD -59</span>
                             </div>
 
-                            <!-- Live Claim Table -->
-                            <div class="rounded-2xl border border-white/5 bg-[#0F1118] p-6 space-y-4">
-                                <div class="flex items-center justify-between border-b border-white/5 pb-3">
-                                    <div>
-                                        <h4 class="font-bold text-white text-sm">Adjudicated EOB Line Items</h4>
-                                        <div class="text-[11px] text-slate-400">Parsed from unvarnished Memorial Regional Health text export</div>
-                                    </div>
-                                    <span class="text-xs font-mono text-brand-300 bg-brand-950 border border-brand-700 px-2.5 py-0.5 rounded-full font-semibold">
-                                        Verified via SQLite NCCI
-                                    </span>
-                                </div>
-
-                                <div class="overflow-x-auto">
-                                    <table class="w-full text-left text-xs border-collapse font-mono">
-                                        <thead>
-                                            <tr class="border-b border-white/5 text-slate-400">
-                                                <th class="py-2 px-3">LN</th>
-                                                <th class="py-2 px-3">CPT</th>
-                                                <th class="py-2 px-3">Description</th>
-                                                <th class="py-2 px-3 text-right">Billed</th>
-                                                <th class="py-2 px-3 text-right">Patient Resp</th>
-                                                <th class="py-2 px-3">Sentinel Finding</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody id="claim-lines-tbody" class="divide-y divide-white/5">
-                                            <!-- Populated via JS -->
-                                        </tbody>
-                                    </table>
+                            <!-- Central 3D Interceptor Hologram -->
+                            <div class="relative z-10 flex flex-col items-center">
+                                <div class="absolute w-40 h-40 rounded-full bg-brand-500/25 blur-2xl pointer-events-none"></div>
+                                <img src="/static/images/shield_interceptor.png" alt="UNBUNDLE Interceptor" class="w-36 sm:w-44 relative z-10 drop-shadow-[0_15px_30px_rgba(124,58,237,0.5)] animate-float-interceptor">
+                                <div class="relative z-10 mt-2 px-3.5 py-1 rounded-full bg-obsidian border border-brand-400 text-white font-mono text-[10px] font-bold tracking-wider shadow-lg flex items-center gap-1.5">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-brand-400 animate-ping"></span>
+                                    <span>LOCK ENGAGED: NCCI PTP</span>
                                 </div>
                             </div>
 
                         </div>
 
-                        <!-- COMPONENT 6: LOWER-RIGHT RESOURCES & ACTIONS COLUMN (DashFlow Style) -->
-                        <div class="space-y-6">
-                            
-                            <!-- Resources Header & 3 Action Cards (DashFlow Style) -->
-                            <div class="space-y-3">
-                                <h3 class="font-bold text-white text-base tracking-tight">Resources</h3>
-                                
-                                <div class="space-y-2.5">
-                                    <!-- Row 1: Patient Key Signer -->
-                                    <div class="p-3.5 rounded-2xl bg-[#0F1118] border border-white/5 flex items-center justify-between hover:border-white/15 transition cursor-pointer group">
-                                        <div class="flex items-center gap-3">
-                                            <div class="w-10 h-10 rounded-xl bg-brand-600/30 text-brand-300 flex items-center justify-center">
-                                                <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                                    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
-                                                </svg>
-                                            </div>
-                                            <div>
-                                                <div class="text-white font-bold text-xs group-hover:text-brand-300 transition">Patient Signature Gate</div>
-                                                <div class="text-slate-400 text-[11px]">Cryptographic token verification</div>
-                                            </div>
-                                        </div>
-                                        <svg class="w-4 h-4 text-slate-400 group-hover:text-white group-hover:translate-x-0.5 transition" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                            <polyline points="9 18 15 12 9 6"></polyline>
-                                        </svg>
-                                    </div>
-
-                                    <!-- Row 2: State DOI Escalation -->
-                                    <div class="p-3.5 rounded-2xl bg-[#0F1118] border border-white/5 flex items-center justify-between hover:border-white/15 transition cursor-pointer group">
-                                        <div class="flex items-center gap-3">
-                                            <div class="w-10 h-10 rounded-xl bg-brand-500/20 text-brand-300 flex items-center justify-center">
-                                                <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                                    <path d="M22 10v6M2 10l10-5 10 5-10 5z"></path>
-                                                    <path d="M6 12v5c3 3 9 3 12 0v-5"></path>
-                                                </svg>
-                                            </div>
-                                            <div>
-                                                <div class="text-white font-bold text-xs group-hover:text-brand-300 transition">State DOI Escalation</div>
-                                                <div class="text-slate-400 text-[11px]">Insurance commissioner docket</div>
-                                            </div>
-                                        </div>
-                                        <svg class="w-4 h-4 text-slate-400 group-hover:text-white group-hover:translate-x-0.5 transition" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                            <polyline points="9 18 15 12 9 6"></polyline>
-                                        </svg>
-                                    </div>
-
-                                    <!-- Row 3: Statutory 30-Day Tracker -->
-                                    <div class="p-3.5 rounded-2xl bg-[#0F1118] border border-white/5 flex items-center justify-between hover:border-white/15 transition cursor-pointer group">
-                                        <div class="flex items-center gap-3">
-                                            <div class="w-10 h-10 rounded-xl bg-brand-500/20 text-brand-300 flex items-center justify-center">
-                                                <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                                    <circle cx="12" cy="12" r="10"></circle>
-                                                    <polyline points="12 6 12 12 16 14"></polyline>
-                                                </svg>
-                                            </div>
-                                            <div>
-                                                <div class="text-white font-bold text-xs group-hover:text-brand-300 transition">ERISA § 503 Clock</div>
-                                                <div class="text-slate-400 text-[11px]">29 CFR § 2560.503-1 tracker</div>
-                                            </div>
-                                        </div>
-                                        <svg class="w-4 h-4 text-slate-400 group-hover:text-white group-hover:translate-x-0.5 transition" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                            <polyline points="9 18 15 12 9 6"></polyline>
-                                        </svg>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- DashFlow "Latest Update" Style Card (The Bug Story Quarantine) -->
-                            <div class="p-5 rounded-2xl bg-[#0F1118] border border-white/5 space-y-2.5">
-                                <div class="flex items-center justify-between">
-                                    <div class="w-7 h-7 rounded-lg bg-white/5 text-slate-300 flex items-center justify-center">
-                                        <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-                                            <polyline points="14 2 14 8 20 8"></polyline>
-                                            <line x1="16" y1="13" x2="8" y2="13"></line>
-                                            <line x1="16" y1="17" x2="8" y2="17"></line>
-                                            <polyline points="10 9 9 9 8 9"></polyline>
-                                        </svg>
-                                    </div>
-                                    <span class="px-2 py-0.5 rounded bg-brand-950 text-brand-300 border border-brand-700 text-[10px] font-mono font-bold uppercase">
-                                        ACTIVE
-                                    </span>
-                                </div>
-                                <h4 class="text-xs font-bold text-white tracking-tight">Clinical Confidence Quarantine</h4>
-                                <p class="text-[11px] text-slate-400 leading-relaxed">
-                                    Confidence 0.25 &lt; 0.90: 'MISC SURGICAL SUPPLIES' quarantined. Sentinel refused to hallucinate CPT code.
-                                </p>
-                            </div>
-
-                            <!-- Silence Ledger -->
-                            <div class="rounded-2xl border border-white/5 bg-[#0F1118] p-5 space-y-3">
-                                <div class="flex items-center justify-between border-b border-white/5 pb-2.5">
-                                    <div>
-                                        <h4 class="font-bold text-white text-xs">Silence Ledger</h4>
-                                        <div class="text-[10px] text-slate-400">0 User Notifications on Routine Visits</div>
-                                    </div>
-                                    <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-brand-950 text-brand-300 border border-brand-700 font-bold">
-                                        2 CLEAN
-                                    </span>
-                                </div>
-
-                                <div class="space-y-2.5" id="silence-ledger-container">
-                                    <!-- Populated via JS -->
-                                </div>
-                            </div>
-
-                            <!-- Judge Simulator Controls -->
-                            <div class="rounded-2xl border border-white/5 bg-[#0F1118] p-5 space-y-3">
-                                <div class="text-[11px] text-slate-300 font-semibold uppercase tracking-wider font-mono">
-                                    Judge Sandbox Controls
-                                </div>
-                                <div class="space-y-2 text-xs font-mono">
-                                    <button onclick="simulateResponse('OVERTURNED_FULL')" class="w-full px-3 py-2 bg-white/5 hover:bg-white/10 text-white border border-white/10 rounded-xl transition flex items-center justify-between">
-                                        <span>✓ Insurer Concedes</span>
-                                        <span class="text-brand-300">$0 Balance</span>
-                                    </button>
-                                    <button onclick="simulateResponse('UPHELD_DENIAL')" class="w-full px-3 py-2 bg-white/5 hover:bg-white/10 text-white border border-white/10 rounded-xl transition flex items-center justify-between">
-                                        <span>✗ CARC 16 Denial</span>
-                                        <span class="text-brand-300">Auto DOI Docket</span>
-                                    </button>
-                                    <button onclick="simulateResponse('NO_RESPONSE')" class="w-full px-3 py-2 bg-white/5 hover:bg-white/10 text-white border border-white/10 rounded-xl transition flex items-center justify-between">
-                                        <span>⏱ 30 Days Elapse</span>
-                                        <span class="text-brand-300">Deemed Exhausted</span>
-                                    </button>
-                                </div>
-                            </div>
-
-                            <!-- Formal ERISA Packet Preview -->
-                            <div class="rounded-2xl border border-white/5 bg-[#0F1118] p-5 space-y-3">
-                                <div class="flex items-center justify-between border-b border-white/5 pb-2">
-                                    <h4 class="font-bold text-white text-xs">Formal Appeal Dossier</h4>
-                                    <span class="text-[10px] font-mono text-brand-300 font-semibold">29 U.S.C. § 1133</span>
-                                </div>
-                                <div id="packet-status" class="text-xs text-slate-400">
-                                    Awaiting 1-tap human authorization to attach cryptographic signature and emit legal dossier.
-                                </div>
-                                <div id="packet-content" class="hidden">
-                                    <pre class="text-[10px] font-mono bg-obsidian p-3 rounded-xl border border-white/10 text-slate-200 h-44 overflow-y-auto whitespace-pre-wrap" id="packet-text"></pre>
-                                </div>
-                            </div>
-
+                        <!-- Subtitle Status Ticker -->
+                        <div class="mt-6 flex flex-wrap items-center justify-center gap-4 text-xs text-slate-300 font-mono">
+                            <span class="flex items-center gap-1.5">
+                                <span class="w-1.5 h-1.5 rounded-full bg-brand-400"></span>
+                                <span>Scanning: Memorial Regional Health EOB</span>
+                            </span>
+                            <span class="text-slate-500">•</span>
+                            <span class="text-brand-300 font-semibold">1 Interception Completed</span>
                         </div>
 
                     </div>
 
-                </main>
+                    <!-- Right Satellite Column (2 Pods) -->
+                    <div class="lg:col-span-3 space-y-4 order-3">
+                        
+                        <!-- Intercept Pod 3 -->
+                        <div class="p-5 rounded-2xl bg-[#0F111A] border border-white/10 shadow-lg space-y-2.5 transition hover:border-brand-400">
+                            <div class="flex items-center justify-between">
+                                <span class="px-2 py-0.5 rounded bg-white/5 text-slate-300 border border-white/10 text-[10px] font-mono font-bold uppercase">
+                                    INTERCEPT #3
+                                </span>
+                                <span class="text-[10px] font-mono text-slate-400 font-semibold">0.11s</span>
+                            </div>
+                            <h4 class="text-xs font-bold text-white tracking-tight">CARC 16 Cost-Shift Neutralized</h4>
+                            <p class="text-[11px] text-slate-300 leading-relaxed">
+                                Insurer shifted contractual write-off into patient responsibility. Sentinel restored CO-45 write-off classification.
+                            </p>
+                            <div class="pt-1 text-[11px] font-mono font-bold text-brand-300 flex items-center justify-between border-t border-white/5">
+                                <span>Protected Liability</span>
+                                <span>+$840.00</span>
+                            </div>
+                        </div>
+
+                        <!-- Intercept Pod 4 -->
+                        <div class="p-5 rounded-2xl bg-[#0F111A] border border-white/10 shadow-lg space-y-2.5 transition hover:border-brand-400">
+                            <div class="flex items-center justify-between">
+                                <span class="px-2 py-0.5 rounded bg-white/5 text-slate-300 border border-white/10 text-[10px] font-mono font-bold uppercase">
+                                    INTERCEPT #4
+                                </span>
+                                <span class="text-[10px] font-mono text-slate-400 font-semibold">0.02s</span>
+                            </div>
+                            <h4 class="text-xs font-bold text-white tracking-tight">Clinical Confidence Quarantine</h4>
+                            <p class="text-[11px] text-slate-300 leading-relaxed">
+                                Ambiguous note 'MISC SURGICAL SUPPLIES' had confidence 0.25 &lt; 0.90. Quarantined without CPT hallucination.
+                            </p>
+                            <div class="pt-1 text-[11px] font-mono font-bold text-brand-300 flex items-center justify-between border-t border-white/5">
+                                <span>Hallucination Bound</span>
+                                <span>100% Bound</span>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- BOTTOM STATS & DETERMINISTIC RECEIPT STRIP -->
+                <div class="pt-8 border-t border-white/10 grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+                    <div class="p-4 rounded-2xl bg-white/[0.02] border border-white/5">
+                        <div class="text-[10px] font-mono text-slate-400 uppercase font-semibold">Audit Latency</div>
+                        <div class="text-2xl font-extrabold text-white font-mono mt-1">0.30s</div>
+                        <div class="text-[10px] text-brand-300 font-mono mt-0.5">SQLite In-Memory</div>
+                    </div>
+                    <div class="p-4 rounded-2xl bg-white/[0.02] border border-white/5">
+                        <div class="text-[10px] font-mono text-slate-400 uppercase font-semibold">Policy Authority</div>
+                        <div class="text-2xl font-extrabold text-white font-mono mt-1">AWS Cedar</div>
+                        <div class="text-[10px] text-brand-300 font-mono mt-0.5">1-Tap Patient Key</div>
+                    </div>
+                    <div class="p-4 rounded-2xl bg-white/[0.02] border border-white/5">
+                        <div class="text-[10px] font-mono text-slate-400 uppercase font-semibold">Statutory Clock</div>
+                        <div class="text-2xl font-extrabold text-white font-mono mt-1">30 Days</div>
+                        <div class="text-[10px] text-brand-300 font-mono mt-0.5">ERISA § 503 Auto-Run</div>
+                    </div>
+                    <div class="p-4 rounded-2xl bg-white/[0.02] border border-white/5">
+                        <div class="text-[10px] font-mono text-slate-400 uppercase font-semibold">Routine Visits</div>
+                        <div class="text-2xl font-extrabold text-white font-mono mt-1">0 Pings</div>
+                        <div class="text-[10px] text-brand-300 font-mono mt-0.5">Silence Ledger Bound</div>
+                    </div>
+                </div>
+
+                <!-- High Conversion Launch Callout Banner -->
+                <div class="rounded-2xl bg-gradient-to-r from-brand-950 via-purple-950 to-brand-950 border border-brand-500/40 p-6 sm:p-8 flex flex-col sm:flex-row items-center justify-between gap-6">
+                    <div class="space-y-1.5 text-center sm:text-left">
+                        <h3 class="text-base sm:text-lg font-bold text-white">Experience the Adjudication Engine Live</h3>
+                        <p class="text-xs text-slate-300">
+                            Launch the dedicated DashFlow console to evaluate real hospital bills, test the AWS Cedar policy gate, and inspect generated ERISA appeal packets.
+                        </p>
+                    </div>
+                    <a href="/console" target="_blank" class="px-8 py-4 rounded-full bg-white hover:bg-brand-50 text-slate-950 font-bold text-xs uppercase tracking-wider transition shadow-xl shrink-0 flex items-center gap-2 group cursor-pointer">
+                        <span>Launch Dedicated Console</span>
+                        <svg class="w-4 h-4 text-brand-600 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform duration-200" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="7" y1="17" x2="17" y2="7"></line>
+                            <polyline points="7 7 17 7 17 17"></polyline>
+                        </svg>
+                    </a>
+                </div>
 
             </div>
-
-        </div>
-    </section>
 
         </div>
     </section>
@@ -1275,130 +864,20 @@
         </div>
     </footer>
 
-    <!-- Interactive Cockpit Javascript -->
+        <!-- Smooth Scroll Javascript -->
     <script>
-        async function loadData() {
-            const res = await fetch('/api/status');
-            const data = await res.json();
-            renderCockpit(data);
-        }
-
-        function renderCockpit(data) {
-            // Render claim lines
-            const tbody = document.getElementById('claim-lines-tbody');
-            tbody.innerHTML = '';
-            
-            data.active_eob.lines.forEach(line => {
-                const tr = document.createElement('tr');
-                const isViolation = data.audit_result.violations.some(v => v.line_number === line.line_number);
-                tr.className = isViolation ? 'bg-brand-950/60 text-white font-semibold' : 'text-slate-300';
-                
-                tr.innerHTML = `
-                    <td class="py-2.5 px-3">${String(line.line_number).padStart(2, '0')}</td>
-                    <td class="py-2.5 px-3 font-bold text-white">${line.cpt_code}</td>
-                    <td class="py-2.5 px-3 font-sans">${line.description}</td>
-                    <td class="py-2.5 px-3 text-right">$${line.billed_amount.toFixed(2)}</td>
-                    <td class="py-2.5 px-3 text-right ${isViolation ? 'text-brand-300 line-through' : ''}">$${line.patient_responsibility.toFixed(2)}</td>
-                    <td class="py-2.5 px-3">
-                        ${isViolation 
-                            ? '<span class="text-xs px-2.5 py-0.5 rounded bg-brand-900 text-white border border-brand-700">UNBUNDLED (NCCI 0)</span>' 
-                            : '<span class="text-slate-400">Lawful</span>'}
-                    </td>
-                `;
-                tbody.appendChild(tr);
-            });
-
-            // Silence Ledger
-            const ledger = document.getElementById('silence-ledger-container');
-            ledger.innerHTML = '';
-            data.silence_ledger.forEach(item => {
-                const div = document.createElement('div');
-                div.className = 'p-3 rounded-xl bg-obsidian border border-white/10 text-xs space-y-1';
-                div.innerHTML = `
-                    <div class="flex justify-between items-center">
-                        <span class="font-mono text-slate-400">${item.claim_id}</span>
-                        <span class="text-brand-300 font-mono font-bold text-[10px] px-2 py-0.5 rounded bg-brand-950 border border-brand-700">0 PINGS SENT</span>
-                    </div>
-                    <div class="text-white font-medium">${item.service}</div>
-                    <div class="text-slate-400 text-[11px]">${item.provider} / Billed $${item.billed.toFixed(2)}</div>
-                `;
-                ledger.appendChild(div);
-            });
-
-            // Cedar Gate & Lifecycle State
-            const cedarIndicator = document.getElementById('cedar-gate-indicator');
-            const actionContainer = document.getElementById('action-container');
-            const clockCard = document.getElementById('statutory-clock-card');
-            const packetStatus = document.getElementById('packet-status');
-            const packetContent = document.getElementById('packet-content');
-            const packetText = document.getElementById('packet-text');
-
-            if (data.cedar_unsealed) {
-                cedarIndicator.className = 'font-mono text-brand-300 flex items-center gap-1.5 font-semibold';
-                cedarIndicator.innerHTML = `
-                    <svg class="w-3.5 h-3.5 text-brand-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
-                        <path d="M7 11V7a5 5 0 0 1 9.9-1"></path>
-                    </svg>
-                    <span>PERMIT: Signed by Patient (Token Verified)</span>
-                `;
-
-                actionContainer.innerHTML = `
-                    <div class="px-5 py-3 rounded-xl bg-brand-950 border border-brand-700 text-white font-mono text-xs font-bold flex items-center gap-2">
-                        <svg class="w-4 h-4 text-brand-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                            <polyline points="20 6 9 17 4 12"></polyline>
-                        </svg>
-                        <span>DISPUTE SERVED UNDER ERISA § 503</span>
-                    </div>
-                `;
-
-                // Show statutory clock
-                clockCard.classList.remove('hidden');
-                if (data.tracker_status) {
-                    document.getElementById('clock-days-remaining').innerText = data.tracker_status.days_remaining;
-                    document.getElementById('clock-state').innerText = data.tracker_status.state;
-                    document.getElementById('clock-next-action').innerText = data.tracker_status.next_action;
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                const href = this.getAttribute('href');
+                if (href && href.startsWith('#') && href.length > 1) {
+                    const target = document.querySelector(href);
+                    if (target) {
+                        e.preventDefault();
+                        target.scrollIntoView({ behavior: 'smooth' });
+                    }
                 }
-
-                // Show appeal letter
-                if (data.appeal_letter) {
-                    packetStatus.classList.add('hidden');
-                    packetContent.classList.remove('hidden');
-                    packetText.innerText = data.appeal_letter;
-                }
-            } else {
-                clockCard.classList.add('hidden');
-                packetStatus.classList.remove('hidden');
-                packetContent.classList.add('hidden');
-            }
-        }
-
-        async function approveAndDispatch() {
-            const btn = document.getElementById('approve-btn');
-            btn.disabled = true;
-            btn.innerText = 'Evaluating Cedar Policy...';
-            
-            const res = await fetch('/api/approve', { method: 'POST' });
-            const data = await res.json();
-            renderCockpit(data);
-        }
-
-        async function simulateResponse(type) {
-            const res = await fetch('/api/simulate-response', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ response_type: type })
             });
-            const data = await res.json();
-            renderCockpit(data);
-        }
-
-        async function resetDemo() {
-            await fetch('/api/reset', { method: 'POST' });
-            loadData();
-        }
-
-        loadData();
+        });
     </script>
 </body>
 </html>
