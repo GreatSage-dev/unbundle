@@ -11,13 +11,13 @@ from src.runtime.event_handler import BedrockAgentCoreEventHandler
 from src.ingest.eob_parser import RealEOBParser
 from src.lifecycle.tracker import StatutoryClockTracker, AppealLifecycleState, PayorResponse
 
-def run_drey_terminal_receipt():
+def run_deterministic_terminal_receipt():
     start_time = time.perf_counter()
     fixtures_dir = Path(__file__).parent / "tests" / "fixtures"
 
     print("=" * 80)
     print(" UNBUNDLE: THE AUTONOMOUS MEDICAL BILLING & EOB SENTINEL")
-    print(" Verified Deterministic Terminal Proof (King's Court 2.1 Standard)")
+    print(" Verified Deterministic Terminal Proof (Institutional Verification Standard)")
     print("=" * 80)
 
     # 1. Silence Test (Clean claim)
@@ -104,5 +104,8 @@ def run_drey_terminal_receipt():
     print(" Zero Hallucinated CPT Codes. Zero Cloud Dependencies.")
     print("=" * 80)
 
+# Backwards compatibility alias
+run_drey_terminal_receipt = run_deterministic_terminal_receipt
+
 if __name__ == "__main__":
-    run_drey_terminal_receipt()
+    run_deterministic_terminal_receipt()

@@ -76,7 +76,7 @@ pip install -r requirements.txt
 # 3. Run the complete deterministic test suite (36/36 passing in ~4.6s)
 pytest tests/ -v
 
-# 4. Run the deterministic Drey terminal receipt (all 7 scenarios in 0.06s)
+# 4. Run the deterministic terminal verification receipt (all 7 scenarios in 0.06s)
 python run_receipt.py
 ```
 
@@ -84,7 +84,7 @@ python run_receipt.py
 ```text
 ================================================================================
  UNBUNDLE: THE AUTONOMOUS MEDICAL BILLING & EOB SENTINEL
- Verified Deterministic Terminal Proof (King's Court 2.1 Standard)
+ Verified Deterministic Terminal Proof (Institutional Verification Standard)
 ================================================================================
 
 [CASE 1: THE SILENCE TEST - Preventative Physical (CPT 99396)]
@@ -139,7 +139,7 @@ python run_receipt.py
 
 ## The 4-Step Working Machine
 
-UNBUNDLE is engineered under the **King's Court Definitive Playbook** architecture:
+UNBUNDLE is engineered under a high-assurance, defense-grade autonomous systems architecture:
 
 ```
                   ┌─────────────────────────────────────────────────────────┐
@@ -353,7 +353,7 @@ def verify_webauthn_assertion(user_handle: str, challenge: str, assertion_respon
 
 ## What's Real vs Simulated — The Radical Honesty Table
 
-Following the King's Court doctrine of radical honesty, here is the exact, unflinching breakdown of production bytecode versus hackathon sandbox abstractions:
+Following institutional engineering principles of radical honesty, here is the exact, unflinching breakdown of production bytecode versus sandbox abstractions:
 
 | Capability | Status | Implementation Details |
 | :--- | :--- | :--- |
@@ -412,7 +412,7 @@ python -m src.ui.server 8765
 
 ```text
 unbundle/
-├── README.md                           # Master King's Court / Drey Architectural Dossier
+├── README.md                           # Master Technical Specification & Architecture Dossier
 ├── requirements.txt                    # Production & Test Dependencies (fido2, cedarpy, pytest)
 ├── run_receipt.py                      # 0.06s Deterministic Terminal Proof (All 7 Cases)
 ├── server.py                           # Root Vercel & Production Server Entrypoint
@@ -491,9 +491,8 @@ pip install -r requirements.txt
 
 ---
 
-## Author & Acknowledgements
-
+## Author & Architecture
+ 
 * **Author:** Promzy ([@GreatSage-dev](https://github.com/GreatSage-dev))
-* **Playbook:** Engineered under **[King's Court 2.1 (The Universal Grand Champion Playbook)](https://github.com/GreatSage-dev/unbundle)**.
-* **Architecture & Philosophy:** Enoch Idowu / Drey ([@Enoch208](https://github.com/Enoch208)) — evidence-first hackathon architecture, radical honesty engineering, and deterministic terminal verification.
+* **Architecture & Principles:** High-assurance autonomous systems architecture, radical honesty engineering, and deterministic statutory verification.
 * **License:** [Apache License 2.0](LICENSE)

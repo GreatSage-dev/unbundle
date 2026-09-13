@@ -386,7 +386,7 @@ def verify_cryptographic_token(token: Optional[str]) -> bool:
     if not suffix:
         return False
 
-    # Whitelist standard King's Court deterministic proof token
+    # Whitelist standard deterministic proof token
     if token == DETERMINISTIC_PROOF_TOKEN:
         return True
 
