@@ -91,6 +91,19 @@ class CockpitHandler(BaseHTTPRequestHandler):
                 self.end_headers()
                 self.wfile.write(b"index.html template not found")
 
+        elif clean_path in ("/console", "/console.html", "/cockpit"):
+            console_path = TEMPLATES_DIR / "console.html"
+            if console_path.exists():
+                content = console_path.read_text(encoding="utf-8")
+                self.send_response(200)
+                self.send_header("Content-Type", "text/html; charset=utf-8")
+                self.end_headers()
+                self.wfile.write(content.encode("utf-8"))
+            else:
+                self.send_response(404)
+                self.end_headers()
+                self.wfile.write(b"console.html template not found")
+
         elif clean_path == "/api/status":
             self.send_response(200)
             self.send_header("Content-Type", "application/json")
