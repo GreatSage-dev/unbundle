@@ -131,7 +131,7 @@ class CockpitHandler(BaseHTTPRequestHandler):
         if clean_path == "/api/approve":
             # 1. Evaluate Cedar policy with human token
             cedar_eval = evaluate_cedar_policy("dispatch_dispute", state.human_token)
-            if cedar_eval["decision"] == "ALLOW":
+            if cedar_eval["is_authorized"]:
                 state.cedar_unsealed = True
                 
                 # 2. Generate ERISA appeal packet
