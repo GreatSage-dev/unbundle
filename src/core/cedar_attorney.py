@@ -50,7 +50,8 @@ class CedarAttorney:
         Specialized gate for legal dispatch.
         Verifies presence and validity of human signature token.
         """
-        is_token_valid = bool(human_token and human_token.startswith("HUMAN_AUTH_TOKEN_"))
+        from src.core.auth import verify_cryptographic_token
+        is_token_valid = bool(human_token and verify_cryptographic_token(human_token))
         
         context = {
             "human_approval_token_valid": is_token_valid

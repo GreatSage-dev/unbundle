@@ -15,18 +15,22 @@ class NCCIValidator:
         self.db_path = db_path or DB_PATH
         if not self.db_path.exists():
             raise FileNotFoundError(f"NCCI database not found at {self.db_path}. Run seed_ncci_db.py first.")
+        self._conn = sqlite3.connect(self.db_path, check_same_thread=False)
 
     def _query_ptp_collision(self, col1: str, col2: str) -> Optional[Tuple[int, str]]:
         """Queries whether col2 is a component of col1, returning (modifier_indicator, rationale)."""
-        conn = sqlite3.connect(self.db_path)
-        cursor = conn.cursor()
+        cursor = self._conn.cursor()
         cursor.execute(
             "SELECT modifier_indicator, policy_rationale FROM ncci_ptp_edits WHERE column_1 = ? AND column_2 = ?",
             (col1, col2)
         )
         row = cursor.fetchone()
-        conn.close()
         return (row[0], row[1]) if row else None
+
+    def close(self):
+        if hasattr(self, "_conn") and self._conn:
+            self._conn.close()
+            self._conn = None
 
     def audit_lines(self, lines: List[ClaimLine]) -> List[AuditViolation]:
         """

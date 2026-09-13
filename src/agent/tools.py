@@ -91,7 +91,8 @@ def generate_erisa_appeal(eob_dict: Dict[str, Any], audit_dict: Dict[str, Any], 
     eob = EOBDocument(**eob_dict)
     audit = AuditResult(**audit_dict)
     
-    is_signed = bool(human_token and human_token.startswith("HUMAN_AUTH_TOKEN_"))
+    from src.core.auth import verify_cryptographic_token
+    is_signed = bool(human_token and verify_cryptographic_token(human_token))
     packet = ERISAAppealGenerator.compile_appeal_packet(eob, audit, cedar_verified=is_signed)
     
     return packet.model_dump()

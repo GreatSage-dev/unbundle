@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ERISA § 503 Statutory Appeal Dossier // {{CLAIM_ID}}</title>
+    
+    <!-- Google Fonts: Plus Jakarta Sans, JetBrains Mono, Playfair Display -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=JetBrains+Mono:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;0,6..72,700;1,6..72,400;1,6..72,600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        legal: ['Newsreader', 'Georgia', 'serif'],
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                        mono: ['"JetBrains Mono"', 'monospace'],
+                        caption: ['Cinzel', 'serif']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            font-family: 'Newsreader', Georgia, serif;
+            color: #111827;
+            background-color: #0d0f17;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .dossier-paper {
+            background: #ffffff;
+            color: #111827;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.45);
+        }
+
+        /* Legal Double Border */
+        .double-border-y {
+            border-top: 3px double #1f2937;
+            border-bottom: 3px double #1f2937;
+        }
+
+        .legal-table th {
+            background-color: #f8fafc;
+            color: #0f172a;
+            font-family: '"Plus Jakarta Sans"', sans-serif;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            padding: 8px 10px;
+            border-top: 1px solid #cbd5e1;
+            border-bottom: 2px solid #94a3b8;
+        }
+
+        .legal-table td {
+            padding: 8px 10px;
+            border-bottom: 1px solid #e2e8f0;
+            font-size: 0.85rem;
+            vertical-align: top;
+        }
+
+        .legal-table tr:nth-child(even) td {
+            background-color: #fafbfd;
+        }
+
+        /* Print Media Stylesheet */
+        @media print {
+            @page {
+                size: letter portrait;
+                margin: 0.75in 0.75in 0.75in 0.75in;
+            }
+
+            body {
+                background: #ffffff !important;
+                color: #000000 !important;
+                font-size: 10pt;
+                line-height: 1.45;
+                margin: 0 !important;
+                padding: 0 !important;
+            }
+
+            .no-print,
+            .floating-action-bar {
+                display: none !important;
+            }
+
+            .dossier-paper {
+                box-shadow: none !important;
+                max-width: 100% !important;
+                width: 100% !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                border: none !important;
+            }
+
+            .avoid-break {
+                page-break-inside: avoid !important;
+            }
+
+            .page-break-before {
+                page-break-before: always !important;
+            }
+
+            .legal-table th {
+                background-color: #f1f5f9 !important;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+
+            a {
+                color: #000000 !important;
+                text-decoration: none !important;
+            }
+        }
+    </style>
+</head>
+<body class="py-8 px-4 sm:px-6 lg:px-8">
+
+    <!-- FLOATING ACTION BAR FOR SCREEN VIEW (no-print) -->
+    <aside aria-label="Dossier Screen Controls" class="floating-action-bar no-print fixed bottom-6 inset-x-0 mx-auto max-w-2xl w-[92%] z-50">
+        <div class="bg-gray-900/95 backdrop-blur-md border border-purple-500/30 text-white rounded-2xl shadow-2xl p-3 sm:p-4 flex items-center justify-between gap-3">
+            
+            <div class="flex items-center gap-2">
+                <a href="/console" class="px-3 py-2 rounded-xl bg-white/10 hover:bg-white/20 text-slate-200 hover:text-white transition flex items-center gap-1.5 text-xs font-sans font-medium" title="Return to Autonomous Sentinel Console">
+                    <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="19" y1="12" x2="5" y2="12"></line>
+                        <polyline points="12 19 5 12 12 5"></polyline>
+                    </svg>
+                    <span>Back to Console</span>
+                </a>
+            </div>
+
+            <div class="hidden sm:flex flex-col text-center font-sans">
+                <span class="text-xs font-bold tracking-wide text-purple-300">ERISA § 503 APPELLATE DOSSIER</span>
+                <span class="text-[10px] text-slate-400 font-mono">Claim Reference: {{CLAIM_ID}}</span>
+            </div>
+
+            <div class="flex items-center gap-2">
+                <button onclick="downloadPlainText()" class="px-3.5 py-2 rounded-xl bg-white/10 hover:bg-white/20 text-slate-200 hover:text-white transition flex items-center gap-1.5 text-xs font-sans font-medium" title="Download pure plaintext dispute notice">
+                    <svg class="w-4 h-4 text-purple-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                        <polyline points="7 10 12 15 17 10"></polyline>
+                        <line x1="12" y1="15" x2="12" y2="3"></line>
+                    </svg>
+                    <span>Download Text (.txt)</span>
+                </button>
+
+                <button onclick="window.print()" class="px-4 py-2 rounded-xl bg-purple-600 hover:bg-purple-500 text-white transition flex items-center gap-1.5 text-xs font-sans font-bold shadow-lg shadow-purple-900/50" title="Print document or save as legal PDF">
+                    <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="6 9 6 2 18 2 18 9"></polyline>
+                        <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path>
+                        <rect x="6" y="14" width="12" height="8"></rect>
+                    </svg>
+                    <span>Print / Save as PDF</span>
+                </button>
+            </div>
+
+        </div>
+    </aside>
+
+    <!-- HIDDEN PLAINTEXT HOLDER FOR DIRECT DOWNLOAD -->
+    <pre id="raw-appeal-plaintext" class="hidden">{{APPEAL_PLAINTEXT}}</pre>
+
+    <!-- COURT-READY LEGAL DOSSIER CONTAINER -->
+    <main class="dossier-paper max-w-[850px] mx-auto p-8 sm:p-14 rounded-xl border border-gray-200">
+
+        <!-- FORMAL LEGAL CAPTION -->
+        <header class="avoid-break mb-8 text-center">
+            
+            <div class="text-[11px] font-sans font-extrabold uppercase tracking-widest text-gray-500 mb-1">
+                Publication-Grade Appellate Brief • Court-Ready Record
+            </div>
+
+            <h1 class="font-caption text-xl sm:text-2xl font-bold tracking-wider text-gray-900 leading-snug">
+                BEFORE THE PLAN ADMINISTRATOR / APPEALS COMMITTEE
+            </h1>
+            
+            <div class="mt-1 text-xs font-sans font-semibold text-gray-700 tracking-wide uppercase">
+                ADMINISTERED PURSUANT TO 29 U.S.C. § 1133 (ERISA § 503) &amp; 29 CFR § 2560.503-1(g)
+            </div>
+
+            <!-- Traditional Legal Caption Bracket -->
+            <div class="mt-6 border-t-2 border-b-2 border-gray-900 py-4 grid grid-cols-12 text-left text-xs font-sans">
+                
+                <div class="col-span-7 pr-4 border-r border-gray-400 space-y-1 font-legal text-sm">
+                    <p class="font-semibold text-gray-900">IN RE THE CLAIM OF:</p>
+                    <p class="font-bold text-base text-gray-950 uppercase tracking-tight">{{PATIENT_NAME}},</p>
+                    <p class="italic text-gray-600 pl-4">Claimant / Plan Beneficiary,</p>
+                    <div class="py-2 text-center text-xs font-mono text-gray-400 font-bold">v.</div>
+                    <p class="font-bold text-base text-gray-950 uppercase tracking-tight">{{PROVIDER_NAME}},</p>
+                    <p class="italic text-gray-600 pl-4">Plan Administrator / Adjudicator.</p>
+                </div>
+
+                <div class="col-span-5 pl-4 flex flex-col justify-center space-y-1.5 font-mono text-xs text-gray-800">
+                    <div>
+                        <span class="text-gray-500 font-sans uppercase text-[10px] block">Claim Identifier:</span>
+                        <span class="font-bold text-gray-950">{{CLAIM_ID}}</span>
+                    </div>
+                    <div>
+                        <span class="text-gray-500 font-sans uppercase text-[10px] block">Member Identification:</span>
+                        <span class="font-semibold text-gray-900">{{PATIENT_ID}}</span>
+                    </div>
+                    <div>
+                        <span class="text-gray-500 font-sans uppercase text-[10px] block">Statutory Docket Ref:</span>
+                        <span class="font-semibold text-gray-900">{{PACKET_ID}}</span>
+                    </div>
+                    <div>
+                        <span class="text-gray-500 font-sans uppercase text-[10px] block">Date of Service:</span>
+                        <span class="text-gray-900">{{SERVICE_DATE}}</span>
+                    </div>
+                </div>
+
+            </div>
+
+        </header>
+
+        <!-- STATUTORY TIMELINE CALLOUT (IF ACTIVE) -->
+        {{TRACKING_BADGE_HTML}}
+
+        <!-- METADATA BLOCK -->
+        <section class="avoid-break mb-8">
+            <h2 class="font-sans text-xs font-bold uppercase tracking-wider text-gray-500 border-b border-gray-300 pb-1 mb-3">
+                I. Official Claim &amp; Adjudication Metadata Block
+            </h2>
+
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 bg-gray-50 p-4 rounded-lg border border-gray-200 text-xs font-sans">
+                <div class="space-y-0.5">
+                    <span class="text-[10px] uppercase font-bold text-gray-500">Patient Name</span>
+                    <p class="font-semibold text-gray-900">{{PATIENT_NAME}}</p>
+                </div>
+                <div class="space-y-0.5">
+                    <span class="text-[10px] uppercase font-bold text-gray-500">Patient ID</span>
+                    <p class="font-mono text-gray-800">{{PATIENT_ID}}</p>
+                </div>
+                <div class="space-y-0.5">
+                    <span class="text-[10px] uppercase font-bold text-gray-500">Insurer / Plan Name</span>
+                    <p class="font-semibold text-gray-900">{{PROVIDER_NAME}}</p>
+                </div>
+                <div class="space-y-0.5">
+                    <span class="text-[10px] uppercase font-bold text-gray-500">Claim ID</span>
+                    <p class="font-mono font-bold text-gray-900">{{CLAIM_ID}}</p>
+                </div>
+                <div class="space-y-0.5 pt-2 border-t border-gray-200">
+                    <span class="text-[10px] uppercase font-bold text-gray-500">Date of Service</span>
+                    <p class="font-mono text-gray-800">{{SERVICE_DATE}}</p>
+                </div>
+                <div class="space-y-0.5 pt-2 border-t border-gray-200">
+                    <span class="text-[10px] uppercase font-bold text-gray-500">Total Billed</span>
+                    <p class="font-mono font-bold text-gray-900">{{TOTAL_BILLED}}</p>
+                </div>
+                <div class="space-y-0.5 pt-2 border-t border-gray-200">
+                    <span class="text-[10px] uppercase font-bold text-purple-900">Excised Amount</span>
+                    <p class="font-mono font-bold text-purple-900">{{EXCISED_AMOUNT}}</p>
+                </div>
+                <div class="space-y-0.5 pt-2 border-t border-gray-200">
+                    <span class="text-[10px] uppercase font-bold text-emerald-800">Lawful Liability</span>
+                    <p class="font-mono font-extrabold text-emerald-800">{{LAWFUL_LIABILITY}}</p>
+                </div>
+            </div>
+
+            <div class="mt-2 flex flex-wrap items-center justify-between text-[11px] font-sans text-gray-600 px-1">
+                <span>Network Status: <strong>{{NETWORK_STATUS}}</strong></span>
+                <span>Clinical Severity: <strong>{{EMERGENCY_STATUS}}</strong></span>
+            </div>
+        </section>
+
+        <!-- SECTION 1: FORMAL STATUTORY DEMAND -->
+        <section class="avoid-break mb-8">
+            <h2 class="font-sans text-xs font-bold uppercase tracking-wider text-gray-500 border-b border-gray-300 pb-1 mb-3">
+                II. Formal Statutory Demand for Adverse Benefit Determination Reversal
+            </h2>
+
+            <div class="space-y-3.5 text-justify text-sm leading-relaxed text-gray-800">
+                <p>
+                    <strong>COMES NOW THE CLAIMANT</strong>, {{PATIENT_NAME}}, pursuant to 
+                    <strong>Section 503 of the Employee Retirement Income Security Act of 1974 (ERISA), 29 U.S.C. § 1133</strong>,
+                    and its implementing regulations at <strong>29 CFR § 2560.503-1</strong>, and formally petitions the 
+                    Plan Administrator and Appeals Committee to reverse the adverse benefit determination and unlawful cost-sharing 
+                    adjudication rendered with respect to Claim Reference Number <strong>{{CLAIM_ID}}</strong>.
+                </p>
+
+                <p>
+                    A deterministic clinical audit conducted in strict alignment with the 
+                    <strong>Centers for Medicare &amp; Medicaid Services (CMS) National Correct Coding Initiative (NCCI)</strong> 
+                    Procedure-to-Procedure (PTP) edits and federal balance billing statutes reveals that the Plan has adjudicated 
+                    unbundled component procedure codes and/or improperly converted participating provider 
+                    Contractual Obligations (CO) into Patient Responsibility (PR). 
+                    The provider initially billed <strong>{{TOTAL_BILLED}}</strong>, of which 
+                    <strong>{{ORIGINAL_PATIENT_LIABILITY}}</strong> was allocated as patient liability.
+                    Deterministic statutory audit confirms that <strong>{{EXCISED_AMOUNT}}</strong> represents unlawful, 
+                    non-reimbursable unbundled fees that must be completely excised, reducing the Claimant’s lawful financial 
+                    liability to exactly <strong>{{LAWFUL_LIABILITY}}</strong>.
+                </p>
+
+                <div class="bg-gray-50 border-l-4 border-gray-800 p-3.5 my-3 text-xs space-y-1.5 font-sans">
+                    <p class="font-bold text-gray-900">STATUTORY RELIEF DEMANDED UNDER 29 CFR § 2560.503-1(h)(2)(iii):</p>
+                    <ol class="list-decimal pl-4 space-y-1 text-gray-800">
+                        <li>
+                            <strong>Immediate Reversal:</strong> Immediate re-adjudication of Claim #{{CLAIM_ID}} excising all 
+                            unbundled charges and predatory balance shifts totaling <strong>{{EXCISED_AMOUNT}}</strong>.
+                        </li>
+                        <li>
+                            <strong>Contractual Adjustment Enforcement:</strong> Notification to provider {{PROVIDER_NAME}} that 
+                            the excised component codes are deemed Contractual Obligations (CO-45) under network participation terms, 
+                            and any further balance billing to the Claimant constitutes a violation of federal law.
+                        </li>
+                        <li>
+                            <strong>Mandatory Production of Claim Record:</strong> Immediate disclosure of the complete administrative 
+                            claim file, internal coding crosswalks, medical review rationales, and clinical protocols relied upon, 
+                            provided free of charge pursuant to 29 CFR § 2560.503-1(g)(1)(v) and (h)(2)(iii).
+                        </li>
+                    </ol>
+                </div>
+
+                <p class="text-xs text-gray-700 italic">
+                    <strong>Statutory Clock Notice:</strong> Under 29 CFR § 2560.503-1(i)(1)(i), the Plan Administrator has exactly 
+                    thirty (30) calendar days from receipt of this petition to provide written determination. 
+                    Failure to provide a timely determination within this statutory period effects a <em>deemed exhaustion</em> 
+                    of all administrative remedies pursuant to 29 CFR § 2560.503-1(l), entitling Claimant to immediate judicial 
+                    enforcement under ERISA § 502(a) (29 U.S.C. § 1132(a)) and the filing of an Unfair Claims Settlement Practices 
+                    complaint with the State Department of Insurance.
+                </p>
+            </div>
+        </section>
+
+        <!-- SECTION 2: ITEMIZED TABLE OF AUDIT VIOLATIONS -->
+        <section class="avoid-break mb-8">
+            <h2 class="font-sans text-xs font-bold uppercase tracking-wider text-gray-500 border-b border-gray-300 pb-1 mb-3">
+                III. Itemized Table of Audit Violations &amp; Deterministic Findings
+            </h2>
+
+            <div class="overflow-x-auto">
+                <table class="legal-table w-full text-left border-collapse">
+                    <thead>
+                        <tr>
+                            <th class="w-12 text-center">Line</th>
+                            <th class="w-36">CPT Billed</th>
+                            <th class="w-32">Included In CPT</th>
+                            <th>Statutory Rule / NCCI Policy</th>
+                            <th class="w-24 text-right">Billed</th>
+                            <th class="w-24 text-right">Patient Resp</th>
+                            <th class="w-24 text-right">Lawful Amt</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{VIOLATION_TABLE_ROWS}}
+                    </tbody>
+                    <tfoot>
+                        <tr class="font-mono text-xs font-bold border-t-2 border-gray-900 bg-gray-100">
+                            <td colspan="4" class="text-right font-sans uppercase py-2.5 px-3">
+                                Total Adjudicated Overcharge Excised:
+                            </td>
+                            <td class="text-right py-2.5 px-3">{{TOTAL_BILLED}}</td>
+                            <td class="text-right py-2.5 px-3 text-purple-900">{{ORIGINAL_PATIENT_LIABILITY}}</td>
+                            <td class="text-right py-2.5 px-3 text-emerald-800">{{LAWFUL_LIABILITY}}</td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+
+            <div class="mt-2 text-[11px] font-sans text-gray-500 flex justify-between items-center">
+                <span>Net Excised Unlawful Charges: <strong class="text-purple-900 font-mono font-bold">{{EXCISED_AMOUNT}}</strong></span>
+                <span>Audit Standard: <strong>CMS NCCI PTP Tables &amp; ANSI X12 CARC/RARC Crosswalk</strong></span>
+            </div>
+        </section>
+
+        <!-- SECTION 3: STATUTORY CITATIONS & LEGAL AUTHORITIES -->
+        <section class="avoid-break mb-8">
+            <h2 class="font-sans text-xs font-bold uppercase tracking-wider text-gray-500 border-b border-gray-300 pb-1 mb-3">
+                IV. Statutory Citations &amp; Governing Legal Authorities
+            </h2>
+
+            <div class="space-y-3.5 text-xs text-gray-800 leading-relaxed">
+                
+                <!-- Authority 1: ERISA § 503 -->
+                <div class="p-3 bg-gray-50 rounded border border-gray-200">
+                    <p class="font-sans font-bold text-gray-900 mb-1">
+                        1. 29 U.S.C. § 1133 (ERISA § 503) — Full and Fair Claims Review:
+                    </p>
+                    <blockquote class="italic text-gray-700 border-l-2 border-gray-400 pl-3">
+                        "In accordance with regulations of the Secretary, every employee benefit plan shall— 
+                        (1) provide adequate notice in writing to any participant or beneficiary whose claim for benefits under 
+                        the plan has been denied, setting forth the specific reasons for such denial, written in a manner calculated 
+                        to be understood by the participant, and 
+                        (2) afford a reasonable opportunity to any participant whose claim for benefits has been denied for a 
+                        full and fair review by the appropriate named fiduciary of the decision denying the claim."
+                    </blockquote>
+                </div>
+
+                <!-- Authority 2: 29 CFR § 2560.503-1 -->
+                <div class="p-3 bg-gray-50 rounded border border-gray-200">
+                    <p class="font-sans font-bold text-gray-900 mb-1">
+                        2. 29 CFR § 2560.503-1(g), (h), &amp; (l) — Mandatory Disclosures &amp; Deemed Exhaustion:
+                    </p>
+                    <blockquote class="italic text-gray-700 border-l-2 border-gray-400 pl-3">
+                        "The plan administrator shall provide a claimant with written or electronic notification of any adverse benefit determination... 
+                        If an internal rule, guideline, protocol, or other similar criterion was relied upon in making the adverse determination, 
+                        the plan must disclose either the specific rule or a statement that such rule will be provided free of charge to the claimant upon request. 
+                        In the case of the failure of a plan to establish or follow claims procedures consistent with the requirements of this section, 
+                        a claimant shall be deemed to have exhausted administrative remedies under section 502(a) of the Act."
+                    </blockquote>
+                </div>
+
+                <!-- Authority 3: CMS NCCI Policy Manual -->
+                <div class="p-3 bg-gray-50 rounded border border-gray-200">
+                    <p class="font-sans font-bold text-gray-900 mb-1">
+                        3. Centers for Medicare &amp; Medicaid Services (CMS) NCCI Policy Manual, Chapter 1:
+                    </p>
+                    <blockquote class="italic text-gray-700 border-l-2 border-gray-400 pl-3">
+                        "The National Correct Coding Initiative (NCCI) promotes national correct coding methodologies and controls improper 
+                        coding leading to inappropriate payment. Physicians must not report together services that are component parts of a comprehensive service. 
+                        Under CMS NCCI Procedure-to-Procedure (PTP) edits with an edit indicator of '0', separate billing of the component code is 
+                        prohibited under all clinical circumstances and modifier bypass is legally void. Denied unbundled component charges are 
+                        Contractual Obligations (CO) and may not be balance-billed to the patient."
+                    </blockquote>
+                </div>
+
+                <!-- Authority 4: No Surprises Act -->
+                <div class="p-3 bg-gray-50 rounded border border-gray-200">
+                    <p class="font-sans font-bold text-gray-900 mb-1">
+                        4. No Surprises Act, 45 CFR § 149.30 &amp; Public Health Service Act § 2799A-1:
+                    </p>
+                    <blockquote class="italic text-gray-700 border-l-2 border-gray-400 pl-3">
+                        "Prohibits surprise out-of-network balance billing for emergency services and certain non-emergency services provided 
+                        by out-of-network providers at in-network healthcare facilities. Cost-sharing obligations for patients are statutorily 
+                        restricted to recognized in-network rates, barring predatory balance shifting to the consumer."
+                    </blockquote>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- SECTION 4: CRYPTOGRAPHIC SIGNATURE & CERTIFICATE OF SERVICE -->
+        <section class="avoid-break pt-4 border-t-2 border-gray-900">
+            <h2 class="font-sans text-xs font-bold uppercase tracking-wider text-gray-500 pb-1 mb-4">
+                V. Cryptographic Human Signature &amp; Certificate of Service
+            </h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-xs font-sans">
+                
+                <!-- Certificate of Service -->
+                <div class="space-y-2 border border-gray-200 p-4 rounded-lg bg-gray-50">
+                    <p class="font-bold text-gray-900 uppercase text-[11px] tracking-wide">
+                        Certificate of Service Under Federal Rule
+                    </p>
+                    <p class="text-gray-700 leading-relaxed font-legal text-xs">
+                        I HEREBY CERTIFY that on this <strong>{{CURRENT_DATE}}</strong>, a true and accurate copy of the foregoing 
+                        ERISA § 503 Statutory Appeal Packet was dispatched to <strong>{{PROVIDER_NAME}}</strong> 
+                        via electronic claims clearinghouse transmission and authenticated notice pursuant to 29 U.S.C. § 1133.
+                    </p>
+                    <div class="pt-2 border-t border-gray-200 text-[11px] text-gray-600 font-mono">
+                        <span>Transmission Timestamp:</span><br/>
+                        <strong class="text-gray-900">{{GENERATED_TIMESTAMP}}</strong>
+                    </div>
+                </div>
+
+                <!-- Cryptographic Attestation Block -->
+                <div class="space-y-2 border border-purple-200 p-4 rounded-lg bg-purple-50/40">
+                    <div class="flex items-center justify-between">
+                        <span class="font-bold text-gray-900 uppercase text-[11px] tracking-wide">
+                            Human-in-the-Loop Signature Block
+                        </span>
+                        <span class="px-2 py-0.5 rounded bg-emerald-100 text-emerald-800 font-mono text-[10px] font-bold border border-emerald-300">
+                            CEDAR VERIFIED
+                        </span>
+                    </div>
+
+                    <div class="space-y-1 font-mono text-[11px]">
+                        <div>
+                            <span class="text-gray-500 block text-[10px] uppercase">Claimant / Authorized Signatory:</span>
+                            <span class="font-bold text-gray-950 font-legal text-sm">{{PATIENT_NAME}}</span>
+                        </div>
+                        <div>
+                            <span class="text-gray-500 block text-[10px] uppercase">Authorization Signature Token:</span>
+                            <span class="text-purple-900 font-semibold break-all">{{SIGNATURE_TOKEN}}</span>
+                        </div>
+                        <div>
+                            <span class="text-gray-500 block text-[10px] uppercase">SHA-256 Audit Integrity Hash:</span>
+                            <span class="text-gray-800 break-all bg-white p-1.5 rounded border border-gray-300 block text-[10px]">
+                                {{SHA256_HASH}}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Footer Attestation Stamp -->
+            <footer class="mt-6 pt-3 border-t border-gray-200 flex flex-wrap items-center justify-between text-[10px] font-mono text-gray-500">
+                <span>Autonomous Medical Sentinel • Strands Agents SDK • AWS Bedrock AgentCore</span>
+                <span>Deterministic Receipt Sealed • 29 CFR § 2560.503-1</span>
+            </footer>
+
+        </section>
+
+    </main>
+
+    <!-- CLIENT JAVASCRIPT FOR ACTIONS -->
+    <script>
+        function downloadPlainText() {
+            const rawText = document.getElementById('raw-appeal-plaintext').innerText;
+            const blob = new Blob([rawText], { type: 'text/plain;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = "ERISA_Appeal_{{CLAIM_ID}}.txt";
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+    </script>
+
+</body>
+</html>

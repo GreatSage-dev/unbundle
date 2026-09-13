@@ -104,12 +104,52 @@ class CockpitHandler(BaseHTTPRequestHandler):
                 self.end_headers()
                 self.wfile.write(b"console.html template not found")
 
+        elif clean_path in ("/dossier", "/dossier.html"):
+            from src.packet.dossier_renderer import render_dossier_html
+            packet = state.appeal_packet
+            if not packet:
+                packet = generate_erisa_appeal(state.active_eob, state.audit_result, human_token=state.human_token)
+            tracker_status = state.tracker.get_status() if state.tracker else None
+            html_content = render_dossier_html(
+                appeal_packet=packet,
+                eob=state.active_eob,
+                audit=state.audit_result,
+                tracking_status=tracker_status
+            )
+            self.send_response(200)
+            self.send_header("Content-Type", "text/html; charset=utf-8")
+            self.end_headers()
+            self.wfile.write(html_content.encode("utf-8"))
+
         elif clean_path == "/api/status":
             self.send_response(200)
             self.send_header("Content-Type", "application/json")
             self.end_headers()
             payload = self._build_status_payload()
             self.wfile.write(json.dumps(payload).encode("utf-8"))
+
+        elif clean_path == "/api/auth/challenge":
+            from src.core.auth import generate_auth_challenge
+            challenge = generate_auth_challenge()
+            self.send_response(200)
+            self.send_header("Content-Type", "application/json")
+            self.end_headers()
+            self.wfile.write(json.dumps({
+                "challenge": challenge,
+                "rpId": "localhost",
+                "rpName": "UNBUNDLE Sentinel (AWS Cedar Least-Privilege Gate)"
+            }).encode("utf-8"))
+
+        elif clean_path == "/api/dossier/text":
+            packet = state.appeal_packet
+            if not packet:
+                packet = generate_erisa_appeal(state.active_eob, state.audit_result, human_token=state.human_token)
+            text_content = packet.get("formal_appeal_letter", "No appeal letter generated.")
+            self.send_response(200)
+            self.send_header("Content-Type", "text/plain; charset=utf-8")
+            self.send_header("Content-Disposition", f"attachment; filename=\"ERISA_503_Appeal_{state.active_eob.get('claim_id', 'claim')}.txt\"")
+            self.end_headers()
+            self.wfile.write(text_content.encode("utf-8"))
 
         elif clean_path.startswith("/static/"):
             # Serve static assets securely
@@ -142,16 +182,51 @@ class CockpitHandler(BaseHTTPRequestHandler):
         clean_path = self.path.split("?")[0]
 
         if clean_path == "/api/approve":
-            # 1. Evaluate Cedar policy with human token
-            cedar_eval = evaluate_cedar_policy("dispatch_dispute", state.human_token)
+            # 1. Parse optional cryptographic WebAuthn / fallback payload
+            content_length = int(self.headers.get("Content-Length", 0))
+            auth_token = None
+            if content_length > 0:
+                try:
+                    body = self.rfile.read(content_length)
+                    req_data = json.loads(body.decode("utf-8")) if body else {}
+                    challenge = req_data.get("challenge")
+                    auth_mode = req_data.get("auth_mode")
+
+                    if auth_mode == "webauthn" and challenge:
+                        from src.core.auth import verify_webauthn_assertion
+                        ok, token = verify_webauthn_assertion(
+                            challenge=challenge,
+                            client_data_json=req_data.get("client_data_json", ""),
+                            authenticator_data=req_data.get("authenticator_data", ""),
+                            signature=req_data.get("signature", ""),
+                            credential_id=req_data.get("credential_id")
+                        )
+                        if ok:
+                            auth_token = token
+                    elif auth_mode == "fallback" and challenge:
+                        from src.core.auth import verify_fallback_signature
+                        ok, token = verify_fallback_signature(
+                            challenge=challenge,
+                            signature=req_data.get("signature", "")
+                        )
+                        if ok:
+                            auth_token = token
+                except Exception as e:
+                    print(f"[Auth Verification Notice]: {e}")
+
+            token_to_use = auth_token or state.human_token
+
+            # 2. Evaluate Cedar policy with verified cryptographic human token
+            cedar_eval = evaluate_cedar_policy("dispatch_dispute", token_to_use)
             if cedar_eval["is_authorized"]:
                 state.cedar_unsealed = True
+                state.human_token = token_to_use
                 
-                # 2. Generate ERISA appeal packet
-                packet = generate_erisa_appeal(state.active_eob, state.audit_result, human_token=state.human_token)
+                # 3. Generate ERISA appeal packet with cryptographic signature
+                packet = generate_erisa_appeal(state.active_eob, state.audit_result, human_token=token_to_use)
                 state.appeal_packet = packet
                 
-                # 3. Create & open 30-day statutory clock
+                # 4. Create & open 30-day statutory clock
                 tracker = StatutoryClockTracker.create(
                     packet_id=packet["packet_id"],
                     claim_id=packet["claim_id"],
