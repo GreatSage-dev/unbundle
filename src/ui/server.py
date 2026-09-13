@@ -240,15 +240,27 @@ def handle_http_request(method: str, path: str, headers: Dict[str, str], body: b
                 except Exception:
                     pass
             resp_type = req_data.get("response_type")
-            if state.tracker:
-                if resp_type == "OVERTURNED_FULL":
-                    state.tracker.record_payor_response(PayorResponse.OVERTURNED_FULL)
-                elif resp_type == "UPHELD_DENIAL":
-                    state.tracker.record_payor_response(PayorResponse.UPHELD_DENIAL, carc_codes=["16", "97"])
-                    state.tracker.escalate_to_doi(state_code="NY")
-                elif resp_type == "NO_RESPONSE":
-                    future = datetime.now(timezone.utc) + timedelta(days=31)
-                    state.tracker.get_status(current_time=future)
+            if not state.tracker:
+                state.tracker = StatutoryClockTracker.create(
+                    packet_id="PKT-NYP-2024-001",
+                    claim_id="CLM-NYP-984321",
+                    patient_name="Eleni Vance",
+                    payor_name="Empire BlueCross BlueShield",
+                    disputed_amount=190.00
+                )
+                state.tracker.record_dispatch()
+                state.cedar_unsealed = True
+
+            if resp_type == "OVERTURNED_FULL":
+                state.tracker.record_payor_response(PayorResponse.OVERTURNED_FULL)
+            elif resp_type == "UPHELD_DENIAL":
+                state.tracker.record_payor_response(PayorResponse.UPHELD_DENIAL, carc_codes=["16", "97"])
+                state.tracker.escalate_to_doi(state_code="NY")
+            elif resp_type == "NO_RESPONSE":
+                past_time = datetime.now(timezone.utc) - timedelta(days=31)
+                state.tracker.dispatch_timestamp = past_time.isoformat()
+                state.tracker.statutory_deadline = (past_time + timedelta(days=30)).isoformat()
+                state.tracker.record_payor_response(PayorResponse.NO_RESPONSE)
 
             payload = _build_status_payload()
             return 200, [("Content-Type", "application/json")], json.dumps(payload).encode("utf-8")

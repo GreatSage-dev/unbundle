@@ -851,46 +851,58 @@
 
                         <div class="space-y-4">
                             <!-- Stage 1 -->
-                            <div class="flex items-start gap-4 p-4 rounded-xl bg-white/[0.02] border border-white/5">
-                                <div class="w-8 h-8 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 flex items-center justify-center font-bold text-xs shrink-0">
+                            <div id="step-1-card" class="flex items-start gap-4 p-4 rounded-xl bg-white/[0.02] border border-white/5">
+                                <div id="step-1-icon" class="w-8 h-8 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 flex items-center justify-center font-bold text-xs shrink-0">
                                     ✓
                                 </div>
-                                <div>
-                                    <div class="text-white font-bold text-xs">Stage 1: Ingestion &amp; Deterministic NCCI Intercept</div>
+                                <div class="flex-1">
+                                    <div class="flex items-center justify-between">
+                                        <div class="text-white font-bold text-xs">Stage 1: Ingestion &amp; Deterministic NCCI Intercept</div>
+                                        <span id="step-1-badge" class="text-[10px] font-mono text-emerald-400 font-bold">COMPLETED</span>
+                                    </div>
                                     <div class="text-slate-400 text-[11px] mt-0.5">Memorial Regional Health text export parsed. Unlawful $190.00 CPT 80048 unbundling excised.</div>
                                 </div>
                             </div>
 
                             <!-- Stage 2 -->
-                            <div class="flex items-start gap-4 p-4 rounded-xl bg-white/[0.02] border border-white/5">
+                            <div id="step-2-card" class="flex items-start gap-4 p-4 rounded-xl bg-white/[0.02] border border-white/5">
                                 <div id="step-2-icon" class="w-8 h-8 rounded-full bg-brand-500/20 text-brand-300 border border-brand-500/40 flex items-center justify-center font-bold text-xs shrink-0">
                                     2
                                 </div>
-                                <div>
-                                    <div class="text-white font-bold text-xs">Stage 2: Least-Privilege Cryptographic Dispatch</div>
+                                <div class="flex-1">
+                                    <div class="flex items-center justify-between">
+                                        <div class="text-white font-bold text-xs">Stage 2: Least-Privilege Cryptographic Dispatch</div>
+                                        <span id="step-2-badge" class="text-[10px] font-mono text-slate-400 font-bold">PENDING SIGN</span>
+                                    </div>
                                     <div class="text-slate-400 text-[11px] mt-0.5">Member signs with WebAuthn/ECDSA key. AWS Cedar permits dispatch to UnitedHealthcare clearinghouse.</div>
                                 </div>
                             </div>
 
                             <!-- Stage 3 -->
-                            <div class="flex items-start gap-4 p-4 rounded-xl bg-white/[0.02] border border-white/5">
+                            <div id="step-3-card" class="flex items-start gap-4 p-4 rounded-xl bg-white/[0.02] border border-white/5">
                                 <div id="step-3-icon" class="w-8 h-8 rounded-full bg-white/5 text-slate-400 border border-white/10 flex items-center justify-center font-bold text-xs shrink-0">
                                     3
                                 </div>
-                                <div>
-                                    <div class="text-white font-bold text-xs">Stage 3: 30-Day Payor Response Window</div>
+                                <div class="flex-1">
+                                    <div class="flex items-center justify-between">
+                                        <div class="text-white font-bold text-xs">Stage 3: 30-Day Payor Response Window</div>
+                                        <span id="step-3-badge" class="text-[10px] font-mono text-slate-500 font-bold">AWAITING STAGE 2</span>
+                                    </div>
                                     <div class="text-slate-400 text-[11px] mt-0.5">Federal clock running (29 CFR § 2560.503-1). If payor ignores after 30 days, claim is deemed exhausted.</div>
                                 </div>
                             </div>
 
                             <!-- Stage 4 -->
-                            <div class="flex items-start gap-4 p-4 rounded-xl bg-white/[0.02] border border-white/5">
+                            <div id="step-4-card" class="flex items-start gap-4 p-4 rounded-xl bg-white/[0.02] border border-white/5">
                                 <div id="step-4-icon" class="w-8 h-8 rounded-full bg-white/5 text-slate-400 border border-white/10 flex items-center justify-center font-bold text-xs shrink-0">
                                     4
                                 </div>
-                                <div>
-                                    <div class="text-white font-bold text-xs">Stage 4: Overturn or State DOI Docket Escalation</div>
-                                    <div class="text-slate-400 text-[11px] mt-0.5">Adverse denial automatically triggers official complaint to State Department of Insurance Commissioner.</div>
+                                <div class="flex-1">
+                                    <div class="flex items-center justify-between">
+                                        <div class="text-white font-bold text-xs">Stage 4: Overturn or State DOI Docket Escalation</div>
+                                        <span id="step-4-badge" class="text-[10px] font-mono text-slate-500 font-bold">STANDBY</span>
+                                    </div>
+                                    <div id="step-4-desc" class="text-slate-400 text-[11px] mt-0.5">Adverse denial automatically triggers official complaint to State Department of Insurance Commissioner.</div>
                                 </div>
                             </div>
                         </div>
@@ -899,8 +911,8 @@
                     <!-- Right: State DOI Regulatory Docket Generator (1 col) -->
                     <div class="rounded-2xl border border-white/5 bg-[#0F1118] p-6 space-y-4">
                         <div class="flex items-center justify-between border-b border-white/5 pb-2.5">
-                            <h4 class="font-bold text-white text-xs uppercase font-mono tracking-wider">State DOI Escalation</h4>
-                            <span class="text-[10px] text-brand-300 font-mono">External Review</span>
+                            <h4 class="font-bold text-white text-xs uppercase font-mono tracking-wider">Payor Adjudication Simulator</h4>
+                            <span class="text-[10px] text-brand-300 font-mono">ERISA § 503</span>
                         </div>
 
                         <p class="text-xs text-slate-300 leading-relaxed">
@@ -922,11 +934,9 @@
                             </button>
                         </div>
 
-                        <!-- Live Regulatory Docket Box -->
-                        <div id="doi-docket-box" class="p-3.5 rounded-xl bg-obsidian border border-brand-900/60 text-xs font-mono space-y-1.5">
-                            <div class="text-[10px] uppercase text-brand-300 font-bold">REGULATORY DOCKET STATUS</div>
-                            <div class="text-white" id="doi-docket-id">DOCKET: PENDING_PAYOR_WINDOW</div>
-                            <div class="text-[11px] text-slate-400" id="doi-docket-regulator">Authority: State of NY Department of Financial Services</div>
+                        <!-- Live Regulatory Docket / Dispute Resolution Box -->
+                        <div id="doi-docket-box" class="p-4 rounded-xl bg-obsidian border border-white/10 text-xs font-mono space-y-2">
+                            <!-- Populated dynamically via renderDoiDocketBox() -->
                         </div>
                     </div>
 
@@ -1264,24 +1274,29 @@ TOTAL PATIENT RESPONSIBILITY: $315.00</pre>
                     const daysRem = document.getElementById('clock-days-remaining');
                     const clockSt = document.getElementById('clock-state');
                     const clockAct = document.getElementById('clock-next-action');
-                    const docketId = document.getElementById('doi-docket-id');
-                    const docketReg = document.getElementById('doi-docket-regulator');
 
                     if (daysRem) daysRem.innerText = data.tracker_status.days_remaining;
-                    if (clockSt) clockSt.innerText = data.tracker_status.state;
-                    if (clockAct) clockAct.innerText = data.tracker_status.next_action;
-
-                    if (docketId) {
-                        if (data.tracker_status.docket_number) {
-                            docketId.innerText = 'DOCKET: ' + data.tracker_status.docket_number;
-                            docketId.className = 'text-brand-300 font-bold';
+                    if (clockSt) {
+                        const stateLabels = {
+                            'DRAFTED': 'AWAITING SIGNATURE',
+                            'PENDING_PAYOR_RESPONSE': 'PENDING PAYOR (30-DAY WINDOW)',
+                            'REVERSAL_CONFIRMED': 'RESOLVED: OVERTURNED ($0 BALANCE)',
+                            'ESCALATED_DOI': 'ESCALATED: STATE DOI DOCKET ACTIVE',
+                            'DEEMED_EXHAUSTED': 'STATUTORY DEFAULT: REMEDIES EXHAUSTED',
+                            'ADVERSE_MAINTAINED': 'DENIED: LEVEL 2 IRO ELIGIBLE'
+                        };
+                        clockSt.innerText = stateLabels[data.tracker_status.state] || data.tracker_status.state;
+                        if (data.tracker_status.state === 'REVERSAL_CONFIRMED') {
+                            clockSt.className = 'text-xs font-bold font-mono text-emerald-400 mt-1.5';
+                        } else if (data.tracker_status.state === 'ESCALATED_DOI') {
+                            clockSt.className = 'text-xs font-bold font-mono text-brand-300 mt-1.5';
+                        } else if (data.tracker_status.state === 'DEEMED_EXHAUSTED') {
+                            clockSt.className = 'text-xs font-bold font-mono text-amber-300 mt-1.5';
                         } else {
-                            docketId.innerText = 'DOCKET: ' + data.tracker_status.state;
+                            clockSt.className = 'text-xs font-bold font-mono text-white mt-1.5';
                         }
                     }
-                    if (docketReg && data.tracker_status.regulatory_body) {
-                        docketReg.innerText = 'Authority: ' + data.tracker_status.regulatory_body;
-                    }
+                    if (clockAct) clockAct.innerText = data.tracker_status.next_action;
                 }
 
                 // Show appeal letter in Dossier Tab
@@ -1302,6 +1317,218 @@ TOTAL PATIENT RESPONSIBILITY: $315.00</pre>
                 if (clockCard) clockCard.classList.add('hidden');
                 if (packetStatus) packetStatus.classList.remove('hidden');
                 if (packetContent) packetContent.classList.add('hidden');
+            }
+
+            // Sync Tab 5 Stepper and DOI Docket / Dispute Resolution Box
+            renderDoiDocketBox(data.tracker_status);
+            updateLifecycleStepper(data);
+        }
+
+        function renderDoiDocketBox(status) {
+            const box = document.getElementById('doi-docket-box');
+            if (!box) return;
+
+            if (!status || status.state === 'DRAFTED') {
+                box.className = 'p-4 rounded-xl bg-[#0A0C13] border border-white/10 text-xs font-mono space-y-2';
+                box.innerHTML = `
+                    <div class="flex items-center justify-between">
+                        <span class="text-[10px] uppercase text-slate-400 font-bold tracking-wider">PRE-DISPATCH STATUS</span>
+                        <span class="px-2 py-0.5 rounded text-[10px] bg-white/5 text-slate-300 border border-white/10">Awaiting Signature</span>
+                    </div>
+                    <div class="text-white font-bold text-sm">STATUS: PENDING PATIENT APPROVAL</div>
+                    <div class="text-[11px] text-slate-400">Authority: State of NY Department of Financial Services</div>
+                    <p class="text-[11px] text-slate-400 leading-relaxed font-sans pt-1 border-t border-white/5">
+                        Dispute drafted against Empire BlueCross BlueShield. Awaiting member cryptographic key signing on Cockpit tab.
+                    </p>
+                `;
+                return;
+            }
+
+            if (status.state === 'REVERSAL_CONFIRMED') {
+                box.className = 'p-4 rounded-xl bg-emerald-950/30 border border-emerald-500/40 text-xs font-mono space-y-2';
+                box.innerHTML = `
+                    <div class="flex items-center justify-between">
+                        <span class="text-[10px] uppercase text-emerald-300 font-bold tracking-wider flex items-center gap-1.5">
+                            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+                            DISPUTE RESOLUTION STATUS
+                        </span>
+                        <span class="px-2 py-0.5 rounded text-[10px] bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 font-bold">100% RESOLVED</span>
+                    </div>
+                    <div class="text-emerald-300 font-extrabold text-sm flex items-center gap-1.5">
+                        <svg class="w-4 h-4 text-emerald-400 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="20 6 9 17 4 12"></polyline>
+                        </svg>
+                        <span>$190.00 UNLAWFUL CHARGE EXCISED</span>
+                    </div>
+                    <div class="text-xs text-white font-bold">$0.00 PATIENT BALANCE REMAINING</div>
+                    <div class="text-[11px] text-slate-300">Payor: Empire BlueCross BlueShield (Overturn Conceded)</div>
+                    <p class="text-[11px] text-slate-300 leading-relaxed font-sans pt-1 border-t border-emerald-500/20">
+                        Empire BCBS conceded the NCCI unbundling violation. The unlawful panel fee has been removed in full. Dispute closed with prejudice—no State DOI regulatory complaint needed.
+                    </p>
+                `;
+                return;
+            }
+
+            if (status.state === 'ESCALATED_DOI') {
+                const docket = status.docket_number || ('DOI-NY-' + Math.floor(Date.now() / 1000));
+                const regBody = status.regulatory_body || 'State of NY Department of Financial Services';
+                box.className = 'p-4 rounded-xl bg-brand-950/40 border border-brand-500/50 text-xs font-mono space-y-2';
+                box.innerHTML = `
+                    <div class="flex items-center justify-between">
+                        <span class="text-[10px] uppercase text-brand-300 font-bold tracking-wider flex items-center gap-1.5">
+                            <span class="w-1.5 h-1.5 rounded-full bg-brand-400 animate-pulse"></span>
+                            REGULATORY ESCALATION DOCKET
+                        </span>
+                        <span class="px-2 py-0.5 rounded text-[10px] bg-brand-500/20 text-brand-200 border border-brand-500/40 font-bold">FORMAL COMPLAINT ACTIVE</span>
+                    </div>
+                    <div class="text-brand-200 font-extrabold text-sm tracking-wide">DOCKET #${docket}</div>
+                    <div class="text-[11px] text-slate-300 font-semibold">Authority: ${regBody}</div>
+                    <div class="text-[11px] text-slate-400">Statutory Basis: ERISA § 503 Non-Compliance &amp; NY Ins Law § 3224-a (Prompt Pay Act)</div>
+                    <p class="text-[11px] text-slate-300 leading-relaxed font-sans pt-1 border-t border-brand-500/20">
+                        Payor upheld denial citing CARC 16/97 without clinical basis. Formal regulatory complaint generated and filed directly with the State Insurance Commissioner.
+                    </p>
+                `;
+                return;
+            }
+
+            if (status.state === 'DEEMED_EXHAUSTED') {
+                box.className = 'p-4 rounded-xl bg-amber-950/30 border border-amber-500/40 text-xs font-mono space-y-2';
+                box.innerHTML = `
+                    <div class="flex items-center justify-between">
+                        <span class="text-[10px] uppercase text-amber-300 font-bold tracking-wider flex items-center gap-1.5">
+                            <span class="w-1.5 h-1.5 rounded-full bg-amber-400"></span>
+                            STATUTORY TIMEOUT DEFAULT
+                        </span>
+                        <span class="px-2 py-0.5 rounded text-[10px] bg-amber-500/20 text-amber-300 border border-amber-500/40 font-bold">REMEDIES EXHAUSTED</span>
+                    </div>
+                    <div class="text-amber-200 font-bold text-sm">DEFAULT UNDER 29 CFR § 2560.503-1(l)</div>
+                    <div class="text-[11px] text-slate-300">Authority: State of NY Department of Financial Services</div>
+                    <p class="text-[11px] text-slate-300 leading-relaxed font-sans pt-1 border-t border-amber-500/20">
+                        Payor failed to respond within 30 statutory calendar days. Administrative remedies deemed exhausted as a matter of law. Immediate standing for State DOI intervention and federal ERISA 502(a) filing.
+                    </p>
+                `;
+                return;
+            }
+
+            // Default: PENDING_PAYOR_RESPONSE
+            box.className = 'p-4 rounded-xl bg-[#0A0C13] border border-brand-900/60 text-xs font-mono space-y-2';
+            box.innerHTML = `
+                <div class="flex items-center justify-between">
+                    <span class="text-[10px] uppercase text-brand-300 font-bold tracking-wider flex items-center gap-1.5">
+                        <span class="w-1.5 h-1.5 rounded-full bg-brand-400 animate-ping"></span>
+                        PAYOR CLEARINGHOUSE MONITORING
+                    </span>
+                    <span class="px-2 py-0.5 rounded text-[10px] bg-brand-950 text-brand-300 border border-brand-700 font-bold">CLOCK RUNNING</span>
+                </div>
+                <div class="text-white font-bold text-sm">STATUS: AWAITING PAYOR DETERMINATION</div>
+                <div class="text-[11px] text-slate-400">Authority: State of NY Department of Financial Services</div>
+                <div class="text-[11px] text-brand-300 font-mono">${status.days_remaining || 30} calendar days remaining before statutory default</div>
+                <p class="text-[11px] text-slate-400 leading-relaxed font-sans pt-1 border-t border-white/5">
+                    Dispute served under ERISA § 503. Electronic clearinghouse acknowledgment confirmed. Monitoring payor 835 remittance feed.
+                </p>
+            `;
+        }
+
+        function updateLifecycleStepper(data) {
+            const step2Icon = document.getElementById('step-2-icon');
+            const step2Badge = document.getElementById('step-2-badge');
+            const step3Icon = document.getElementById('step-3-icon');
+            const step3Badge = document.getElementById('step-3-badge');
+            const step4Icon = document.getElementById('step-4-icon');
+            const step4Badge = document.getElementById('step-4-badge');
+            const step4Desc = document.getElementById('step-4-desc');
+
+            if (!step2Icon || !step3Icon || !step4Icon) return;
+
+            const status = data.tracker_status;
+            const isUnsealed = data.cedar_unsealed;
+
+            if (isUnsealed) {
+                step2Icon.innerHTML = '✓';
+                step2Icon.className = 'w-8 h-8 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 flex items-center justify-center font-bold text-xs shrink-0';
+                if (step2Badge) {
+                    step2Badge.innerText = 'COMPLETED';
+                    step2Badge.className = 'text-[10px] font-mono text-emerald-400 font-bold';
+                }
+            } else {
+                step2Icon.innerHTML = '2';
+                step2Icon.className = 'w-8 h-8 rounded-full bg-brand-500/20 text-brand-300 border border-brand-500/40 flex items-center justify-center font-bold text-xs shrink-0';
+                if (step2Badge) {
+                    step2Badge.innerText = 'PENDING SIGN';
+                    step2Badge.className = 'text-[10px] font-mono text-slate-400 font-bold';
+                }
+            }
+
+            if (!status || status.state === 'DRAFTED') {
+                step3Icon.innerHTML = '3';
+                step3Icon.className = 'w-8 h-8 rounded-full bg-white/5 text-slate-400 border border-white/10 flex items-center justify-center font-bold text-xs shrink-0';
+                if (step3Badge) {
+                    step3Badge.innerText = 'AWAITING STAGE 2';
+                    step3Badge.className = 'text-[10px] font-mono text-slate-500 font-bold';
+                }
+                step4Icon.innerHTML = '4';
+                step4Icon.className = 'w-8 h-8 rounded-full bg-white/5 text-slate-400 border border-white/10 flex items-center justify-center font-bold text-xs shrink-0';
+                if (step4Badge) {
+                    step4Badge.innerText = 'STANDBY';
+                    step4Badge.className = 'text-[10px] font-mono text-slate-500 font-bold';
+                }
+                if (step4Desc) step4Desc.innerText = 'Adverse denial automatically triggers official complaint to State Department of Insurance Commissioner.';
+            } else if (status.state === 'PENDING_PAYOR_RESPONSE') {
+                step3Icon.innerHTML = '3';
+                step3Icon.className = 'w-8 h-8 rounded-full bg-brand-500/20 text-brand-300 border border-brand-500/40 flex items-center justify-center font-bold text-xs shrink-0 animate-pulse';
+                if (step3Badge) {
+                    step3Badge.innerText = `RUNNING (${status.days_remaining}d LEFT)`;
+                    step3Badge.className = 'text-[10px] font-mono text-brand-300 font-bold';
+                }
+                step4Icon.innerHTML = '4';
+                step4Icon.className = 'w-8 h-8 rounded-full bg-white/5 text-slate-400 border border-white/10 flex items-center justify-center font-bold text-xs shrink-0';
+                if (step4Badge) {
+                    step4Badge.innerText = 'STANDBY';
+                    step4Badge.className = 'text-[10px] font-mono text-slate-500 font-bold';
+                }
+                if (step4Desc) step4Desc.innerText = 'Adverse denial automatically triggers official complaint to State Department of Insurance Commissioner.';
+            } else if (status.state === 'REVERSAL_CONFIRMED') {
+                step3Icon.innerHTML = '✓';
+                step3Icon.className = 'w-8 h-8 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 flex items-center justify-center font-bold text-xs shrink-0';
+                if (step3Badge) {
+                    step3Badge.innerText = 'PAYOR CONCEDED';
+                    step3Badge.className = 'text-[10px] font-mono text-emerald-400 font-bold';
+                }
+                step4Icon.innerHTML = '✓';
+                step4Icon.className = 'w-8 h-8 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 flex items-center justify-center font-bold text-xs shrink-0';
+                if (step4Badge) {
+                    step4Badge.innerText = '100% OVERTURNED';
+                    step4Badge.className = 'text-[10px] font-mono text-emerald-400 font-bold';
+                }
+                if (step4Desc) step4Desc.innerText = 'Dispute resolved successfully. $190.00 unlawful charge removed. Patient balance $0.00.';
+            } else if (status.state === 'ESCALATED_DOI') {
+                step3Icon.innerHTML = '✓';
+                step3Icon.className = 'w-8 h-8 rounded-full bg-white/5 text-slate-400 border border-white/10 flex items-center justify-center font-bold text-xs shrink-0';
+                if (step3Badge) {
+                    step3Badge.innerText = 'DENIED (CARC 16/97)';
+                    step3Badge.className = 'text-[10px] font-mono text-red-400 font-bold';
+                }
+                step4Icon.innerHTML = '!';
+                step4Icon.className = 'w-8 h-8 rounded-full bg-brand-500/20 text-brand-300 border border-brand-500/40 flex items-center justify-center font-bold text-xs shrink-0';
+                if (step4Badge) {
+                    step4Badge.innerText = 'DOI COMPLAINT FILED';
+                    step4Badge.className = 'text-[10px] font-mono text-brand-300 font-bold';
+                }
+                if (step4Desc) step4Desc.innerText = `Regulatory complaint active under Docket #${status.docket_number || 'DOI-NY'}.`;
+            } else if (status.state === 'DEEMED_EXHAUSTED') {
+                step3Icon.innerHTML = '!';
+                step3Icon.className = 'w-8 h-8 rounded-full bg-amber-500/20 text-amber-400 border border-amber-500/40 flex items-center justify-center font-bold text-xs shrink-0';
+                if (step3Badge) {
+                    step3Badge.innerText = 'STATUTORY TIMEOUT';
+                    step3Badge.className = 'text-[10px] font-mono text-amber-400 font-bold';
+                }
+                step4Icon.innerHTML = '4';
+                step4Icon.className = 'w-8 h-8 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/40 flex items-center justify-center font-bold text-xs shrink-0';
+                if (step4Badge) {
+                    step4Badge.innerText = 'REMEDIES EXHAUSTED';
+                    step4Badge.className = 'text-[10px] font-mono text-amber-300 font-bold';
+                }
+                if (step4Desc) step4Desc.innerText = 'Payor failed to respond in 30 days. Remedies deemed exhausted under 29 CFR § 2560.503-1(l).';
             }
         }
 

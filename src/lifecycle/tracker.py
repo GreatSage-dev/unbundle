@@ -48,6 +48,7 @@ class StatutoryClockTracker(BaseModel):
     events: List[LifecycleEvent] = Field(default_factory=list)
     reversal_amount: float = 0.0
     escalation_docket: Optional[str] = None
+    regulatory_body: Optional[str] = None
 
     @classmethod
     def create(
@@ -103,14 +104,22 @@ class StatutoryClockTracker(BaseModel):
 
     def get_status(self, current_time: Optional[datetime] = None) -> Dict[str, Any]:
         """Evaluates time elapsed against the 30-day statutory deadline."""
+        reg_body = self.regulatory_body or "State of NY Department of Financial Services"
         if not self.dispatch_timestamp or not self.statutory_deadline:
             return {
                 "tracker_id": self.tracker_id,
+                "claim_id": self.claim_id,
+                "patient_name": self.patient_name,
+                "payor_name": self.payor_name,
+                "disputed_amount": self.disputed_amount,
+                "reversal_amount": self.reversal_amount,
                 "state": self.state.value,
                 "is_active": False,
                 "days_elapsed": 0,
                 "days_remaining": self.days_statutory_limit,
                 "is_deemed_exhausted": False,
+                "docket_number": self.escalation_docket,
+                "regulatory_body": reg_body,
                 "next_action": "Awaiting human cryptographic approval and Cedar unseal."
             }
 
@@ -138,7 +147,7 @@ class StatutoryClockTracker(BaseModel):
         elif self.state == AppealLifecycleState.ADVERSE_MAINTAINED:
             next_action = "Trigger Level 2 Independent Review Organization (IRO) external appeal."
         elif self.state == AppealLifecycleState.REVERSAL_CONFIRMED:
-            next_action = "Charge successfully excised. Close file and record patient savings."
+            next_action = "Charge successfully excised ($0 balance). Dispute closed with prejudice."
         elif self.state == AppealLifecycleState.ESCALATED_DOI:
             next_action = f"Active DOI Regulatory Complaint Docket #{self.escalation_docket}."
         else:
@@ -150,6 +159,7 @@ class StatutoryClockTracker(BaseModel):
             "patient_name": self.patient_name,
             "payor_name": self.payor_name,
             "disputed_amount": self.disputed_amount,
+            "reversal_amount": self.reversal_amount,
             "state": self.state.value,
             "dispatch_timestamp": self.dispatch_timestamp,
             "statutory_deadline": self.statutory_deadline,
@@ -157,6 +167,8 @@ class StatutoryClockTracker(BaseModel):
             "days_remaining": days_remaining,
             "is_past_deadline": is_past_deadline,
             "is_deemed_exhausted": self.state == AppealLifecycleState.DEEMED_EXHAUSTED,
+            "docket_number": self.escalation_docket,
+            "regulatory_body": reg_body,
             "next_action": next_action
         }
 
@@ -194,22 +206,24 @@ class StatutoryClockTracker(BaseModel):
 
         return self.get_status()
 
-    def escalate_to_doi(self, state_code: str = "TX") -> Dict[str, Any]:
+    def escalate_to_doi(self, state_code: str = "NY") -> Dict[str, Any]:
         """Generates regulatory escalation docket when remedies are exhausted or improperly denied."""
         if self.state not in (AppealLifecycleState.DEEMED_EXHAUSTED, AppealLifecycleState.ADVERSE_MAINTAINED):
             raise ValueError(f"Cannot escalate to DOI from state {self.state}. Must be DEEMED_EXHAUSTED or ADVERSE_MAINTAINED.")
         
-        docket = f"DOI-{state_code.upper()}-{int(datetime.now(timezone.utc).timestamp())}"
+        state_upper = state_code.upper()
+        docket = f"DOI-{state_upper}-{int(datetime.now(timezone.utc).timestamp())}"
         self.escalation_docket = docket
+        self.regulatory_body = f"State of {state_upper} Department of Financial Services" if state_upper == "NY" else f"State of {state_upper} Department of Insurance"
         self.state = AppealLifecycleState.ESCALATED_DOI
         self._log_event(
             "ESCALATED_DOI",
             f"Formal regulatory complaint filed with State Insurance Commissioner under Docket #{docket}.",
-            {"state_code": state_code, "docket": docket}
+            {"state_code": state_upper, "docket": docket}
         )
         return {
             "docket_number": docket,
-            "regulatory_body": f"State of {state_code} Department of Insurance",
+            "regulatory_body": self.regulatory_body,
             "statutory_basis": "ERISA § 503 Non-Compliance & Unfair Claims Settlement Practices Act",
             "status": "COMPLAINT_PENDING_REGULATORY_INVESTIGATION"
         }
