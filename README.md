@@ -1,3 +1,5 @@
+> **Why should a patient facing a $4,000 hospital balance fight multi-million dollar revenue-cycle algorithms alone, with zero leverage?**
+
 <div align="center">
 
 # UNBUNDLE
@@ -39,8 +41,6 @@ INGEST (S3/EOB) → AUDIT (CMS NCCI) → EXCISE DELTA → ATTENUATE (CEDAR RUST)
 ## The Core Question: Why UNBUNDLE
 
 > *"Every other hackathon team builds an agent that does something for you. UNBUNDLE builds an agent that protects you from something being done to you."*
-
-Why should an American patient facing an unexpected $4,000 hospital balance be forced to fight multi-million dollar revenue-cycle algorithms alone with zero leverage?
 
 The American patient is under continuous, automated billing attack. Hospital networks and insurance conglomerates deploy algorithmic billing engines (Optum, Epic Systems, Cerner) configured to maximize reimbursement float. Over **80% of US medical bills and Explanation of Benefits (EOB) statements contain billing errors**, unbundled procedure codes, or statutory violations:
 1. **Unbundling Exploits:** Hospitals split single bundled surgical or laboratory procedures into distinct itemized codes to multiply their reimbursement claims.
