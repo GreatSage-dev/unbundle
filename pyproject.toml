@@ -1,2 +1,21 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "unbundle"
+version = "0.1.0"
+description = "The Autonomous Medical Billing and EOB Sentinel"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "pydantic>=2.4.0",
+    "cedarpy>=4.8.0",
+    "cryptography>=41.0.0",
+    "boto3>=1.26.0",
+    "strands-agents>=1.55.0",
+    "strands-agents-tools>=0.8.0",
+]
+
 [tool.vercel]
 entrypoint = "server:app"
