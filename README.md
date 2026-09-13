@@ -359,7 +359,7 @@ Following the King's Court doctrine of radical honesty, here is the exact, unfli
 | :--- | :--- | :--- |
 | **CMS NCCI PTP Audit Engine** | **100% Real** | SQLite database covering 5 clinical specialties (Pathology, Cardiology, Orthopedics, Gastroenterology, Radiology). Sub-millisecond execution. Zero LLM calls. |
 | **AWS Cedar Policy Engine** | **100% Real** | Production `cedarpy` Rust bindings evaluating formal policies in `policies/unbundle.cedar`. Throws hard HTTP 403 on unauthenticated dispatch. |
-| **W3C WebAuthn Cryptographic Gate** | **100% Real** | Full challenge-response validation using ECDSA P-256 / Ed25519 public keys, replay protection nonces, user presence validation, and token signing (`src/core/auth.py`). |
+| **W3C WebAuthn & ECDSA Cryptographic Gate** | **100% Real** | Full challenge-response validation using WebAuthn FIDO2 biometrics and ECDSA P-256 keypairs (`src/core/auth.py`). **WebAuthn biometric path and ECDSA fallback path both produce a real cryptographic token. The biometric binding is stronger; the fallback is device-scoped. Both satisfy the Cedar gate. Neither is a fake approval.** Includes replay protection nonces, user presence checks, and deterministic proof. |
 | **Court-Ready Legal Dossier** | **100% Real** | Deterministic ERISA § 503 dispute packet generator (`src/packet/dossier_renderer.py`) emitting statutory evidence tables and legal citations at `/dossier`. |
 | **CARC/RARC Group Code Gate** | **100% Real** | Complete crosswalk logic detecting predatory shifts of Contractual Obligations (CO-97) to Patient Responsibility (PR). |
 | **Confidence Quarantine Gate** | **100% Real** | Rejects non-standard hospital descriptions (<0.90 confidence), preventing CPT hallucination. |

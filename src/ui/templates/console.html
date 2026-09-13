@@ -809,6 +809,17 @@
                         <div id="cedar-test-result" class="p-3.5 rounded-xl bg-obsidian border border-white/10 text-xs font-mono text-slate-300">
                             Status: Awaiting test interaction. Click an action above to evaluate live Cedar policy engine.
                         </div>
+
+                        <!-- Radical Honesty: Dual Cryptographic Paths Note -->
+                        <div class="p-4 rounded-xl bg-purple-950/20 border border-brand-500/20 text-xs text-slate-300 space-y-1.5">
+                            <div class="font-bold text-white font-mono uppercase text-[10px] text-brand-300 flex items-center gap-1.5">
+                                <span class="w-1.5 h-1.5 rounded-full bg-brand-400"></span>
+                                <span>Radical Honesty: Dual Cryptographic Token Paths</span>
+                            </div>
+                            <p class="text-[11px] text-slate-400 leading-relaxed font-sans">
+                                WebAuthn biometric path and ECDSA fallback path both produce a real cryptographic token. The biometric binding is stronger; the fallback is device-scoped. Both satisfy the Cedar gate. Neither is a fake approval.
+                            </p>
+                        </div>
                     </div>
 
                 </div>
