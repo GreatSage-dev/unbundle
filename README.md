@@ -415,7 +415,13 @@ unbundle/
 ├── README.md                           # Master King's Court / Drey Architectural Dossier
 ├── requirements.txt                    # Production & Test Dependencies (fido2, cedarpy, pytest)
 ├── run_receipt.py                      # 0.06s Deterministic Terminal Proof (All 7 Cases)
+├── server.py                           # Root Vercel & Production Server Entrypoint
+├── wsgi.py                             # Root WSGI Application Entrypoint (Vercel/Gunicorn)
+├── pyproject.toml                      # Vercel Runtime & Project Configuration
+├── vercel.json                         # Vercel Deployment & Serverless Route Configuration
 ├── LICENSE                             # Apache License 2.0
+├── api/
+│   └── index.py                        # Vercel Serverless Function Dispatch Gateway
 ├── policies/
 │   └── unbundle.cedar                  # Formal AWS Cedar Least-Privilege Policies (Rust)
 ├── data/

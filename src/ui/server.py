@@ -1,7 +1,7 @@
 """
 UNBUNDLE: 1-Tap Cockpit Annunciator & Landing Page Web Server
 Aviation GPWS-inspired single-decision interface for medical bill defense.
-Built on Python standard library http.server for zero-dependency deterministic execution.
+Zero-dependency WSGI, ASGI, and BaseHTTPRequestHandler compatible for local and Vercel deployment.
 """
 
 import json
@@ -11,7 +11,7 @@ import sys
 from datetime import datetime, timezone, timedelta
 from http.server import HTTPServer, BaseHTTPRequestHandler
 from pathlib import Path
-from typing import Dict, Any
+from typing import Dict, Any, Tuple, List, Optional
 
 from src.agent.tools import (
     audit_eob_claims,
@@ -73,36 +73,55 @@ class CockpitState:
 
 state = CockpitState()
 
-class CockpitHandler(BaseHTTPRequestHandler):
-    def do_GET(self):
-        # Clean query string if present
-        clean_path = self.path.split("?")[0]
+STATUS_TEXTS = {
+    200: "OK",
+    400: "Bad Request",
+    403: "Forbidden",
+    404: "Not Found",
+    405: "Method Not Allowed",
+    500: "Internal Server Error",
+}
 
+def _build_status_payload() -> Dict[str, Any]:
+    tracker_status = state.tracker.get_status() if state.tracker else None
+    appeal_letter = state.appeal_packet.get("formal_appeal_letter") if state.appeal_packet else None
+    
+    return {
+        "active_eob": state.active_eob,
+        "audit_result": state.audit_result,
+        "ingest_report": {
+            "bug_story_notes": state.ingest_report.bug_story_notes,
+            "lines_quarantined": state.ingest_report.lines_quarantined_by_safety_gate
+        },
+        "silence_ledger": state.silence_ledger,
+        "cedar_unsealed": state.cedar_unsealed,
+        "tracker_status": tracker_status,
+        "appeal_letter": appeal_letter
+    }
+
+def handle_http_request(method: str, path: str, headers: Dict[str, str], body: bytes) -> Tuple[int, List[Tuple[str, str]], bytes]:
+    # Extract clean path and handle Vercel proxy headers
+    raw_path = headers.get("x-forwarded-uri") or headers.get("x-matched-path") or path
+    clean_path = raw_path.split("?")[0]
+
+    # Normalize if routed via /api/index
+    if clean_path in ("/api/index", "/api/index.py"):
+        clean_path = "/"
+
+    method = method.upper()
+
+    if method == "GET":
         if clean_path in ("/", "/index.html"):
             index_path = TEMPLATES_DIR / "index.html"
             if index_path.exists():
-                content = index_path.read_text(encoding="utf-8")
-                self.send_response(200)
-                self.send_header("Content-Type", "text/html; charset=utf-8")
-                self.end_headers()
-                self.wfile.write(content.encode("utf-8"))
-            else:
-                self.send_response(404)
-                self.end_headers()
-                self.wfile.write(b"index.html template not found")
+                return 200, [("Content-Type", "text/html; charset=utf-8")], index_path.read_bytes()
+            return 404, [("Content-Type", "text/plain")], b"index.html template not found"
 
         elif clean_path in ("/console", "/console.html", "/cockpit"):
             console_path = TEMPLATES_DIR / "console.html"
             if console_path.exists():
-                content = console_path.read_text(encoding="utf-8")
-                self.send_response(200)
-                self.send_header("Content-Type", "text/html; charset=utf-8")
-                self.end_headers()
-                self.wfile.write(content.encode("utf-8"))
-            else:
-                self.send_response(404)
-                self.end_headers()
-                self.wfile.write(b"console.html template not found")
+                return 200, [("Content-Type", "text/html; charset=utf-8")], console_path.read_bytes()
+            return 404, [("Content-Type", "text/plain")], b"console.html template not found"
 
         elif clean_path in ("/dossier", "/dossier.html"):
             from src.packet.dossier_renderer import render_dossier_html
@@ -116,117 +135,90 @@ class CockpitHandler(BaseHTTPRequestHandler):
                 audit=state.audit_result,
                 tracking_status=tracker_status
             )
-            self.send_response(200)
-            self.send_header("Content-Type", "text/html; charset=utf-8")
-            self.end_headers()
-            self.wfile.write(html_content.encode("utf-8"))
+            return 200, [("Content-Type", "text/html; charset=utf-8")], html_content.encode("utf-8")
 
         elif clean_path == "/api/status":
-            self.send_response(200)
-            self.send_header("Content-Type", "application/json")
-            self.end_headers()
-            payload = self._build_status_payload()
-            self.wfile.write(json.dumps(payload).encode("utf-8"))
+            payload = _build_status_payload()
+            return 200, [("Content-Type", "application/json")], json.dumps(payload).encode("utf-8")
 
         elif clean_path == "/api/auth/challenge":
             from src.core.auth import generate_auth_challenge
             challenge = generate_auth_challenge()
-            self.send_response(200)
-            self.send_header("Content-Type", "application/json")
-            self.end_headers()
-            self.wfile.write(json.dumps({
+            rp_id = headers.get("host", "localhost").split(":")[0]
+            res = {
                 "challenge": challenge,
-                "rpId": "localhost",
+                "rpId": rp_id,
                 "rpName": "UNBUNDLE Sentinel (AWS Cedar Least-Privilege Gate)"
-            }).encode("utf-8"))
+            }
+            return 200, [("Content-Type", "application/json")], json.dumps(res).encode("utf-8")
 
         elif clean_path == "/api/dossier/text":
             packet = state.appeal_packet
             if not packet:
                 packet = generate_erisa_appeal(state.active_eob, state.audit_result, human_token=state.human_token)
             text_content = packet.get("formal_appeal_letter", "No appeal letter generated.")
-            self.send_response(200)
-            self.send_header("Content-Type", "text/plain; charset=utf-8")
-            self.send_header("Content-Disposition", f"attachment; filename=\"ERISA_503_Appeal_{state.active_eob.get('claim_id', 'claim')}.txt\"")
-            self.end_headers()
-            self.wfile.write(text_content.encode("utf-8"))
+            claim_id = state.active_eob.get("claim_id", "claim")
+            headers_list = [
+                ("Content-Type", "text/plain; charset=utf-8"),
+                ("Content-Disposition", f'attachment; filename="ERISA_503_Appeal_{claim_id}.txt"')
+            ]
+            return 200, headers_list, text_content.encode("utf-8")
 
         elif clean_path.startswith("/static/"):
-            # Serve static assets securely
             rel_file = clean_path[len("/static/"):]
             file_path = (STATIC_DIR / rel_file).resolve()
-
-            # Prevent directory traversal attacks
             if STATIC_DIR.resolve() in file_path.parents and file_path.exists() and file_path.is_file():
                 mime_type, _ = mimetypes.guess_type(str(file_path))
                 mime_type = mime_type or "application/octet-stream"
+                headers_list = [
+                    ("Content-Type", mime_type),
+                    ("Content-Length", str(file_path.stat().st_size)),
+                    ("Cache-Control", "public, max-age=86400")
+                ]
+                return 200, headers_list, file_path.read_bytes()
+            return 404, [("Content-Type", "text/plain")], b"Static asset not found"
 
-                self.send_response(200)
-                self.send_header("Content-Type", mime_type)
-                self.send_header("Content-Length", str(file_path.stat().st_size))
-                self.send_header("Cache-Control", "public, max-age=3600")
-                self.end_headers()
-                with open(file_path, "rb") as f:
-                    self.wfile.write(f.read())
-            else:
-                self.send_response(404)
-                self.end_headers()
-                self.wfile.write(b"Static asset not found")
+        return 404, [("Content-Type", "text/plain")], b"Endpoint not found"
 
-        else:
-            self.send_response(404)
-            self.end_headers()
-            self.wfile.write(b"Endpoint not found")
-
-    def do_POST(self):
-        clean_path = self.path.split("?")[0]
-
+    elif method == "POST":
         if clean_path == "/api/approve":
-            # 1. Parse optional cryptographic WebAuthn / fallback payload
-            content_length = int(self.headers.get("Content-Length", 0))
-            auth_token = None
-            if content_length > 0:
+            req_data = {}
+            if body:
                 try:
-                    body = self.rfile.read(content_length)
-                    req_data = json.loads(body.decode("utf-8")) if body else {}
-                    challenge = req_data.get("challenge")
-                    auth_mode = req_data.get("auth_mode")
+                    req_data = json.loads(body.decode("utf-8"))
+                except Exception:
+                    pass
+            auth_token = None
+            challenge = req_data.get("challenge")
+            auth_mode = req_data.get("auth_mode")
 
-                    if auth_mode == "webauthn" and challenge:
-                        from src.core.auth import verify_webauthn_assertion
-                        ok, token = verify_webauthn_assertion(
-                            challenge=challenge,
-                            client_data_json=req_data.get("client_data_json", ""),
-                            authenticator_data=req_data.get("authenticator_data", ""),
-                            signature=req_data.get("signature", ""),
-                            credential_id=req_data.get("credential_id")
-                        )
-                        if ok:
-                            auth_token = token
-                    elif auth_mode == "fallback" and challenge:
-                        from src.core.auth import verify_fallback_signature
-                        ok, token = verify_fallback_signature(
-                            challenge=challenge,
-                            signature=req_data.get("signature", "")
-                        )
-                        if ok:
-                            auth_token = token
-                except Exception as e:
-                    print(f"[Auth Verification Notice]: {e}")
+            if auth_mode == "webauthn" and challenge:
+                from src.core.auth import verify_webauthn_assertion
+                ok, token = verify_webauthn_assertion(
+                    challenge=challenge,
+                    client_data_json=req_data.get("client_data_json", ""),
+                    authenticator_data=req_data.get("authenticator_data", ""),
+                    signature=req_data.get("signature", ""),
+                    credential_id=req_data.get("credential_id")
+                )
+                if ok:
+                    auth_token = token
+            elif auth_mode == "fallback" and challenge:
+                from src.core.auth import verify_fallback_signature
+                ok, token = verify_fallback_signature(
+                    challenge=challenge,
+                    signature=req_data.get("signature", "")
+                )
+                if ok:
+                    auth_token = token
 
             token_to_use = auth_token or state.human_token
-
-            # 2. Evaluate Cedar policy with verified cryptographic human token
             cedar_eval = evaluate_cedar_policy("dispatch_dispute", token_to_use)
             if cedar_eval["is_authorized"]:
                 state.cedar_unsealed = True
                 state.human_token = token_to_use
-                
-                # 3. Generate ERISA appeal packet with cryptographic signature
                 packet = generate_erisa_appeal(state.active_eob, state.audit_result, human_token=token_to_use)
                 state.appeal_packet = packet
-                
-                # 4. Create & open 30-day statutory clock
                 tracker = StatutoryClockTracker.create(
                     packet_id=packet["packet_id"],
                     claim_id=packet["claim_id"],
@@ -237,63 +229,87 @@ class CockpitHandler(BaseHTTPRequestHandler):
                 tracker.record_dispatch()
                 state.tracker = tracker
 
-            self.send_response(200)
-            self.send_header("Content-Type", "application/json")
-            self.end_headers()
-            payload = self._build_status_payload()
-            self.wfile.write(json.dumps(payload).encode("utf-8"))
+            payload = _build_status_payload()
+            return 200, [("Content-Type", "application/json")], json.dumps(payload).encode("utf-8")
 
         elif clean_path == "/api/simulate-response":
-            content_length = int(self.headers.get("Content-Length", 0))
-            body = self.rfile.read(content_length)
-            req_data = json.loads(body.decode("utf-8"))
+            req_data = {}
+            if body:
+                try:
+                    req_data = json.loads(body.decode("utf-8"))
+                except Exception:
+                    pass
             resp_type = req_data.get("response_type")
-
             if state.tracker:
                 if resp_type == "OVERTURNED_FULL":
                     state.tracker.record_payor_response(PayorResponse.OVERTURNED_FULL)
                 elif resp_type == "UPHELD_DENIAL":
                     state.tracker.record_payor_response(PayorResponse.UPHELD_DENIAL, carc_codes=["16", "97"])
-                    # Automatically escalate to DOI
                     state.tracker.escalate_to_doi(state_code="NY")
                 elif resp_type == "NO_RESPONSE":
-                    # Fast forward past 30 days
                     future = datetime.now(timezone.utc) + timedelta(days=31)
                     state.tracker.get_status(current_time=future)
 
-            self.send_response(200)
-            self.send_header("Content-Type", "application/json")
-            self.end_headers()
-            payload = self._build_status_payload()
-            self.wfile.write(json.dumps(payload).encode("utf-8"))
+            payload = _build_status_payload()
+            return 200, [("Content-Type", "application/json")], json.dumps(payload).encode("utf-8")
 
         elif clean_path == "/api/reset":
             state.reset()
-            self.send_response(200)
-            self.send_header("Content-Type", "application/json")
-            self.end_headers()
-            self.wfile.write(json.dumps({"status": "RESET_OK"}).encode("utf-8"))
+            return 200, [("Content-Type", "application/json")], json.dumps({"status": "RESET_OK"}).encode("utf-8")
 
-        else:
-            self.send_response(404)
-            self.end_headers()
+        return 404, [("Content-Type", "text/plain")], b"Endpoint not found"
 
-    def _build_status_payload(self) -> Dict[str, Any]:
-        tracker_status = state.tracker.get_status() if state.tracker else None
-        appeal_letter = state.appeal_packet.get("formal_appeal_letter") if state.appeal_packet else None
-        
-        return {
-            "active_eob": state.active_eob,
-            "audit_result": state.audit_result,
-            "ingest_report": {
-                "bug_story_notes": state.ingest_report.bug_story_notes,
-                "lines_quarantined": state.ingest_report.lines_quarantined_by_safety_gate
-            },
-            "silence_ledger": state.silence_ledger,
-            "cedar_unsealed": state.cedar_unsealed,
-            "tracker_status": tracker_status,
-            "appeal_letter": appeal_letter
-        }
+    return 405, [("Content-Type", "text/plain")], b"Method Not Allowed"
+
+def wsgi_app(environ, start_response):
+    """WSGI entrypoint compatible with Vercel and production WSGI servers (Gunicorn/uWSGI)."""
+    method = environ.get("REQUEST_METHOD", "GET")
+    path = environ.get("PATH_INFO", "/")
+
+    try:
+        content_length = int(environ.get("CONTENT_LENGTH", 0) or 0)
+    except (ValueError, TypeError):
+        content_length = 0
+
+    body = b""
+    if content_length > 0 and "wsgi.input" in environ and environ["wsgi.input"]:
+        body = environ["wsgi.input"].read(content_length)
+
+    headers = {}
+    for k, v in environ.items():
+        if k.startswith("HTTP_"):
+            headers[k[5:].lower().replace("_", "-")] = v
+        elif k in ("CONTENT_TYPE", "CONTENT_LENGTH"):
+            headers[k.lower().replace("_", "-")] = v
+
+    status_code, resp_headers, resp_body = handle_http_request(method, path, headers, body)
+    status_text = f"{status_code} {STATUS_TEXTS.get(status_code, 'OK')}"
+    start_response(status_text, resp_headers)
+    return [resp_body]
+
+class CockpitHandler(BaseHTTPRequestHandler):
+    """BaseHTTPRequestHandler entrypoint for local HTTPServer and legacy Vercel handlers."""
+    def do_GET(self):
+        self._dispatch("GET")
+
+    def do_POST(self):
+        self._dispatch("POST")
+
+    def _dispatch(self, method: str):
+        content_length = int(self.headers.get("Content-Length", 0) or 0)
+        body = self.rfile.read(content_length) if content_length > 0 else b""
+        headers_dict = {k.lower(): v for k, v in self.headers.items()}
+
+        status_code, resp_headers, resp_body = handle_http_request(method, self.path, headers_dict, body)
+        self.send_response(status_code)
+        for k, v in resp_headers:
+            self.send_header(k, v)
+        self.end_headers()
+        self.wfile.write(resp_body)
+
+    def log_message(self, format, *args):
+        # Clean terminal logging
+        pass
 
 def run_server(port: int = 8765):
     server = HTTPServer(("127.0.0.1", port), CockpitHandler)
@@ -303,6 +319,11 @@ def run_server(port: int = 8765):
     except KeyboardInterrupt:
         print("\n[*] Server shutdown gracefully.")
         server.server_close()
+
+# Export for Vercel / WSGI
+app = wsgi_app
+application = wsgi_app
+handler = CockpitHandler
 
 if __name__ == "__main__":
     port_arg = 8765
