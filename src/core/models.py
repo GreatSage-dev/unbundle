@@ -25,6 +25,7 @@ class EOBDocument(BaseModel):
     patient_name: str
     patient_id: str
     provider_name: str
+    payor_name: Optional[str] = "UnitedHealthcare"
     service_date: str
     in_network: bool = True
     is_emergency: bool = False

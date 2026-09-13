@@ -223,7 +223,7 @@ def handle_http_request(method: str, path: str, headers: Dict[str, str], body: b
                     packet_id=packet["packet_id"],
                     claim_id=packet["claim_id"],
                     patient_name=packet["patient_name"],
-                    payor_name=state.active_eob.get("provider_name", "Payor"),
+                    payor_name=state.active_eob.get("payor_name") or "UnitedHealthcare",
                     disputed_amount=packet["disputed_amount"]
                 )
                 tracker.record_dispatch()
@@ -241,11 +241,12 @@ def handle_http_request(method: str, path: str, headers: Dict[str, str], body: b
                     pass
             resp_type = req_data.get("response_type")
             if not state.tracker:
+                claim_id = state.active_eob.get("claim_id", "CLM-2026-NY-8912")
                 state.tracker = StatutoryClockTracker.create(
-                    packet_id="PKT-NYP-2024-001",
-                    claim_id="CLM-NYP-984321",
-                    patient_name="Eleni Vance",
-                    payor_name="Empire BlueCross BlueShield",
+                    packet_id=f"PKT-{claim_id}",
+                    claim_id=claim_id,
+                    patient_name=state.active_eob.get("patient_name", "Eleanor Rigby"),
+                    payor_name=state.active_eob.get("payor_name") or "UnitedHealthcare",
                     disputed_amount=190.00
                 )
                 state.tracker.record_dispatch()

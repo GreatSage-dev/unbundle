@@ -71,6 +71,7 @@ class RealEOBParser:
         member_id = self._extract_field(r"Member ID:\s*([A-Za-z0-9\-]+)", text) or "UNKNOWN-ID"
         claim_id = self._extract_field(r"Claim #:\s*([A-Za-z0-9\-]+)", text) or "CLM-UNKNOWN"
         provider_name = self._extract_field(r"Provider:\s*([A-Za-z0-9\s]+?)(?:\s+Claim|\s*$)", text) or "UNKNOWN PROVIDER"
+        payor_name = self._extract_field(r"([A-Za-z\s,]+?)\s*\|\s*CLAIM ADJUDICATION NOTICE", text) or "UnitedHealthcare"
         service_date = self._extract_field(r"Date of Service:\s*([0-9\/]+)", text) or "2026-01-01"
         in_network = "IN-NETWORK" in text.upper()
 
@@ -170,6 +171,7 @@ class RealEOBParser:
             patient_name=patient_name,
             patient_id=member_id,
             provider_name=provider_name,
+            payor_name=payor_name.strip(),
             service_date=service_date,
             in_network=in_network,
             total_billed=total_billed,
