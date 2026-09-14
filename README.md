@@ -1,4 +1,4 @@
-> **Why should a patient facing a $4,000 hospital balance fight multi-million dollar revenue-cycle algorithms alone, with zero leverage?**
+> **"The Strands agent's authority is deliberately narrower than its intelligence: it reasons over complex clinical procedure codes, delegates to deterministic CMS NCCI tables, and is mathematically blocked by AWS Cedar policies from filing legal disputes without a patient's biometric signature."**
 
 <div align="center">
 
@@ -27,7 +27,7 @@
 **Core Frameworks:** AWS Strands Agents SDK · Amazon Bedrock AgentCore · AWS Cedar (`cedarpy` Rust) · W3C WebAuthn Level 3
 
 ```
-INGEST (S3/EOB) → AUDIT (CMS NCCI) → EXCISE DELTA → ATTENUATE (CEDAR RUST) → WEBAUTHN SIGN → ERISA § 503 CLOCK
+INGEST (S3/EOB) → STRANDS AGENT (REASONING) → AUDIT (CMS NCCI) → ATTENUATE (CEDAR RUST) → WEBAUTHN SIGN → ERISA § 503 CLOCK
 ```
 
 [ **Interactive Console** ](http://127.0.0.1:8765/console) · [ **Court Dossier** ](http://127.0.0.1:8765/dossier) · [ **Architecture** ](#architecture) · [ **The Security Lab** ](#the-security-lab--attack-it-and-watch-it-win) · [ **The Honesty Table** ](#whats-real-vs-simulated--the-honesty-table) · [ **Quick Start** ](#quick-start)
@@ -42,22 +42,24 @@ INGEST (S3/EOB) → AUDIT (CMS NCCI) → EXCISE DELTA → ATTENUATE (CEDAR RUST)
 
 > *"Every other hackathon team builds an agent that does something for you. UNBUNDLE builds an agent that protects you from something being done to you."*
 
-The American patient is under continuous, automated billing attack. Hospital networks and insurance conglomerates deploy algorithmic billing engines (Optum, Epic Systems, Cerner) configured to maximize reimbursement float. Over **80% of US medical bills and Explanation of Benefits (EOB) statements contain billing errors**, unbundled procedure codes, or statutory violations:
-1. **Unbundling Exploits:** Hospitals split single bundled surgical or laboratory procedures into distinct itemized codes to multiply their reimbursement claims.
-2. **Modifier 59 / 25 Creep:** Billing departments slap unbundling override modifiers onto claims without the required distinct anatomical site documentation.
-3. **CARC 97 Balance-Shifting:** When an insurer denies an unbundled code under Contractual Obligation (CO-97), hospital software predatorily reclassifies the denied balance as Patient Responsibility (PR), sticking the victim with the bill.
+A real patient receives an Explanation of Benefits (EOB) statement from Memorial Regional Health: **$4,280.00 billed**, four pages of dense CPT codes, CARC flags, and exactly **30 calendar days to respond** before the debt stands. Most patients surrender.
 
-### The Failure of Generic AI Chatbots
-Existing healthcare AI tools fail patients in two catastrophic ways:
-1. **The Chatbot Delusion:** They ask sick, exhausted patients to "chat with their bill." Dumping raw CPT codes, medical hexes, and confusing legalese back onto a stressed victim is not product design—it is negligence.
+Hospital billing software and revenue-cycle algorithms frequently generate claims with potential coding discrepancies and unbundled procedure codes:
+1. **Unbundling Exploits:** Hospitals split single bundled surgical or laboratory procedures into distinct itemized codes to multiply their reimbursement claims (e.g., billing Basic Metabolic Panel CPT 80048 alongside Comprehensive Metabolic Panel CPT 80053).
+2. **Modifier 59 / 25 Creep:** Billing departments append unbundling override modifiers onto claims without the required distinct anatomical site documentation.
+3. **CARC 97 Balance-Shifting:** When an insurer denies an unbundled code under Contractual Obligation (CO-97), software predatorily reclassifies the denied balance as Patient Responsibility (PR), sticking the patient with the bill.
+
+### The Core Architectural Thesis: Authority Narrower than Intelligence
+Existing healthcare AI tools fail in two catastrophic ways:
+1. **The Chatbot Delusion:** They ask sick, exhausted patients to "chat with their bill." Dumping raw CPT codes, modifier flags, and confusing legalese back onto a stressed victim is not product design.
 2. **The Unbounded Liability Trap:** Naive autonomous agents promise to "email the hospital billing department autonomously," hallucinating CPT codes, leaking HIPAA protected data, and risking federal appeal deadlines without mathematical boundaries.
 
-### The Inversion: Aviation GPWS Cockpit Annunciator
-UNBUNDLE rejects the chatbot paradigm. We stole the architecture of the **1974 Boeing Ground Proximity Warning System (GPWS)**:
-* It runs **100% headlessly in the background** via Amazon Bedrock AgentCore.
-* When claims are clean, it operates with **Zero-Silence**: **0 pings**, 0 popups, 0 interruptions to the patient.
-* When predatory unbundling is detected, it does not chat. It illuminates a **single high-contrast GPWS Annunciator card** with the exact excised dollar delta.
-* It enforces the **DELTR Principle**: an impenetrable mathematical boundary between cognitive intelligence and execution authority. The agent is **physically forbidden** by Rust-compiled AWS Cedar policies from dispatching legal appeals until the patient signs with a **biometric W3C WebAuthn passkey**.
+UNBUNDLE is engineered around a different thesis: **An agent whose cognitive reasoning is powered by AWS Strands, but whose execution authority is strictly constrained by deterministic truth and human cryptographic consent.**
+
+* **AWS Strands Agent (Cognitive Layer):** The Strands Agent acts as the intelligent conductor. It ingests unstructured claim text, reasons over clinical procedures, orchestrates audit tools, and synthesizes court-ready ERISA § 503 legal dispute packets.
+* **Deterministic Grounding (Truth Layer):** The agent does not calculate math in prose or guess CPT codes. It queries an indexed SQLite database of official CMS NCCI Procedure-to-Procedure (PTP) edits in **0.04 milliseconds**.
+* **Aviation GPWS Annunciator:** Emulates the 1974 Boeing Ground Proximity Warning System: continuous background silence on clean claims (**0 pings**). When unbundling is detected, it illuminates a single quantified decision card with the exact excised dollar delta.
+* **AWS Cedar in Rust (Authority Boundary):** The agent is **mathematically forbidden** by compiled Cedar policies from dispatching legal appeals (`HTTP 403 EXPLICIT_DENY`) until the patient seals the packet with a **biometric W3C WebAuthn passkey (ECDSA P-256)**.
 
 ---
 
@@ -226,6 +228,33 @@ flowchart TD
 | **Statutory Clock** | [`tracker.py`](src/lifecycle/tracker.py) | Tracks 30-day ERISA § 503 adjudication timeline under 29 CFR § 2560.503-1. | Immutable state transition machine; generates State DOI complaint dockets. |
 | **GPWS Annunciator** | [`server.py`](src/ui/server.py) | Serves the zero-dependency Cockpit Annunciator and Judge Sandbox. | Local ASGI server. Zero external npm or cloud dependencies. |
 
+### How AWS Strands Drives the Sentinel (The Cognitive Conductor)
+
+UNBUNDLE's agent architecture demonstrates that **an agent's power is greatest when its authority is deliberately narrower than its intelligence**:
+
+```python
+# From src/agent/sentinel.py: Strands Agent equipped with least-privilege tools
+from strands import Agent
+from src.agent.tools import (
+    audit_eob_claims,             # Deterministic CMS NCCI & CARC audit
+    evaluate_cedar_policy,        # AWS Cedar least-privilege evaluator
+    generate_erisa_appeal,        # Statutory legal packet compiler
+    dispatch_statutory_dispute    # Consequential dispatch (Cedar-gated)
+)
+
+agent = Agent(
+    system_prompt=UNBUNDLE_SYSTEM_PROMPT,
+    tools=[audit_eob_claims, evaluate_cedar_policy, generate_erisa_appeal, dispatch_statutory_dispute],
+    model="anthropic.claude-3-5-sonnet"  # Or Amazon Nova on Bedrock
+)
+```
+
+1. **Autonomous Tool Orchestration:** When an EOB event arrives, the Strands agent inspects the payload and invokes `@tool audit_eob_claims`.
+2. **Deterministic Grounding (Zero Hallucination):** The agent does not calculate math in prose or guess CPT codes; it receives structured, verified outputs from the CMS NCCI SQLite database.
+3. **Legal Packet Synthesis:** Reasoning over clinical context and NCCI findings, the agent invokes `@tool generate_erisa_appeal` to structure formal statutory arguments under 29 U.S.C. § 1133.
+4. **Non-Bypassable Cedar Gate:** When the agent attempts `@tool dispatch_statutory_dispute`, AWS Cedar intercepts the call in Rust. Without a verified cryptographic token, Cedar returns `HTTP 403 EXPLICIT_DENY`. The agent is mathematically stopped from acting alone.
+5. **Human Empowerment:** The agent surfaces a single quantified decision on the Cockpit Annunciator. When the user taps their biometric key, the token is verified, Cedar flips to `HTTP 200 ALLOW`, and the dispute is dispatched.
+
 ---
 
 ## The Mathematics of Unbundling Excision
@@ -241,7 +270,7 @@ $$E(c_1, c_2) = \begin{cases}
 0 & \text{otherwise}
 \end{cases}$$
 
-Where $I=0$ denotes a **strict statutory prohibition**: code $c_2$ is an intrinsic anatomical or procedural subcomponent of $c_1$ and can **never** be billed together under any clinical circumstance (CMS NCCI Policy Manual, Ch. 1, Sec. A).
+Where $I=0$ denotes a **CMS NCCI mutual exclusion edit**: code $c_2$ is an intrinsic anatomical or procedural subcomponent of $c_1$ and mutually exclusive billing is prohibited under CMS coding guidelines (CMS NCCI Policy Manual, Ch. 1, Sec. A).
 
 ### 2. Modifier 59 / 25 Unbundling Creep Penalty
 When hospital billing algorithms encounter an $I=1$ edit, they systematically append Modifier 59 ("Distinct Procedural Service") without physician clinical documentation:
@@ -255,13 +284,13 @@ Let $B$ be total billed hospital charges, $A_{\text{allowed}}$ be the insurer al
 
 $$PR_{\text{predatory}} = PR_{\text{lawful}} + \sum_{(c_1, c_2) \in \mathcal{E}} \Delta(c_2) + \Delta_{\text{CARC97}}$$
 
-UNBUNDLE executes deterministic continuous net settlement, excising all unlawful procedural float:
+UNBUNDLE executes deterministic continuous net settlement, excising unbundled procedural float:
 
 $$L_{\text{lawful}} \equiv PR_{\text{predatory}} - \sum_{(c_1, c_2) \in \mathcal{E}} P(c_2) - \Delta_{\text{CARC97}}$$
 
 $$L_{\text{lawful}} = \text{Copay}_{\text{statutory}} \ll PR_{\text{predatory}}$$
 
-On Eleanor Rigby's real EOB, this mathematical excision strips **$410.00** from unbundled metabolic panels, **$2,180.00** from abusive Modifier 59 CT scans, and **$840.00** from CARC 97 shifts, reducing total balance-due from **$3,890.00** to **$50.00** in **0.064 seconds**.
+On Eleanor Rigby's real EOB, this mathematical excision identifies and excises **$410.00** from unbundled metabolic panels, **$2,180.00** from unsupported Modifier 59 CT scans, and **$840.00** from improper CARC 97 balance shifts, reducing patient responsibility from **$3,890.00** to **$50.00** lawful copay in **0.064 seconds**.
 
 ---
 
